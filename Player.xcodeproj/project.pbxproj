@@ -22,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27432CC72B2F321000A18CA3 /* PlayerTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayerTests.xctestplan; sourceTree = "<group>"; };
 		276D3B522B2DA04300461640 /* Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		276D3B552B2DA04300461640 /* PlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApp.swift; sourceTree = "<group>"; };
 		276D3B592B2DA04500461640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +82,7 @@
 				276D3B6C2B2DA6F800461640 /* AppView.swift */,
 				276D3B6E2B2DA70100461640 /* AppFeature.swift */,
 				276D3B592B2DA04500461640 /* Assets.xcassets */,
+				27432CC72B2F321000A18CA3 /* PlayerTests.xctestplan */,
 				276D3B5B2B2DA04500461640 /* Preview Content */,
 			);
 			path = Player;

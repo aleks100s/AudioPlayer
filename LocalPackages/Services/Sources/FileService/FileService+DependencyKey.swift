@@ -76,4 +76,14 @@ extension FileService: DependencyKey {
 			}
 		)
 	}
+	
+	public static func mock(
+		saveAudioFilesResult: @escaping ([URL]) -> Result<Void, Error> = { _ in .success(()) },
+		getAudioFilesResult: @escaping () -> Result<[AudioFile], Error> = { return .success([]) }
+	) -> FileService {
+		FileService(
+			saveAudioFiles: saveAudioFilesResult,
+			getAudioFiles: getAudioFilesResult
+		)
+	}
 }

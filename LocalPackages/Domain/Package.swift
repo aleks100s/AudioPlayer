@@ -11,8 +11,16 @@ let package = Package(
             name: "Domain",
             targets: ["Domain"]
 		),
+		.library(
+			name: "DomainMock",
+			targets: ["DomainMock"]
+		),
     ],
     targets: [
         .target(name: "Domain"),
+		.target(
+			name: "DomainMock",
+			dependencies: ["Domain"]
+		),
     ]
 )

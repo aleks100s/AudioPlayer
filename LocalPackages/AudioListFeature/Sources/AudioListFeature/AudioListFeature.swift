@@ -48,6 +48,8 @@ public struct AudioListFeature {
 				}
 				
 			case let .saveFiles(files):
+				guard !files.isEmpty else { return .none }
+				
 				return .run { send in
 					let result = fileService.saveAudioFiles(files)
 					switch result {

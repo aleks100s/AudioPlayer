@@ -30,7 +30,12 @@ let package = Package(
 		),
         .testTarget(
             name: "AudioListFeatureTests",
-            dependencies: ["AudioListFeature"]
+            dependencies: [
+				"AudioListFeature",
+				.product(name: "DomainMock", package: "Domain"),
+				.product(name: "FileService", package: "Services"),
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+			]
 		),
     ]
 )

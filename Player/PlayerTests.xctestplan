@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "2BC7ACB6-FBD9-49D4-95F4-FA117C34E87C",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:LocalPackages\/AudioListFeature",
+        "identifier" : "AudioListFeatureTests",
+        "name" : "AudioListFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}
