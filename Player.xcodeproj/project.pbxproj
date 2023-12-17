@@ -8,17 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		276D3B562B2DA04300461640 /* PlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B552B2DA04300461640 /* PlayerApp.swift */; };
-		276D3B582B2DA04300461640 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B572B2DA04300461640 /* ContentView.swift */; };
 		276D3B5A2B2DA04500461640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B592B2DA04500461640 /* Assets.xcassets */; };
 		276D3B5D2B2DA04500461640 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B5C2B2DA04500461640 /* Preview Assets.xcassets */; };
+		276D3B682B2DA61200461640 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 276D3B672B2DA61200461640 /* ComposableArchitecture */; };
+		276D3B6D2B2DA6F800461640 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B6C2B2DA6F800461640 /* AppView.swift */; };
+		276D3B6F2B2DA70100461640 /* AppFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B6E2B2DA70100461640 /* AppFeature.swift */; };
+		276D3B892B2EB0D200461640 /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 276D3B882B2EB0D200461640 /* Shared */; };
+		276D3B8C2B2EB18F00461640 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 276D3B8B2B2EB18F00461640 /* Domain */; };
+		276D3B8F2B2EB4BC00461640 /* FileService in Frameworks */ = {isa = PBXBuildFile; productRef = 276D3B8E2B2EB4BC00461640 /* FileService */; };
+		276D3B972B2EBC2200461640 /* EmptyFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B962B2EBC2200461640 /* EmptyFeature.swift */; };
+		276D3B992B2EBC8400461640 /* EmptyFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B982B2EBC8400461640 /* EmptyFeatureView.swift */; };
+		276D3B9C2B2EC3CC00461640 /* AudioListFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 276D3B9B2B2EC3CC00461640 /* AudioListFeature */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		276D3B522B2DA04300461640 /* Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		276D3B552B2DA04300461640 /* PlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApp.swift; sourceTree = "<group>"; };
-		276D3B572B2DA04300461640 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		276D3B592B2DA04500461640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		276D3B5C2B2DA04500461640 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		276D3B6C2B2DA6F800461640 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		276D3B6E2B2DA70100461640 /* AppFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeature.swift; sourceTree = "<group>"; };
+		276D3B862B2EB00100461640 /* Shared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Shared; path = LocalPackages/Shared; sourceTree = "<group>"; };
+		276D3B8A2B2EB12F00461640 /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Domain; path = LocalPackages/Domain; sourceTree = "<group>"; };
+		276D3B8D2B2EB1EA00461640 /* Services */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Services; path = LocalPackages/Services; sourceTree = "<group>"; };
+		276D3B962B2EBC2200461640 /* EmptyFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeature.swift; sourceTree = "<group>"; };
+		276D3B982B2EBC8400461640 /* EmptyFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFeatureView.swift; sourceTree = "<group>"; };
+		276D3B9A2B2EC2E600461640 /* AudioListFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AudioListFeature; path = LocalPackages/AudioListFeature; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +41,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				276D3B8F2B2EB4BC00461640 /* FileService in Frameworks */,
+				276D3B8C2B2EB18F00461640 /* Domain in Frameworks */,
+				276D3B682B2DA61200461640 /* ComposableArchitecture in Frameworks */,
+				276D3B9C2B2EC3CC00461640 /* AudioListFeature in Frameworks */,
+				276D3B892B2EB0D200461640 /* Shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -35,8 +55,13 @@
 		276D3B492B2DA04300461640 = {
 			isa = PBXGroup;
 			children = (
+				276D3B9A2B2EC2E600461640 /* AudioListFeature */,
+				276D3B8D2B2EB1EA00461640 /* Services */,
+				276D3B8A2B2EB12F00461640 /* Domain */,
+				276D3B862B2EB00100461640 /* Shared */,
 				276D3B542B2DA04300461640 /* Player */,
 				276D3B532B2DA04300461640 /* Products */,
+				276D3B872B2EB0D200461640 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -51,8 +76,10 @@
 		276D3B542B2DA04300461640 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				276D3B952B2EBC1400461640 /* EmptyFeature */,
 				276D3B552B2DA04300461640 /* PlayerApp.swift */,
-				276D3B572B2DA04300461640 /* ContentView.swift */,
+				276D3B6C2B2DA6F800461640 /* AppView.swift */,
+				276D3B6E2B2DA70100461640 /* AppFeature.swift */,
 				276D3B592B2DA04500461640 /* Assets.xcassets */,
 				276D3B5B2B2DA04500461640 /* Preview Content */,
 			);
@@ -65,6 +92,22 @@
 				276D3B5C2B2DA04500461640 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		276D3B872B2EB0D200461640 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		276D3B952B2EBC1400461640 /* EmptyFeature */ = {
+			isa = PBXGroup;
+			children = (
+				276D3B962B2EBC2200461640 /* EmptyFeature.swift */,
+				276D3B982B2EBC8400461640 /* EmptyFeatureView.swift */,
+			);
+			path = EmptyFeature;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +126,13 @@
 			dependencies = (
 			);
 			name = Player;
+			packageProductDependencies = (
+				276D3B672B2DA61200461640 /* ComposableArchitecture */,
+				276D3B882B2EB0D200461640 /* Shared */,
+				276D3B8B2B2EB18F00461640 /* Domain */,
+				276D3B8E2B2EB4BC00461640 /* FileService */,
+				276D3B9B2B2EC3CC00461640 /* AudioListFeature */,
+			);
 			productName = Player;
 			productReference = 276D3B522B2DA04300461640 /* Player.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +161,9 @@
 				Base,
 			);
 			mainGroup = 276D3B492B2DA04300461640;
+			packageReferences = (
+				276D3B662B2DA61200461640 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = 276D3B532B2DA04300461640 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,8 +190,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				276D3B582B2DA04300461640 /* ContentView.swift in Sources */,
+				276D3B6D2B2DA6F800461640 /* AppView.swift in Sources */,
+				276D3B6F2B2DA70100461640 /* AppFeature.swift in Sources */,
+				276D3B972B2EBC2200461640 /* EmptyFeature.swift in Sources */,
 				276D3B562B2DA04300461640 /* PlayerApp.swift in Sources */,
+				276D3B992B2EBC8400461640 /* EmptyFeatureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +400,41 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		276D3B662B2DA61200461640 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		276D3B672B2DA61200461640 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 276D3B662B2DA61200461640 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		276D3B882B2EB0D200461640 /* Shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shared;
+		};
+		276D3B8B2B2EB18F00461640 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Domain;
+		};
+		276D3B8E2B2EB4BC00461640 /* FileService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FileService;
+		};
+		276D3B9B2B2EC3CC00461640 /* AudioListFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AudioListFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 276D3B4A2B2DA04300461640 /* Project object */;
 }
