@@ -9,8 +9,8 @@ import Domain
 import Foundation
 
 public struct FileService {
-	public var saveAudioFiles: ([URL]) -> Result<Void, Error>
-	public var getAudioFiles: () -> Result<[AudioFile], Error>
+	public let saveAudioFiles: ([URL]) -> Result<Void, Error>
+	public let getAudioFiles: () -> Result<[AudioFile], Error>
 	
 	public init(
 		saveAudioFiles: @escaping ([URL]) -> Result<Void, Error>,

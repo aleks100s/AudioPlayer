@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		276AA33E2B30BF8200D3BD89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */; };
 		276D3B562B2DA04300461640 /* PlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B552B2DA04300461640 /* PlayerApp.swift */; };
 		276D3B5A2B2DA04500461640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B592B2DA04500461640 /* Assets.xcassets */; };
 		276D3B5D2B2DA04500461640 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B5C2B2DA04500461640 /* Preview Assets.xcassets */; };
@@ -23,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		27432CC72B2F321000A18CA3 /* PlayerTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayerTests.xctestplan; sourceTree = "<group>"; };
+		276AA33C2B2F537500D3BD89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		276D3B522B2DA04300461640 /* Harmony Tales.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Harmony Tales.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		276D3B552B2DA04300461640 /* PlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerApp.swift; sourceTree = "<group>"; };
 		276D3B592B2DA04500461640 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -78,9 +81,11 @@
 			isa = PBXGroup;
 			children = (
 				276D3B952B2EBC1400461640 /* EmptyFeature */,
-				276D3B552B2DA04300461640 /* PlayerApp.swift */,
 				276D3B6C2B2DA6F800461640 /* AppView.swift */,
 				276D3B6E2B2DA70100461640 /* AppFeature.swift */,
+				276D3B552B2DA04300461640 /* PlayerApp.swift */,
+				276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */,
+				276AA33C2B2F537500D3BD89 /* Info.plist */,
 				276D3B592B2DA04500461640 /* Assets.xcassets */,
 				27432CC72B2F321000A18CA3 /* PlayerTests.xctestplan */,
 				276D3B5B2B2DA04500461640 /* Preview Content */,
@@ -192,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				276AA33E2B30BF8200D3BD89 /* AppDelegate.swift in Sources */,
 				276D3B6D2B2DA6F800461640 /* AppView.swift in Sources */,
 				276D3B6F2B2DA70100461640 /* AppFeature.swift in Sources */,
 				276D3B972B2EBC2200461640 /* EmptyFeature.swift in Sources */,
@@ -333,6 +339,7 @@
 				DEVELOPMENT_TEAM = 579X949DTW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Player/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Audio Fusion";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -363,6 +370,7 @@
 				DEVELOPMENT_TEAM = 579X949DTW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Player/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Audio Fusion";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
