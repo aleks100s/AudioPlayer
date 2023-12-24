@@ -39,18 +39,24 @@ public struct AudioListView: View {
 				}
 				
 				if viewStore.playerState != .hidden {
-					HStack {
-						Spacer()
-						Button {
-							if viewStore.playerState == .playing {
-								viewStore.send(.pauseButtonTapped)
-							} else if viewStore.playerState == .paused {
-								viewStore.send(.resumeButtonTapped)
+					VStack(alignment: .center, spacing: 8) {
+						Text(viewStore.currentAudio?.name ?? "-")
+							.font(.title3)
+						
+						HStack {
+							Spacer()
+							Button {
+								if viewStore.playerState == .playing {
+									viewStore.send(.pauseButtonTapped)
+								} else if viewStore.playerState == .paused {
+									viewStore.send(.resumeButtonTapped)
+								}
+							} label: {
+								Image(systemName: viewStore.playerState.imageName)
+									.font(.title)
 							}
-						} label: {
-							Image(systemName: viewStore.playerState.imageName)
+							Spacer()
 						}
-						Spacer()
 					}
 					.padding()
 				}

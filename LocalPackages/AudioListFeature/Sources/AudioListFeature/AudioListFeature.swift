@@ -14,7 +14,7 @@ import Foundation
 @Reducer
 public struct AudioListFeature {
 	public struct State: Equatable {
-		enum PlayerState {
+		enum PlayerState: Equatable {
 			case playing
 			case paused
 			case hidden
@@ -36,6 +36,7 @@ public struct AudioListFeature {
 		var files: [AudioFile]
 		var errorMessage: String?
 		var playerState: PlayerState = .hidden
+		var currentAudio: AudioFile?
 		
 		public init(files: [AudioFile] = []) {
 			self.files = files
@@ -49,7 +50,7 @@ public struct AudioListFeature {
 		case filesLoaded([AudioFile])
 		case errorAlertDismissed
 		case audioTapped(AudioFile)
-		case playerStarted
+		case playerStarted(AudioFile)
 		case pauseButtonTapped
 		case resumeButtonTapped
 		case deleteFiles(IndexSet)
@@ -113,7 +114,7 @@ public struct AudioListFeature {
 							await send(.errorOccurred(error.localizedDescription))
 							
 						case .success:
-							await send(.playerStarted)
+							await send(.playerStarted(file))
 						}
 						
 					case let .failure(error):
@@ -121,8 +122,9 @@ public struct AudioListFeature {
 					}
 				}
 				
-			case .playerStarted:
+			case let .playerStarted(file):
 				state.playerState = .playing
+				state.currentAudio = file
 				return .none
 				
 			case .pauseButtonTapped:

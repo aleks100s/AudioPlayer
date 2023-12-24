@@ -22,6 +22,19 @@ final class AudioListFeatureTests: XCTestCase {
 		super.tearDown()
 	}
 	
+	func test_errorMessage_afterErrorAlertDismissed() async {
+		await store.send(.errorOccurred("Error occurred")) {
+			$0.errorMessage = "Error occurred"
+		}
+		await store.send(.errorAlertDismissed) {
+			$0.errorMessage = nil
+		}
+	}
+}
+
+// MARK: - Files
+
+extension AudioListFeatureTests {
 	func test_fileServiceFails_afterViewDidLoad() async {
 		let error = MockError.unknown(UUID().uuidString)
 		store = TestStore(initialState: AudioListFeature.State()) {
@@ -58,15 +71,6 @@ final class AudioListFeatureTests: XCTestCase {
 		await store.send(.viewDidLoad)
 		await store.receive(.filesLoaded([file]), timeout: .milliseconds(100)) {
 			$0.files = [file]
-		}
-	}
-	
-	func test_errorMessage_afterErrorAlertDismissed() async {
-		await store.send(.errorOccurred("Error occurred")) {
-			$0.errorMessage = "Error occurred"
-		}
-		await store.send(.errorAlertDismissed) {
-			$0.errorMessage = nil
 		}
 	}
 	
@@ -119,9 +123,11 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.errorMessage = error.localizedDescription
 		}
 	}
-	
-	// MARK: - Audio
-	
+}
+
+// MARK: - Audio
+
+extension AudioListFeatureTests {
 	func test_audioTapped_audioSetupFails() async {
 		let error = MockError.unknown(UUID().uuidString)
 		store = TestStore(initialState: AudioListFeature.State()) {
@@ -158,9 +164,11 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.audioService = AudioServiceImpl.mock()
 		}
 		
-		await store.send(.audioTapped(.mock()))
-		await store.receive(.playerStarted) {
+		let file = AudioFile.mock()
+		await store.send(.audioTapped(file))
+		await store.receive(.playerStarted(file)) {
 			$0.playerState = .playing
+			$0.currentAudio = file
 		}
 	}
 	
