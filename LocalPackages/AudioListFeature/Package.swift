@@ -24,6 +24,7 @@ let package = Package(
 			dependencies: [
 				"Domain",
 				"Shared",
+				.product(name: "AudioService", package: "Services"),
 				.product(name: "FileService", package: "Services"),
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]
@@ -33,6 +34,7 @@ let package = Package(
             dependencies: [
 				"AudioListFeature",
 				.product(name: "DomainMock", package: "Domain"),
+				.product(name: "AudioService", package: "Services"),
 				.product(name: "FileService", package: "Services"),
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]

@@ -1,3 +1,4 @@
+import AudioService
 import ComposableArchitecture
 import Domain
 import DomainMock
@@ -90,6 +91,50 @@ final class AudioListFeatureTests: XCTestCase {
 		await store.send(.saveFiles([URL(string: "url://")!]))
 		await store.receive(.errorOccurred(error.localizedDescription)) {
 			$0.errorMessage = error.localizedDescription
+		}
+	}
+	
+	// MARK: - Audio
+	
+	func test_audioTapped_audioSetupFails() async {
+		let error = MockError.unknown(UUID().uuidString)
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock(setupAudioResult: { .failure(error) })
+		}
+		
+		await store.send(.audioTapped(.mock()))
+		await store.receive(.errorOccurred(error.localizedDescription)) {
+			$0.errorMessage = error.localizedDescription
+		}
+	}
+	
+	func test_audioTapped_playCurrentAudioFails() async {
+		let error = MockError.unknown(UUID().uuidString)
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock(playCurrentAudioResult: { .failure(error) })
+		}
+		
+		await store.send(.audioTapped(.mock()))
+		await store.receive(.errorOccurred(error.localizedDescription)) {
+			$0.errorMessage = error.localizedDescription
+		}
+	}
+	
+	func test_audioTapped_success() async {
+		let error = MockError.unknown(UUID().uuidString)
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		
+		await store.send(.audioTapped(.mock()))
+		await store.receive(.playerStarted) {
+			$0.playerState = .playing
 		}
 	}
 }

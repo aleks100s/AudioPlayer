@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "276D3B512B2DA04300461640"
-               BuildableName = "Audio Fusion.app"
+               BuildableName = "Harmony Tales.app"
                BlueprintName = "Player"
                ReferencedContainer = "container:Player.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:PlayerTests/PlayerTests.xctestplan"
+            reference = "container:Player/PlayerTests.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "276D3B512B2DA04300461640"
-            BuildableName = "Audio Fusion.app"
+            BuildableName = "Harmony Tales.app"
             BlueprintName = "Player"
             ReferencedContainer = "container:Player.xcodeproj">
          </BuildableReference>
@@ -79,7 +79,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "276D3B512B2DA04300461640"
-            BuildableName = "Audio Fusion.app"
+            BuildableName = "Harmony Tales.app"
             BlueprintName = "Player"
             ReferencedContainer = "container:Player.xcodeproj">
          </BuildableReference>

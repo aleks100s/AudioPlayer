@@ -5,6 +5,7 @@
 //  Created by Alexander on 17.12.2023.
 //
 
+import AudioService
 import ComposableArchitecture
 import Domain
 import FileService
@@ -13,8 +14,15 @@ import Foundation
 @Reducer
 public struct AudioListFeature {
 	public struct State: Equatable {
+		enum PlayerState {
+			case playing
+			case paused
+			case hidden
+		}
+		
 		var files: [AudioFile] = []
 		var errorMessage: String?
+		var playerState: PlayerState = .hidden
 		
 		public init() {}
 	}
@@ -25,10 +33,13 @@ public struct AudioListFeature {
 		case errorOccurred(String)
 		case filesLoaded([AudioFile])
 		case errorAlertDismissed
+		case audioTapped(AudioFile)
+		case playerStarted
 		case test
 	}
 	
 	@Dependency(\.fileService) var fileService
+	@Dependency(\.audioService) var audioService
 	
 	public init() {}
 	
@@ -73,6 +84,29 @@ public struct AudioListFeature {
 				state.errorMessage = nil
 				return .none
 				
+			case let .audioTapped(file):
+				return .run { send in
+					let setupResult = audioService.setupAudio(file: file)
+					switch setupResult {
+					case .success:
+						let playResult = audioService.playCurrentAudio()
+						switch playResult {
+						case let .failure(error):
+							await send(.errorOccurred(error.localizedDescription))
+							
+						case .success:
+							await send(.playerStarted)
+						}
+						
+					case let .failure(error):
+						await send(.errorOccurred(error.localizedDescription))
+					}
+				}
+				
+			case .playerStarted:
+				state.playerState = .playing
+				return .none
+
 			case .test:
 				return .none
 			}

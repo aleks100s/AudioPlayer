@@ -15,9 +15,16 @@ extension AudioServiceImpl: DependencyKey {
 	}
 	
 	public static var previewValue: AudioService {
+		mock()
+	}
+	
+	public static func mock(
+		setupAudioResult: @escaping () -> Result<Void, Error> = { .success(()) },
+		playCurrentAudioResult: @escaping () -> Result<Void, Error> = { .success(()) }
+	) -> AudioService {
 		MockAudioService(
-			setupAudioResult: { .success(()) },
-			playCurrentAudioResult: { .success(()) }
+			setupAudioResult: setupAudioResult,
+			playCurrentAudioResult: playCurrentAudioResult
 		)
 	}
 }

@@ -23,6 +23,10 @@ public struct AudioListView: View {
 			List {
 				ForEach(viewStore.files, id: \.url.absoluteString) { file in
 					Text(file.name)
+						.contentShape(Rectangle())
+						.onTapGesture {
+							viewStore.send(.audioTapped(file))
+						}
 				}
 			}
 			.navigationTitle("All audio")

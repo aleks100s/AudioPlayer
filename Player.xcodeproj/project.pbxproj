@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		276AA33E2B30BF8200D3BD89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */; };
+		276AA3412B37F5DD00D3BD89 /* AudioService in Frameworks */ = {isa = PBXBuildFile; productRef = 276AA3402B37F5DD00D3BD89 /* AudioService */; };
 		276D3B562B2DA04300461640 /* PlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B552B2DA04300461640 /* PlayerApp.swift */; };
 		276D3B5A2B2DA04500461640 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B592B2DA04500461640 /* Assets.xcassets */; };
 		276D3B5D2B2DA04500461640 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 276D3B5C2B2DA04500461640 /* Preview Assets.xcassets */; };
@@ -46,6 +47,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				276D3B8F2B2EB4BC00461640 /* FileService in Frameworks */,
+				276AA3412B37F5DD00D3BD89 /* AudioService in Frameworks */,
 				276D3B8C2B2EB18F00461640 /* Domain in Frameworks */,
 				276D3B682B2DA61200461640 /* ComposableArchitecture in Frameworks */,
 				276D3B9C2B2EC3CC00461640 /* AudioListFeature in Frameworks */,
@@ -139,6 +141,7 @@
 				276D3B8B2B2EB18F00461640 /* Domain */,
 				276D3B8E2B2EB4BC00461640 /* FileService */,
 				276D3B9B2B2EC3CC00461640 /* AudioListFeature */,
+				276AA3402B37F5DD00D3BD89 /* AudioService */,
 			);
 			productName = Player;
 			productReference = 276D3B522B2DA04300461640 /* Harmony Tales.app */;
@@ -425,6 +428,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		276AA3402B37F5DD00D3BD89 /* AudioService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AudioService;
+		};
 		276D3B672B2DA61200461640 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 276D3B662B2DA61200461640 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
