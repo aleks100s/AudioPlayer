@@ -9,7 +9,7 @@ import Domain
 import Foundation
 
 public extension AudioFile {
-	static func mock() -> AudioFile {
-		AudioFile(name: UUID().uuidString, url: URL(string: "url://\(UUID().uuidString)")!)
+	static func mock(name: String = UUID().uuidString) -> AudioFile {
+		AudioFile(name: name, url: URL(string: "url://\(UUID().uuidString)")!)
 	}
 }

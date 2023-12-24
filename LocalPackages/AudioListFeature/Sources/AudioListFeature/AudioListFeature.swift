@@ -33,13 +33,15 @@ public struct AudioListFeature {
 			}
 		}
 		
-		var files: [AudioFile]
+		var allFiles: [AudioFile]
+		var filteredFiles: [AudioFile]
 		var errorMessage: String?
 		var playerState: PlayerState = .hidden
 		var currentAudio: AudioFile?
 		
 		public init(files: [AudioFile] = []) {
-			self.files = files
+			allFiles = files
+			filteredFiles = files
 		}
 	}
 	
@@ -54,6 +56,7 @@ public struct AudioListFeature {
 		case pauseButtonTapped
 		case resumeButtonTapped
 		case deleteFiles(IndexSet)
+		case searchTextChanged(String)
 		case test
 	}
 	
@@ -96,7 +99,8 @@ public struct AudioListFeature {
 				return .none
 				
 			case let .filesLoaded(files):
-				state.files = files
+				state.allFiles = files
+				state.filteredFiles = files
 				return .none
 				
 			case .errorAlertDismissed:
@@ -140,7 +144,8 @@ public struct AudioListFeature {
 			case let .deleteFiles(indexSet):
 				var filesToDelete = [AudioFile]()
 				for index in indexSet {
-					filesToDelete.append(state.files.remove(at: index))
+					filesToDelete.append(state.allFiles.remove(at: index))
+					state.filteredFiles.remove(at: index)
 				}
 				
 				return .run { [filesToDelete] send in
@@ -153,6 +158,14 @@ public struct AudioListFeature {
 						break
 					}
 				}
+				
+			case let .searchTextChanged(text):
+				if text.isEmpty {
+					state.filteredFiles = state.allFiles
+				} else {
+					state.filteredFiles = state.allFiles.filter { $0.name.contains(text) }
+				}
+				return .none
 
 			case .test:
 				return .none

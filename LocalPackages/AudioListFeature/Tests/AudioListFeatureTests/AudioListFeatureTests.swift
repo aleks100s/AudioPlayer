@@ -30,6 +30,20 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.errorMessage = nil
 		}
 	}
+	
+	func test_searchTextChanged() async {
+		let file1 = AudioFile.mock(name: "qwerty")
+		let file2 = AudioFile.mock(name: "123456")
+		store = TestStore(initialState: AudioListFeature.State(files: [file1, file2])) {
+			AudioListFeature()
+		}
+		await store.send(.searchTextChanged("qwe")) {
+			$0.filteredFiles = [file1]
+		}
+		await store.send(.searchTextChanged("")) {
+			$0.filteredFiles = [file1, file2]
+		}
+	}
 }
 
 // MARK: - Files
@@ -70,7 +84,8 @@ extension AudioListFeatureTests {
 		
 		await store.send(.viewDidLoad)
 		await store.receive(.filesLoaded([file]), timeout: .milliseconds(100)) {
-			$0.files = [file]
+			$0.allFiles = [file]
+			$0.filteredFiles = [file]
 		}
 	}
 	
@@ -106,7 +121,8 @@ extension AudioListFeatureTests {
 		}
 		
 		await store.send(.deleteFiles(IndexSet(integer: 0))) {
-			$0.files = []
+			$0.allFiles = []
+			$0.filteredFiles = []
 		}
 	}
 	

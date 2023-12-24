@@ -13,6 +13,7 @@ public struct AudioListView: View {
 	private let store: StoreOf<AudioListFeature>
 	
 	@State private var isFilePickerPresented = false
+	@State private var searchText = ""
 	
 	public init(store: StoreOf<AudioListFeature>) {
 		self.store = store
@@ -22,7 +23,7 @@ public struct AudioListView: View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
 			VStack {
 				List {
-					ForEach(viewStore.files, id: \.url.absoluteString) { file in
+					ForEach(viewStore.filteredFiles, id: \.url.absoluteString) { file in
 						Button {
 							viewStore.send(.audioTapped(file))
 						} label: {
@@ -61,6 +62,7 @@ public struct AudioListView: View {
 					.padding()
 				}
 			}
+			.searchable(text: $searchText)
 			.navigationTitle("All audio")
 			.toolbar {
 				ToolbarItem(placement: .topBarTrailing) {
@@ -98,6 +100,9 @@ public struct AudioListView: View {
 				),
 				content: { Alert(title: Text($0.title)) }
 			)
+			.onChange(of: searchText, initial: false) { _, _ in
+				viewStore.send(.searchTextChanged(searchText))
+			}
 		}
 	}
 }
