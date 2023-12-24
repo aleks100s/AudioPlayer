@@ -52,6 +52,7 @@ extension FileService: DependencyKey {
 					Log.debug("Contents of Documents directory: \(files)")
 					let audioFiles = files.filter { $0.isAudioFile }
 						.map { AudioFile(url: $0) }
+						.sorted(by: { $0.name < $1.name} )
 					Log.debug("Audio files were successfully read: \(audioFiles)")
 					return .success(audioFiles)
 				} catch {
