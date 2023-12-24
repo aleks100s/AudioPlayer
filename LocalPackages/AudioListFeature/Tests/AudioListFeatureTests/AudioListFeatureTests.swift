@@ -94,6 +94,32 @@ final class AudioListFeatureTests: XCTestCase {
 		}
 	}
 	
+	func test_deleteFiles_success() async {
+		store = TestStore(initialState: AudioListFeature.State(files: [.mock()])) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.fileService = .mock(deleteAudioFilesResult: { _ in .success(()) })
+		}
+		
+		await store.send(.deleteFiles(IndexSet(integer: 0))) {
+			$0.files = []
+		}
+	}
+	
+	func test_deleteFiles_failure() async {
+		let error = MockError.unknown(UUID().uuidString)
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.fileService = .mock(deleteAudioFilesResult: { _ in .failure(error) })
+		}
+		
+		await store.send(.deleteFiles(IndexSet()))
+		await store.receive(.errorOccurred(error.localizedDescription)) {
+			$0.errorMessage = error.localizedDescription
+		}
+	}
+	
 	// MARK: - Audio
 	
 	func test_audioTapped_audioSetupFails() async {

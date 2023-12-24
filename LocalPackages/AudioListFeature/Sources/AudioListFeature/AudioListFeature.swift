@@ -33,11 +33,13 @@ public struct AudioListFeature {
 			}
 		}
 		
-		var files: [AudioFile] = []
+		var files: [AudioFile]
 		var errorMessage: String?
 		var playerState: PlayerState = .hidden
 		
-		public init() {}
+		public init(files: [AudioFile] = []) {
+			self.files = files
+		}
 	}
 	
 	public enum Action: Equatable {
@@ -50,6 +52,7 @@ public struct AudioListFeature {
 		case playerStarted
 		case pauseButtonTapped
 		case resumeButtonTapped
+		case deleteFiles(IndexSet)
 		case test
 	}
 	
@@ -131,6 +134,23 @@ public struct AudioListFeature {
 				audioService.resumeCurrentAudio()
 				state.playerState = .playing
 				return .none
+				
+			case let .deleteFiles(indexSet):
+				var filesToDelete = [AudioFile]()
+				for index in indexSet {
+					filesToDelete.append(state.files.remove(at: index))
+				}
+				
+				return .run { [filesToDelete] send in
+					let result = fileService.deleteAudioFiles(filesToDelete)
+					switch result {
+					case let .failure(error):
+						await send(.errorOccurred(error.localizedDescription))
+						
+					default:
+						break
+					}
+				}
 
 			case .test:
 				return .none

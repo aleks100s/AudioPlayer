@@ -11,6 +11,7 @@ enum FileError: LocalizedError {
 	case noDocumentsDirectory
 	case copyingFailed(path: String)
 	case readingFailed
+	case deletionFailed
 	
 	var errorDescription: String? {
 		switch self {
@@ -22,6 +23,9 @@ enum FileError: LocalizedError {
 			
 		case .readingFailed:
 			return "Ошибка при получении аудиофайлов"
+			
+		case .deletionFailed:
+			return "Ошибка при удалении файлов"
 		}
 	}
 }

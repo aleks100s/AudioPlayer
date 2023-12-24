@@ -23,11 +23,18 @@ public struct AudioListView: View {
 			VStack {
 				List {
 					ForEach(viewStore.files, id: \.url.absoluteString) { file in
-						Text(file.name)
-							.contentShape(Rectangle())
-							.onTapGesture {
-								viewStore.send(.audioTapped(file))
+						Button {
+							viewStore.send(.audioTapped(file))
+						} label: {
+							HStack {
+								Text(file.name)
+								Spacer()
 							}
+						}
+						.tint(.primary)
+					}
+					.onDelete { indexSet in
+						viewStore.send(.deleteFiles(indexSet))
 					}
 				}
 				
