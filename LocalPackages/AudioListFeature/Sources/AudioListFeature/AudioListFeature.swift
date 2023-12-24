@@ -18,6 +18,19 @@ public struct AudioListFeature {
 			case playing
 			case paused
 			case hidden
+			
+			var imageName: String {
+				switch self {
+				case .playing:
+					"pause.fill"
+					
+				case .paused:
+					"play.fill"
+					
+				case .hidden:
+					""
+				}
+			}
 		}
 		
 		var files: [AudioFile] = []
@@ -35,6 +48,8 @@ public struct AudioListFeature {
 		case errorAlertDismissed
 		case audioTapped(AudioFile)
 		case playerStarted
+		case pauseButtonTapped
+		case resumeButtonTapped
 		case test
 	}
 	
@@ -104,6 +119,16 @@ public struct AudioListFeature {
 				}
 				
 			case .playerStarted:
+				state.playerState = .playing
+				return .none
+				
+			case .pauseButtonTapped:
+				audioService.pauseCurrentAudio()
+				state.playerState = .paused
+				return .none
+				
+			case .resumeButtonTapped:
+				audioService.resumeCurrentAudio()
 				state.playerState = .playing
 				return .none
 

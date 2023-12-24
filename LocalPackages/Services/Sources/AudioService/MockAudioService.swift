@@ -26,4 +26,8 @@ struct MockAudioService: AudioService {
 	func playCurrentAudio() -> Result<Void, Error> {
 		playCurrentAudioResult()
 	}
+	
+	func pauseCurrentAudio() {}
+	
+	func resumeCurrentAudio() {}
 }

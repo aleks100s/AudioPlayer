@@ -20,13 +20,32 @@ public struct AudioListView: View {
 	
 	public var body: some View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
-			List {
-				ForEach(viewStore.files, id: \.url.absoluteString) { file in
-					Text(file.name)
-						.contentShape(Rectangle())
-						.onTapGesture {
-							viewStore.send(.audioTapped(file))
+			VStack {
+				List {
+					ForEach(viewStore.files, id: \.url.absoluteString) { file in
+						Text(file.name)
+							.contentShape(Rectangle())
+							.onTapGesture {
+								viewStore.send(.audioTapped(file))
+							}
+					}
+				}
+				
+				if viewStore.playerState != .hidden {
+					HStack {
+						Spacer()
+						Button {
+							if viewStore.playerState == .playing {
+								viewStore.send(.pauseButtonTapped)
+							} else if viewStore.playerState == .paused {
+								viewStore.send(.resumeButtonTapped)
+							}
+						} label: {
+							Image(systemName: viewStore.playerState.imageName)
 						}
+						Spacer()
+					}
+					.padding()
 				}
 			}
 			.navigationTitle("All audio")

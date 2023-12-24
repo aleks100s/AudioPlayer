@@ -10,4 +10,6 @@ import Domain
 public protocol AudioService {
 	func setupAudio(file: AudioFile) -> Result<Void, Error>
 	func playCurrentAudio() -> Result<Void, Error>
+	func pauseCurrentAudio()
+	func resumeCurrentAudio()
 }

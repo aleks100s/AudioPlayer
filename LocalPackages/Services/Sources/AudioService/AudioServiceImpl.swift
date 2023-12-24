@@ -43,6 +43,16 @@ public final class AudioServiceImpl: AudioService {
 		}
 	}
 	
+	public func pauseCurrentAudio() {
+		audioPlayer?.pause()
+		updatePlayer()
+	}
+	
+	public func resumeCurrentAudio() {
+		audioPlayer?.play()
+		updatePlayer()
+	}
+	
 	private func updatePlayer() {
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = [
 			MPMediaItemPropertyTitle: currentFile?.name ?? "-",
@@ -57,14 +67,12 @@ public final class AudioServiceImpl: AudioService {
 		let commandCenter = MPRemoteCommandCenter.shared();
 		commandCenter.playCommand.isEnabled = true
 		commandCenter.playCommand.addTarget { _ in
-			self.audioPlayer?.play()
-			self.updatePlayer()
+			self.resumeCurrentAudio()
 			return .success
 		}
 		commandCenter.pauseCommand.isEnabled = true
 		commandCenter.pauseCommand.addTarget { _ in
-			self.audioPlayer?.pause()
-			self.updatePlayer()
+			self.pauseCurrentAudio()
 			return .success
 		}
 	}

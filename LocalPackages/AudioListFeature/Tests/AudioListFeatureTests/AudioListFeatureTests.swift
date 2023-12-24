@@ -137,4 +137,28 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.playerState = .playing
 		}
 	}
+	
+	func test_pauseButtonTapped() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		
+		await store.send(.pauseButtonTapped) {
+			$0.playerState = .paused
+		}
+	}
+	
+	func test_resumeButtonTapped() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		
+		await store.send(.resumeButtonTapped) {
+			$0.playerState = .playing
+		}
+	}
 }
