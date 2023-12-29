@@ -40,6 +40,7 @@ public struct AudioListFeature {
 		var currentAudio: AudioFile?
 		var currentTime: String = "00:00"
 		var duration: String = "00:00"
+		var playbackStatus: PlaybackStatus?
 		
 		public init(files: [AudioFile] = []) {
 			allFiles = files
@@ -65,7 +66,6 @@ public struct AudioListFeature {
 	
 	@Dependency(\.fileService) var fileService
 	@Dependency(\.audioService) var audioService
-	@Dependency(\.suspendingClock) var clock
 	
 	public init() {}
 	
@@ -176,6 +176,7 @@ public struct AudioListFeature {
 				return .none
 				
 			case let .playbackStatusChanged(status):
+				state.playbackStatus = status
 				state.currentTime = makeTimeString(from: status.currentTime)
 				state.duration = makeTimeString(from: status.duration)
 				state.playerState = status.isPlaying ? .playing : .paused

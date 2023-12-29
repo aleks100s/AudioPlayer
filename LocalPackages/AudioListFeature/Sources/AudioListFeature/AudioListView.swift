@@ -14,6 +14,8 @@ public struct AudioListView: View {
 	
 	@State private var isFilePickerPresented = false
 	@State private var searchText = ""
+	@State private var progress: Double = 0
+	@State private var durationRange: ClosedRange<TimeInterval> = 0...0
 	
 	public init(store: StoreOf<AudioListFeature>) {
 		self.store = store
@@ -61,8 +63,10 @@ public struct AudioListView: View {
 						
 						HStack {
 							Text(viewStore.currentTime)
-							Spacer()
+								.monospaced()
+							Slider(value: $progress, in: durationRange)
 							Text(viewStore.duration)
+								.monospaced()
 						}
 					}
 					.padding()
@@ -106,8 +110,12 @@ public struct AudioListView: View {
 				),
 				content: { Alert(title: Text($0.title)) }
 			)
-			.onChange(of: searchText, initial: false) { _, _ in
-				viewStore.send(.searchTextChanged(searchText))
+			.onChange(of: searchText, initial: false) { _, newValue in
+				viewStore.send(.searchTextChanged(newValue))
+			}
+			.onChange(of: viewStore.playbackStatus, initial: false) { _, newValue in
+				progress = newValue?.currentTime ?? 0
+				durationRange = 0...(newValue?.duration ?? 0)
 			}
 		}
 	}

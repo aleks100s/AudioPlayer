@@ -45,15 +45,33 @@ final class AudioListFeatureTests: XCTestCase {
 		}
 	}
 	
-	func test_playbackTimeChanged() async {
+	func test_playbackTimeChanged_whilePlaying() async {
 		store = TestStore(initialState: AudioListFeature.State()) {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
 		}
-		await store.send(.playbackTimeChanged(123)) {
+		let status = PlaybackStatus(currentTime: 123, duration: 1000, isPlaying: true)
+		await store.send(.playbackStatusChanged(status)) {
 			$0.currentTime = "02:03"
 			$0.duration = "16:40"
+			$0.playerState = .playing
+			$0.playbackStatus = status
+		}
+	}
+	
+	func test_playbackTimeChanged_onPause() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		let status = PlaybackStatus(currentTime: 123, duration: 1000, isPlaying: false)
+		await store.send(.playbackStatusChanged(status)) {
+			$0.currentTime = "02:03"
+			$0.duration = "16:40"
+			$0.playerState = .paused
+			$0.playbackStatus = status
 		}
 	}
 }
