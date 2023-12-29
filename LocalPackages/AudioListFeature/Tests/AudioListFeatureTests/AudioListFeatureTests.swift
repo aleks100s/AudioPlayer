@@ -74,6 +74,15 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.playbackStatus = status
 		}
 	}
+	
+	func test_playbackSliderPositionChanged() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playbackSliderPositionChanged(123))
+	}
 }
 
 // MARK: - Files

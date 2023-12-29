@@ -61,6 +61,7 @@ public struct AudioListFeature {
 		case deleteFiles(IndexSet)
 		case searchTextChanged(String)
 		case playbackStatusChanged(PlaybackStatus)
+		case playbackSliderPositionChanged(TimeInterval)
 		case test
 	}
 	
@@ -180,6 +181,10 @@ public struct AudioListFeature {
 				state.currentTime = makeTimeString(from: status.currentTime)
 				state.duration = makeTimeString(from: status.duration)
 				state.playerState = status.isPlaying ? .playing : .paused
+				return .none
+				
+			case let .playbackSliderPositionChanged(desiredTime):
+				audioService.setPlayback(time: desiredTime)
 				return .none
 
 			case .test:

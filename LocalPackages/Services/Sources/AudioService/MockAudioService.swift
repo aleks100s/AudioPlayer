@@ -35,4 +35,6 @@ struct MockAudioService: AudioService {
 	func pauseCurrentAudio() {}
 	
 	func resumeCurrentAudio() {}
+	
+	func setPlayback(time: TimeInterval) {}
 }

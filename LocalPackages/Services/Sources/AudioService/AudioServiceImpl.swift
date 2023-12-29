@@ -76,6 +76,11 @@ public final class AudioServiceImpl: AudioService {
 		updatePlayer()
 	}
 	
+	public func setPlayback(time: TimeInterval) {
+		audioPlayer?.currentTime = time
+		updatePlaybackTime()
+	}
+	
 	private func updatePlayer() {
 		guard let url = currentFile?.url else {
 			Log.debug("Failed to update player for file \(currentFile?.name ?? "???")")
@@ -131,6 +136,13 @@ public final class AudioServiceImpl: AudioService {
 			}
 		}
 		return nil
+	}
+	
+	private func updatePlaybackTime() {
+		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
+		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 	}
 	
 	private func setupRemoteCommandCenter() {

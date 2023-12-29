@@ -42,7 +42,7 @@ public struct AudioListView: View {
 				}
 				
 				if viewStore.playerState != .hidden {
-					VStack(alignment: .center, spacing: 8) {
+					VStack(alignment: .center, spacing: 12) {
 						Text(viewStore.currentAudio?.name ?? "-")
 							.font(.title3)
 						
@@ -64,7 +64,9 @@ public struct AudioListView: View {
 						HStack {
 							Text(viewStore.currentTime)
 								.monospaced()
-							Slider(value: $progress, in: durationRange)
+							Slider(value: $progress, in: durationRange) { _ in
+								viewStore.send(.playbackSliderPositionChanged(progress))
+							}
 							Text(viewStore.duration)
 								.monospaced()
 						}

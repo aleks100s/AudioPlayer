@@ -15,4 +15,5 @@ public protocol AudioService {
 	func playCurrentAudio() -> Result<Void, Error>
 	func pauseCurrentAudio()
 	func resumeCurrentAudio()
+	func setPlayback(time: TimeInterval)
 }
