@@ -11,6 +11,32 @@ import MediaPlayer
 import Shared
 
 public final class AudioServiceImpl: AudioService {
+	var playback: TimeInterval {
+		audioPlayer?.currentTime ?? 0
+	}
+	
+	public var duration: TimeInterval {
+		audioPlayer?.duration ?? 0
+	}
+	
+	public var playbackStream: AsyncStream<TimeInterval> {
+		AsyncStream(TimeInterval.self) { [weak self] continuation in
+			// Create a serial DispatchQueue
+			let queue = DispatchQueue(label: "com.alextos.Player")
+			// Schedule a timer in a way that's safe for the @Sendable closure
+			queue.async {
+				let timer = Timer(timeInterval: 1.0, repeats: true) { _ in
+					continuation.yield(self?.audioPlayer?.currentTime ?? 0)
+				}
+				RunLoop.current.add(timer, forMode: .common)
+				RunLoop.current.run()
+				continuation.onTermination = { @Sendable _ in
+					timer.invalidate()
+				}
+			}
+		}
+	}
+	
 	private var audioPlayer: AVAudioPlayer?
 	private var currentFile: AudioFile?
 	

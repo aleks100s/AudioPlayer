@@ -58,6 +58,12 @@ public struct AudioListView: View {
 							}
 							Spacer()
 						}
+						
+						HStack {
+							Text(viewStore.currentTime)
+							Spacer()
+							Text(viewStore.duration)
+						}
 					}
 					.padding()
 				}

@@ -6,8 +6,15 @@
 //
 
 import Domain
+import Foundation
 
 struct MockAudioService: AudioService {
+	var duration: TimeInterval = 1000
+	
+	var playbackStream: AsyncStream<TimeInterval> {
+		.finished
+	}
+	
 	private let setupAudioResult: () -> Result<Void, Error>
 	private let playCurrentAudioResult: () -> Result<Void, Error>
 	

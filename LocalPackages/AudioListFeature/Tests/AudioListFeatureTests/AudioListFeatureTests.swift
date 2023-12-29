@@ -44,6 +44,18 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.filteredFiles = [file1, file2]
 		}
 	}
+	
+	func test_playbackTimeChanged() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playbackTimeChanged(123)) {
+			$0.currentTime = "02:03"
+			$0.duration = "16:40"
+		}
+	}
 }
 
 // MARK: - Files

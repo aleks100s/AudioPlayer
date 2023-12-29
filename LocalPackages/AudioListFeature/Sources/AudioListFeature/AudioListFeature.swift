@@ -38,6 +38,8 @@ public struct AudioListFeature {
 		var errorMessage: String?
 		var playerState: PlayerState = .hidden
 		var currentAudio: AudioFile?
+		var currentTime: String = "00:00"
+		var duration: String = "00:00"
 		
 		public init(files: [AudioFile] = []) {
 			allFiles = files
@@ -57,11 +59,13 @@ public struct AudioListFeature {
 		case resumeButtonTapped
 		case deleteFiles(IndexSet)
 		case searchTextChanged(String)
+		case playbackTimeChanged(TimeInterval)
 		case test
 	}
 	
 	@Dependency(\.fileService) var fileService
 	@Dependency(\.audioService) var audioService
+	@Dependency(\.suspendingClock) var clock
 	
 	public init() {}
 	
@@ -129,7 +133,11 @@ public struct AudioListFeature {
 			case let .playerStarted(file):
 				state.playerState = .playing
 				state.currentAudio = file
-				return .none
+				return .run { send in
+					for await currentTime in audioService.playbackStream {
+						await send(.playbackTimeChanged(currentTime))
+					}
+				}
 				
 			case .pauseButtonTapped:
 				audioService.pauseCurrentAudio()
@@ -166,10 +174,22 @@ public struct AudioListFeature {
 					state.filteredFiles = state.allFiles.filter { $0.name.contains(text) }
 				}
 				return .none
+				
+			case let .playbackTimeChanged(time):
+				state.currentTime = makeTimeString(from: time)
+				state.duration = makeTimeString(from: audioService.duration)
+				return .none
 
 			case .test:
 				return .none
 			}
 		}
+	}
+	
+	private func makeTimeString(from time: TimeInterval) -> String {
+		let time = Int(time)
+		let minutes = String(format: "%02d", time / 60)
+		let seconds = String(format: "%02d", time % 60)
+		return "\(minutes):\(seconds)"
 	}
 }
