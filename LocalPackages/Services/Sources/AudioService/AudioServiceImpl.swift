@@ -10,23 +10,20 @@ import Domain
 import MediaPlayer
 import Shared
 
-public final class AudioServiceImpl: AudioService {
-	var playback: TimeInterval {
-		audioPlayer?.currentTime ?? 0
-	}
-	
-	public var duration: TimeInterval {
-		audioPlayer?.duration ?? 0
-	}
-	
-	public var playbackStream: AsyncStream<TimeInterval> {
-		AsyncStream(TimeInterval.self) { [weak self] continuation in
+public final class AudioServiceImpl: AudioService {		
+	public var playbackStatusStream: AsyncStream<PlaybackStatus> {
+		AsyncStream(PlaybackStatus.self) { [weak self] continuation in
 			// Create a serial DispatchQueue
 			let queue = DispatchQueue(label: "com.alextos.Player")
 			// Schedule a timer in a way that's safe for the @Sendable closure
 			queue.async {
 				let timer = Timer(timeInterval: 1.0, repeats: true) { _ in
-					continuation.yield(self?.audioPlayer?.currentTime ?? 0)
+					let status = PlaybackStatus(
+						currentTime: self?.audioPlayer?.currentTime ?? 0,
+						duration: self?.audioPlayer?.duration ?? 0,
+						isPlaying: self?.audioPlayer?.isPlaying ?? false
+					)
+					continuation.yield(status)
 				}
 				RunLoop.current.add(timer, forMode: .common)
 				RunLoop.current.run()

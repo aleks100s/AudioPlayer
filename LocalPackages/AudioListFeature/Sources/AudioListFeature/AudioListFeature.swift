@@ -59,7 +59,7 @@ public struct AudioListFeature {
 		case resumeButtonTapped
 		case deleteFiles(IndexSet)
 		case searchTextChanged(String)
-		case playbackTimeChanged(TimeInterval)
+		case playbackStatusChanged(PlaybackStatus)
 		case test
 	}
 	
@@ -134,8 +134,8 @@ public struct AudioListFeature {
 				state.playerState = .playing
 				state.currentAudio = file
 				return .run { send in
-					for await currentTime in audioService.playbackStream {
-						await send(.playbackTimeChanged(currentTime))
+					for await currentStatus in audioService.playbackStatusStream {
+						await send(.playbackStatusChanged(currentStatus))
 					}
 				}
 				
@@ -175,9 +175,10 @@ public struct AudioListFeature {
 				}
 				return .none
 				
-			case let .playbackTimeChanged(time):
-				state.currentTime = makeTimeString(from: time)
-				state.duration = makeTimeString(from: audioService.duration)
+			case let .playbackStatusChanged(status):
+				state.currentTime = makeTimeString(from: status.currentTime)
+				state.duration = makeTimeString(from: status.duration)
+				state.playerState = status.isPlaying ? .playing : .paused
 				return .none
 
 			case .test:

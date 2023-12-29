@@ -9,9 +9,7 @@ import Domain
 import Foundation
 
 struct MockAudioService: AudioService {
-	var duration: TimeInterval = 1000
-	
-	var playbackStream: AsyncStream<TimeInterval> {
+	var playbackStatusStream: AsyncStream<PlaybackStatus> {
 		.finished
 	}
 	
