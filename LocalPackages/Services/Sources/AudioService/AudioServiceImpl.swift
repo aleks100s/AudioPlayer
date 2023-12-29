@@ -122,6 +122,15 @@ public final class AudioServiceImpl: AudioService {
 			self.pauseCurrentAudio()
 			return .success
 		}
+		commandCenter.changePlaybackPositionCommand.isEnabled = true
+		commandCenter.changePlaybackPositionCommand.addTarget { event in
+			guard let event = event as? MPChangePlaybackPositionCommandEvent else {
+				return .commandFailed
+			}
+
+			self.audioPlayer?.currentTime = event.positionTime
+			return .success
+		}
 	}
 	
 	deinit {
