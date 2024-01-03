@@ -62,6 +62,8 @@ public struct AudioListFeature {
 		case searchTextChanged(String)
 		case playbackStatusChanged(PlaybackStatus)
 		case playbackSliderPositionChanged(TimeInterval)
+		case skipForwardButtonTapped
+		case skipBackwardButtonTapped
 		case test
 	}
 	
@@ -185,6 +187,14 @@ public struct AudioListFeature {
 				
 			case let .playbackSliderPositionChanged(desiredTime):
 				audioService.setPlayback(time: desiredTime)
+				return .none
+				
+			case .skipForwardButtonTapped:
+				audioService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
+				return .none
+				
+			case .skipBackwardButtonTapped:
+				audioService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
 				return .none
 
 			case .test:

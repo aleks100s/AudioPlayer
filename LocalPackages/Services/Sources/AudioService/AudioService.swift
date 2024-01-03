@@ -16,4 +16,6 @@ public protocol AudioService {
 	func pauseCurrentAudio()
 	func resumeCurrentAudio()
 	func setPlayback(time: TimeInterval)
+	func skipForward(time: TimeInterval)
+	func skipBackward(time: TimeInterval)
 }

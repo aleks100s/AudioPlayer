@@ -88,7 +88,7 @@ public struct AudioListView: View {
 			}
 			
 			if viewStore.playerState != .hidden {
-				playerView(viewStore: viewStore)
+				playerView(viewStore)
 			}
 		}
 	}
@@ -107,23 +107,18 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder
-	private func playerView(viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func playerView(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
 		VStack(alignment: .center, spacing: 12) {
 			Text(viewStore.currentAudio?.name ?? "-")
 				.font(.title3)
 			
 			HStack {
 				Spacer()
-				Button {
-					if viewStore.playerState == .playing {
-						viewStore.send(.pauseButtonTapped)
-					} else if viewStore.playerState == .paused {
-						viewStore.send(.resumeButtonTapped)
-					}
-				} label: {
-					Image(systemName: viewStore.playerState.imageName)
-						.font(.title)
-				}
+				skipBackwardButton(viewStore)
+				Spacer()
+				playButton(viewStore)
+				Spacer()
+				skipForwardButton(viewStore)
 				Spacer()
 			}
 			
@@ -138,6 +133,40 @@ public struct AudioListView: View {
 			}
 		}
 		.padding()
+	}
+	
+	@ViewBuilder
+	private func skipBackwardButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+		Button {
+			viewStore.send(.skipBackwardButtonTapped)
+		} label: {
+			Image(systemName: "gobackward.\(Constants.skipBackwardInterval)")
+				.font(.title)
+		}
+	}
+	
+	@ViewBuilder
+	private func playButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+		Button {
+			if viewStore.playerState == .playing {
+				viewStore.send(.pauseButtonTapped)
+			} else if viewStore.playerState == .paused {
+				viewStore.send(.resumeButtonTapped)
+			}
+		} label: {
+			Image(systemName: viewStore.playerState.imageName)
+				.font(.title)
+		}
+	}
+	
+	@ViewBuilder
+	private func skipForwardButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+		Button {
+			viewStore.send(.skipForwardButtonTapped)
+		} label: {
+			Image(systemName: "goforward.\(Constants.skipForwardInterval)")
+				.font(.title)
+		}
 	}
 }
 

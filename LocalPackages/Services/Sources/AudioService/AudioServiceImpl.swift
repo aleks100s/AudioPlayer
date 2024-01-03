@@ -39,6 +39,7 @@ public final class AudioServiceImpl: AudioService {
 	
 	public init() {
 		setupAudioInterruptionNotifications()
+		setupRemoteCommandCenter()
 	}
 	
 	public func setupAudio(file: AudioFile) -> Result<Void, Error> {
@@ -57,8 +58,7 @@ public final class AudioServiceImpl: AudioService {
 		do {
 			try AVAudioSession.sharedInstance().setActive(true)
 			audioPlayer?.play()
-			updatePlayer()
-			setupRemoteCommandCenter()
+			updatePlayerWithNewAudio()
 			return .success(())
 		} catch {
 			Log.error("Error playing the audio player: \(error)")
@@ -66,40 +66,29 @@ public final class AudioServiceImpl: AudioService {
 		}
 	}
 	
-	public func pauseCurrentAudio() {
-		audioPlayer?.pause()
-		updatePlayer()
-	}
-	
-	public func resumeCurrentAudio() {
-		audioPlayer?.play()
-		updatePlayer()
-	}
-	
-	public func setPlayback(time: TimeInterval) {
-		audioPlayer?.currentTime = time
-		updatePlaybackTime()
-	}
-	
-	private func updatePlayer() {
+	private func updatePlayerWithNewAudio() {
 		guard let url = currentFile?.url else {
 			Log.debug("Failed to update player for file \(currentFile?.name ?? "???")")
 			return
 		}
 		
 		Task {
-			let asset = AVAsset(url: url)
-			let artwork = try await extractArtwork(from: asset)
-			let title = try await extractStringResource(by: .commonKeyTitle, from: asset) ?? currentFile?.name
-			let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
-			var nowPlayingInfo = [String: Any]()
-			nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-			nowPlayingInfo[MPMediaItemPropertyTitle] = title
-			nowPlayingInfo[MPMediaItemPropertyArtist] = artist
-			nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
-			nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
-			MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-			MPNowPlayingInfoCenter.default().playbackState = .playing
+			do {
+				let asset = AVAsset(url: url)
+				let artwork = try await extractArtwork(from: asset)
+				let title = try await extractStringResource(by: .commonKeyTitle, from: asset) ?? currentFile?.name
+				let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
+				var nowPlayingInfo = [String: Any]()
+				nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+				nowPlayingInfo[MPMediaItemPropertyTitle] = title
+				nowPlayingInfo[MPMediaItemPropertyArtist] = artist
+				nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
+				nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+				MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+				MPNowPlayingInfoCenter.default().playbackState = .playing
+			} catch {
+				Log.debug("Failed to update MPNowPlayingInfoCenter: \(error.localizedDescription)")
+			}
 		}
 	}
 	
@@ -137,6 +126,42 @@ public final class AudioServiceImpl: AudioService {
 		}
 		return nil
 	}
+
+	deinit {
+		NotificationCenter.default.removeObserver(self)
+	}
+}
+
+// MARK: - In-App Controls
+
+extension AudioServiceImpl {
+	public func pauseCurrentAudio() {
+		audioPlayer?.pause()
+		updatePlaybackTime()
+	}
+	
+	public func resumeCurrentAudio() {
+		audioPlayer?.play()
+		updatePlaybackTime()
+	}
+	
+	public func setPlayback(time: TimeInterval) {
+		audioPlayer?.currentTime = time
+		updatePlaybackTime()
+	}
+	
+	public func skipForward(time: TimeInterval) {
+		skip(time: time, forward: true)
+	}
+	
+	public func skipBackward(time: TimeInterval) {
+		skip(time: time, forward: false)
+	}
+	
+	private func skip(time interval: TimeInterval, forward: Bool) {
+		audioPlayer?.currentTime += interval * (forward ? 1 : -1)
+		updatePlaybackTime()
+	}
 	
 	private func updatePlaybackTime() {
 		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
@@ -144,19 +169,40 @@ public final class AudioServiceImpl: AudioService {
 		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 	}
+}
+
+// MARK: - MPRemoteCommandCenter
+
+private extension AudioServiceImpl {
+	var commandCenter: MPRemoteCommandCenter {
+		MPRemoteCommandCenter.shared()
+	}
 	
-	private func setupRemoteCommandCenter() {
-		let commandCenter = MPRemoteCommandCenter.shared();
+	func setupRemoteCommandCenter() {
+		setupPlayCommand()
+		setupPauseCommand()
+		setupChangePlaybackPositionCommand()
+		setupSkipForwardCommand()
+		setupSkipBackwardCommand()
+	}
+	
+	func setupPlayCommand() {
 		commandCenter.playCommand.isEnabled = true
 		commandCenter.playCommand.addTarget { _ in
 			self.resumeCurrentAudio()
 			return .success
 		}
+	}
+	
+	func setupPauseCommand() {
 		commandCenter.pauseCommand.isEnabled = true
 		commandCenter.pauseCommand.addTarget { _ in
 			self.pauseCurrentAudio()
 			return .success
 		}
+	}
+	
+	func setupChangePlaybackPositionCommand() {
 		commandCenter.changePlaybackPositionCommand.isEnabled = true
 		commandCenter.changePlaybackPositionCommand.addTarget { event in
 			guard let event = event as? MPChangePlaybackPositionCommandEvent else {
@@ -168,8 +214,30 @@ public final class AudioServiceImpl: AudioService {
 		}
 	}
 	
-	deinit {
-		NotificationCenter.default.removeObserver(self)
+	func setupSkipForwardCommand() {
+		commandCenter.skipForwardCommand.isEnabled = true
+		commandCenter.skipForwardCommand.preferredIntervals = [NSNumber(value: 30)]
+		commandCenter.skipForwardCommand.addTarget { event in
+			guard let event = event as? MPSkipIntervalCommandEvent else {
+				return .commandFailed
+			}
+			
+			self.skip(time: event.interval, forward: true)
+			return .success
+		}
+	}
+	
+	func setupSkipBackwardCommand() {
+		commandCenter.skipBackwardCommand.isEnabled = true
+		commandCenter.skipBackwardCommand.preferredIntervals = [NSNumber(value: 15)]
+		commandCenter.skipBackwardCommand.addTarget { event in
+			guard let event = event as? MPSkipIntervalCommandEvent else {
+				return .commandFailed
+			}
+			
+			self.skip(time: event.interval, forward: false)
+			return .success
+		}
 	}
 }
 

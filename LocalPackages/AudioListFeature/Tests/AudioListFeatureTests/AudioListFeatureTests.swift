@@ -83,6 +83,24 @@ final class AudioListFeatureTests: XCTestCase {
 		}
 		await store.send(.playbackSliderPositionChanged(123))
 	}
+	
+	func test_skipForward() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.skipForwardButtonTapped)
+	}
+	
+	func test_skipBackward() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.skipBackwardButtonTapped)
+	}
 }
 
 // MARK: - Files

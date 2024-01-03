@@ -37,4 +37,8 @@ struct MockAudioService: AudioService {
 	func resumeCurrentAudio() {}
 	
 	func setPlayback(time: TimeInterval) {}
+	
+	func skipForward(time: TimeInterval) {}
+	
+	func skipBackward(time: TimeInterval) {}
 }
