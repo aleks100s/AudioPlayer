@@ -80,7 +80,7 @@ public struct AudioListView: View {
 		VStack {
 			List {
 				ForEach(viewStore.filteredFiles, id: \.url.absoluteString) { file in
-					audioFileItem(file: file) {
+					audioFileItem(viewStore, file: file) {
 						viewStore.send(.audioTapped(file))
 					}
 				}
@@ -96,13 +96,26 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder 
-	private func audioFileItem(file: AudioFile, onTap: @escaping () -> Void) -> some View {
+	private func audioFileItem(
+		_ viewStore: AudioListViewStore,
+		file: AudioFile,
+		onTap: @escaping () -> Void
+	) -> some View {
 		Button {
 			onTap()
 		} label: {
 			HStack {
 				Text(file.name)
+				
 				Spacer()
+				
+				if viewStore.currentAudio == file {
+					HStack(spacing: 4) {
+						PlaybackIndicatorView(animationDuration: 1.0)
+						PlaybackIndicatorView(animationDuration: 0.6)
+						PlaybackIndicatorView(animationDuration: 1.4)
+					}
+				}
 			}
 		}
 		.tint(.primary)
