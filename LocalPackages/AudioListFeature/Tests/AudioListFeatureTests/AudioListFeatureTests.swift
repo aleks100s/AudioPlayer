@@ -124,6 +124,33 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.playbackRate = .x100
 		}
 	}
+	
+	func test_playNextTrackButtonTapped_noCurrentAudio() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playNextTrackButtonTapped)
+	}
+	
+	func test_playNextTrackButtonTapped_withCurrentAudio() async {
+		let allAudio: [AudioFile] = [.mock(), .mock(), .mock()]
+		var state = AudioListFeature.State(files: allAudio)
+		state.currentAudio = allAudio[1]
+		store = TestStore(initialState: state) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playNextTrackButtonTapped)
+		await store.receive(.audioTapped(allAudio[2]))
+		await store.receive(.playerStarted(allAudio[2])) {
+			$0.currentAudio = allAudio[2]
+			$0.playerState = .playing
+		}
+		await store.receive(.playNextTrackButtonTapped)
+	}
 }
 
 // MARK: - Files
@@ -266,6 +293,7 @@ extension AudioListFeatureTests {
 			$0.playerState = .playing
 			$0.currentAudio = file
 		}
+		await store.receive(.playNextTrackButtonTapped)
 	}
 	
 	func test_pauseButtonTapped() async {

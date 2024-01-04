@@ -10,14 +10,15 @@ import Domain
 import MediaPlayer
 import Shared
 
-public final class AudioServiceImpl: AudioService {		
+public final class AudioServiceImpl: NSObject, AudioService {
 	public var playbackStatusStream: AsyncStream<PlaybackStatus> {
 		AsyncStream(PlaybackStatus.self) { [weak self] continuation in
+			self?.continuation = continuation
 			// Create a serial DispatchQueue
 			let queue = DispatchQueue(label: "com.alextos.Player")
 			// Schedule a timer in a way that's safe for the @Sendable closure
 			queue.async {
-				let timer = Timer(timeInterval: 1.0, repeats: true) { _ in
+				let timer = Timer(timeInterval: 0.5, repeats: true) { _ in
 					let status = PlaybackStatus(
 						currentTime: self?.audioPlayer?.currentTime ?? 0,
 						duration: self?.audioPlayer?.duration ?? 0,
@@ -36,8 +37,10 @@ public final class AudioServiceImpl: AudioService {
 	
 	private var audioPlayer: AVAudioPlayer?
 	private var currentFile: AudioFile?
+	private var continuation: AsyncStream<PlaybackStatus>.Continuation?
 	
-	public init() {
+	public override init() {
+		super.init()
 		setupAudioInterruptionNotifications()
 		setupRemoteCommandCenter()
 	}
@@ -46,6 +49,7 @@ public final class AudioServiceImpl: AudioService {
 		do {
 			currentFile = file
 			audioPlayer = try AVAudioPlayer(contentsOf: file.url)
+			audioPlayer?.delegate = self
 			audioPlayer?.prepareToPlay()
 			audioPlayer?.enableRate = true
 			return .success(())
@@ -130,6 +134,16 @@ public final class AudioServiceImpl: AudioService {
 
 	deinit {
 		NotificationCenter.default.removeObserver(self)
+	}
+}
+
+// MARK: - AVAudioPlayerDelegate
+
+extension AudioServiceImpl: AVAudioPlayerDelegate {
+	public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+		if player == audioPlayer, flag {
+			continuation?.finish()
+		}
 	}
 }
 

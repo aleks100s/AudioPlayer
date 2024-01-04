@@ -66,6 +66,7 @@ public struct AudioListFeature {
 		case skipForwardButtonTapped
 		case skipBackwardButtonTapped
 		case changePlaybackRateButtonTapped
+		case playNextTrackButtonTapped
 		case test
 	}
 	
@@ -142,6 +143,7 @@ public struct AudioListFeature {
 					for await currentStatus in audioService.playbackStatusStream {
 						await send(.playbackStatusChanged(currentStatus))
 					}
+					await send(.playNextTrackButtonTapped)
 				}
 				
 			case .pauseButtonTapped:
@@ -205,6 +207,18 @@ public struct AudioListFeature {
 				state.playbackRate = newRate
 				audioService.changePlayback(rate: newRate)
 				return .none
+				
+			case .playNextTrackButtonTapped:
+				guard let currentAudio = state.currentAudio,
+					  let index = state.filteredFiles.firstIndex(of: currentAudio),
+					  index != (state.filteredFiles.count - 1) else {
+					return .none
+				}
+				
+				let nextAudio = state.filteredFiles[index + 1]
+				return .run { send in
+					await send(.audioTapped(nextAudio))
+				}
 
 			case .test:
 				return .none
