@@ -119,8 +119,8 @@ public struct AudioListFeature {
 				return .none
 				
 			case let .audioTapped(file):
-				return .run { send in
-					let setupResult = audioService.setupAudio(file: file)
+				return .run { [rate = state.playbackRate] send in
+					let setupResult = audioService.setupAudio(file: file, rate: rate)
 					switch setupResult {
 					case .success:
 						let playResult = audioService.playCurrentAudio()
