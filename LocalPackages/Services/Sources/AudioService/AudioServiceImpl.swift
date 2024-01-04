@@ -47,6 +47,7 @@ public final class AudioServiceImpl: AudioService {
 			currentFile = file
 			audioPlayer = try AVAudioPlayer(contentsOf: file.url)
 			audioPlayer?.prepareToPlay()
+			audioPlayer?.enableRate = true
 			return .success(())
 		} catch {
 			Log.error("Error initializing the audio player: \(error)")
@@ -156,6 +157,10 @@ extension AudioServiceImpl {
 	
 	public func skipBackward(time: TimeInterval) {
 		skip(time: time, forward: false)
+	}
+	
+	public func changePlayback(rate: PlaybackRate) {
+		audioPlayer?.rate = rate.rawValue
 	}
 	
 	private func skip(time interval: TimeInterval, forward: Bool) {

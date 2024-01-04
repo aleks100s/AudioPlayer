@@ -11,6 +11,8 @@ import Shared
 import SwiftUI
 
 public struct AudioListView: View {
+	private typealias AudioListViewStore = ViewStore<AudioListFeature.State, AudioListFeature.Action>
+	
 	private let store: StoreOf<AudioListFeature>
 	
 	@State private var isFilePickerPresented = false
@@ -24,7 +26,7 @@ public struct AudioListView: View {
 	
 	public var body: some View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
-			contentView(viewStore: viewStore)
+			contentView(viewStore)
 				.searchable(text: $searchText)
 				.navigationTitle("All audio")
 				.toolbar {
@@ -74,7 +76,7 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder 
-	private func contentView(viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func contentView(_ viewStore: AudioListViewStore) -> some View {
 		VStack {
 			List {
 				ForEach(viewStore.filteredFiles, id: \.url.absoluteString) { file in
@@ -107,36 +109,62 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder
-	private func playerView(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func playerView(_ viewStore: AudioListViewStore) -> some View {
 		VStack(alignment: .center, spacing: 12) {
 			Text(viewStore.currentAudio?.name ?? "-")
 				.font(.title3)
 			
-			HStack {
-				Spacer()
-				skipBackwardButton(viewStore)
-				Spacer()
-				playButton(viewStore)
-				Spacer()
-				skipForwardButton(viewStore)
-				Spacer()
-			}
+			seeker(viewStore)
 			
-			HStack {
-				Text(viewStore.currentTime)
-					.monospaced()
-				Slider(value: $progress, in: durationRange) { _ in
-					viewStore.send(.playbackSliderPositionChanged(progress))
-				}
-				Text(viewStore.duration)
-					.monospaced()
-			}
+			controls(viewStore)
+			
+			playbackRate(viewStore)
 		}
 		.padding()
+		.padding(.bottom, 16)
+	}
+	
+	@ViewBuilder 
+	private func seeker(_ viewStore: AudioListViewStore) -> some View {
+		HStack {
+			Text(viewStore.currentTime)
+				.monospaced()
+			Slider(value: $progress, in: durationRange) { _ in
+				viewStore.send(.playbackSliderPositionChanged(progress))
+			}
+			Text(viewStore.duration)
+				.monospaced()
+		}
 	}
 	
 	@ViewBuilder
-	private func skipBackwardButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func playbackRate(_ viewStore: AudioListViewStore) -> some View {
+		HStack {
+			Button {
+				viewStore.send(.changePlaybackRateButtonTapped)
+			} label: {
+				Text("Speed \(viewStore.playbackRate.title)")
+			}
+
+			Spacer()
+		}
+	}
+	
+	@ViewBuilder
+	private func controls(_ viewStore: AudioListViewStore) -> some View {
+		HStack {
+			Spacer()
+			skipBackwardButton(viewStore)
+			Spacer()
+			playButton(viewStore)
+			Spacer()
+			skipForwardButton(viewStore)
+			Spacer()
+		}
+	}
+	
+	@ViewBuilder
+	private func skipBackwardButton(_ viewStore: AudioListViewStore) -> some View {
 		Button {
 			viewStore.send(.skipBackwardButtonTapped)
 		} label: {
@@ -146,7 +174,7 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder
-	private func playButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func playButton(_ viewStore: AudioListViewStore) -> some View {
 		Button {
 			if viewStore.playerState == .playing {
 				viewStore.send(.pauseButtonTapped)
@@ -160,7 +188,7 @@ public struct AudioListView: View {
 	}
 	
 	@ViewBuilder
-	private func skipForwardButton(_ viewStore: ViewStore<AudioListFeature.State, AudioListFeature.Action>) -> some View {
+	private func skipForwardButton(_ viewStore: AudioListViewStore) -> some View {
 		Button {
 			viewStore.send(.skipForwardButtonTapped)
 		} label: {
@@ -169,7 +197,6 @@ public struct AudioListView: View {
 		}
 	}
 }
-
 
 #Preview {
 	NavigationStack {

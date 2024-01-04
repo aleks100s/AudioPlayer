@@ -41,6 +41,7 @@ public struct AudioListFeature {
 		var currentTime: String = "00:00"
 		var duration: String = "00:00"
 		var playbackStatus: PlaybackStatus?
+		var playbackRate: PlaybackRate = .x100
 		
 		public init(files: [AudioFile] = []) {
 			allFiles = files
@@ -64,6 +65,7 @@ public struct AudioListFeature {
 		case playbackSliderPositionChanged(TimeInterval)
 		case skipForwardButtonTapped
 		case skipBackwardButtonTapped
+		case changePlaybackRateButtonTapped
 		case test
 	}
 	
@@ -195,6 +197,13 @@ public struct AudioListFeature {
 				
 			case .skipBackwardButtonTapped:
 				audioService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
+				return .none
+				
+			case .changePlaybackRateButtonTapped:
+				let currentRate = state.playbackRate
+				let newRate = PlaybackRate.nextRate(after: currentRate)
+				state.playbackRate = newRate
+				audioService.changePlayback(rate: newRate)
 				return .none
 
 			case .test:

@@ -101,6 +101,29 @@ final class AudioListFeatureTests: XCTestCase {
 		}
 		await store.send(.skipBackwardButtonTapped)
 	}
+	
+	func test_changePlaybackRateButtonTapped() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.changePlaybackRateButtonTapped) {
+			$0.playbackRate = .x125
+		}
+		await store.send(.changePlaybackRateButtonTapped) {
+			$0.playbackRate = .x150
+		}
+		await store.send(.changePlaybackRateButtonTapped) {
+			$0.playbackRate = .x175
+		}
+		await store.send(.changePlaybackRateButtonTapped) {
+			$0.playbackRate = .x200
+		}
+		await store.send(.changePlaybackRateButtonTapped) {
+			$0.playbackRate = .x100
+		}
+	}
 }
 
 // MARK: - Files
