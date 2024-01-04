@@ -13,14 +13,19 @@ struct PlaybackIndicatorView: View {
 	}
 	
 	let animationDuration: Double
+	let isPlaying: Bool
 	
 	var body: some View {
 		RoundedRectangle(cornerRadius: 2)
-			.frame(width: 4, height: 16)
+			.frame(width: 4, height: isPlaying ? 16 : 4)
 			.background(Color.gray)
 			.keyframeAnimator(initialValue: AnimationProperties(), repeating: true) { content, value in
+				if isPlaying {
 					content
-					.scaleEffect(CGSize(width: 1.0, height: value.verticalStretch), anchor: .center)
+						.scaleEffect(CGSize(width: 1.0, height: value.verticalStretch), anchor: .center)
+				} else {
+					content
+				}
 			} keyframes: { _ in
 				KeyframeTrack(\.verticalStretch) {
 					CubicKeyframe(0.2, duration: 0.5 * animationDuration)
@@ -31,5 +36,5 @@ struct PlaybackIndicatorView: View {
 }
 
 #Preview {
-	PlaybackIndicatorView(animationDuration: 1.0)
+	PlaybackIndicatorView(animationDuration: 1.0, isPlaying: true)
 }

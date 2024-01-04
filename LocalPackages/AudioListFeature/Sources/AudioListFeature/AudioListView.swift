@@ -110,10 +110,11 @@ public struct AudioListView: View {
 				Spacer()
 				
 				if viewStore.currentAudio == file {
+					let isPlaying = viewStore.playbackStatus?.isPlaying ?? false
 					HStack(spacing: 4) {
-						PlaybackIndicatorView(animationDuration: 1.0)
-						PlaybackIndicatorView(animationDuration: 0.6)
-						PlaybackIndicatorView(animationDuration: 1.4)
+						PlaybackIndicatorView(animationDuration: 1.0, isPlaying: isPlaying)
+						PlaybackIndicatorView(animationDuration: 0.6, isPlaying: isPlaying)
+						PlaybackIndicatorView(animationDuration: 1.4, isPlaying: isPlaying)
 					}
 				}
 			}
