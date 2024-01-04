@@ -149,7 +149,80 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.currentAudio = allAudio[2]
 			$0.playerState = .playing
 		}
+		// Side effect of the mocked audio service
 		await store.receive(.playNextTrackButtonTapped)
+	}
+	
+	func test_playNextTrackButtonTapped_lastAudio() async {
+		let allAudio: [AudioFile] = [.mock(), .mock(), .mock()]
+		var state = AudioListFeature.State(files: allAudio)
+		state.currentAudio = allAudio[2]
+		store = TestStore(initialState: state) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playNextTrackButtonTapped)
+	}
+	
+	func test_playPreviousTrackButtonTapped_noCurrentAudio() async {
+		store = TestStore(initialState: AudioListFeature.State()) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playPreviousTrackButtonTapped)
+	}
+	
+	func test_playPreviousTrackButtonTapped_withCurrentAudio() async {
+		let allAudio: [AudioFile] = [.mock(), .mock()]
+		var state = AudioListFeature.State(files: allAudio)
+		state.currentAudio = allAudio[1]
+		store = TestStore(initialState: state) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playPreviousTrackButtonTapped)
+		await store.receive(.audioTapped(allAudio[0]))
+		await store.receive(.playerStarted(allAudio[0])) {
+			$0.currentAudio = allAudio[0]
+			$0.playerState = .playing
+		}
+		// Side effect of the mocked audio service
+		await store.receive(.playNextTrackButtonTapped)
+		await store.receive(.audioTapped(allAudio[1]))
+		await store.receive(.playerStarted(allAudio[1])) {
+			$0.currentAudio = allAudio[1]
+			$0.playerState = .playing
+		}
+		await store.receive(.playNextTrackButtonTapped)
+	}
+	
+	func test_playPreviousTrackButtonTapped_firstAudio() async {
+		let allAudio: [AudioFile] = [.mock(), .mock()]
+		var state = AudioListFeature.State(files: allAudio)
+		state.currentAudio = allAudio[0]
+		store = TestStore(initialState: state) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playPreviousTrackButtonTapped)
+	}
+	
+	func test_playPreviousTrackButtonTapped_currentTimeIsBiggerThan5Seconds() async {
+		let allAudio: [AudioFile] = [.mock(), .mock()]
+		var state = AudioListFeature.State(files: allAudio)
+		state.currentAudio = allAudio[1]
+		state.playbackStatus = PlaybackStatus(currentTime: 10, duration: 100, isPlaying: true)
+		store = TestStore(initialState: state) {
+			AudioListFeature()
+		} withDependencies: {
+			$0.audioService = AudioServiceImpl.mock()
+		}
+		await store.send(.playPreviousTrackButtonTapped)
+		await store.receive(.playbackSliderPositionChanged(0))
 	}
 }
 

@@ -168,15 +168,29 @@ public struct AudioListView: View {
 	private func controls(_ viewStore: AudioListViewStore) -> some View {
 		HStack {
 			Spacer()
+			moveBackwardButton(viewStore)
+			Spacer()
 			skipBackwardButton(viewStore)
 			Spacer()
 			playButton(viewStore)
 			Spacer()
 			skipForwardButton(viewStore)
 			Spacer()
+			moveForwardButton(viewStore)
+			Spacer()
 		}
 	}
 	
+	@ViewBuilder
+	private func moveBackwardButton(_ viewStore: AudioListViewStore) -> some View {
+		Button {
+			viewStore.send(.playPreviousTrackButtonTapped)
+		} label: {
+			Image(systemName: "backward.end.fill")
+				.font(.title)
+		}
+	}
+		
 	@ViewBuilder
 	private func skipBackwardButton(_ viewStore: AudioListViewStore) -> some View {
 		Button {
@@ -207,6 +221,16 @@ public struct AudioListView: View {
 			viewStore.send(.skipForwardButtonTapped)
 		} label: {
 			Image(systemName: "goforward.\(Constants.skipForwardInterval)")
+				.font(.title)
+		}
+	}
+	
+	@ViewBuilder
+	private func moveForwardButton(_ viewStore: AudioListViewStore) -> some View {
+		Button {
+			viewStore.send(.playNextTrackButtonTapped)
+		} label: {
+			Image(systemName: "forward.end.fill")
 				.font(.title)
 		}
 	}
