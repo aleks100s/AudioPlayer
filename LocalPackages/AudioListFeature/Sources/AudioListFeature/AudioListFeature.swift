@@ -195,6 +195,7 @@ public struct AudioListFeature {
 				state.currentTime = makeTimeString(from: status.currentTime)
 				state.duration = makeTimeString(from: status.duration)
 				state.playerState = status.isPlaying ? .playing : .paused
+				storageService.saveCurrentTime(status.currentTime)
 				return .none
 				
 			case let .playbackSliderPositionChanged(desiredTime):
@@ -250,11 +251,13 @@ public struct AudioListFeature {
 					return .none
 				}
 				
+				let currentTime = storageService.getCurrentTime()
 				state.currentAudio = file
 
 				if case .success(()) = audioService.setupAudio(file: file, rate: state.playbackRate) {
 					audioService.prepareToPlayRestoredAudio()
 					return .run { send in
+						await send(.playbackSliderPositionChanged(currentTime))
 						for await currentStatus in audioService.playbackStatusStream {
 							await send(.playbackStatusChanged(currentStatus))
 						}

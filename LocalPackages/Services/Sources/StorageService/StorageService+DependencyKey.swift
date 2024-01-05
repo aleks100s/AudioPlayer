@@ -29,6 +29,15 @@ extension StorageService: DependencyKey {
 				guard let value, let url = URL(string: value) else { return nil }
 				
 				return AudioFile(url: url)
+			},
+			saveCurrentTime: { time in
+				UserDefaults.standard.setValue(time, forKey: StorageService.Key.currentTime.rawValue)
+			},
+			getCurrentTime: {
+				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentTime.rawValue) as? TimeInterval
+				guard let value else { return 0 }
+				
+				return value
 			}
 		)
 	}
@@ -38,7 +47,9 @@ extension StorageService: DependencyKey {
 			savePlaybackRate: { _ in },
 			getPlaybackRate: { .x100 },
 			saveCurrentAudio: { _ in },
-			getCurrentAudio: { nil }
+			getCurrentAudio: { nil },
+			saveCurrentTime: { _ in },
+			getCurrentTime: { 0 }
 		)
 	}
 }
