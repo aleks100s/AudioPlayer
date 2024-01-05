@@ -10,6 +10,7 @@ import ComposableArchitecture
 import Domain
 import FileService
 import Foundation
+import StorageService
 
 @Reducer
 public struct AudioListFeature {
@@ -73,6 +74,7 @@ public struct AudioListFeature {
 	
 	@Dependency(\.fileService) var fileService
 	@Dependency(\.audioService) var audioService
+	@Dependency(\.storageService) var storageService
 	
 	public init() {}
 	
@@ -80,6 +82,7 @@ public struct AudioListFeature {
 		Reduce { state, action in
 			switch action {
 			case .viewDidLoad:
+				state.playbackRate = storageService.getPlaybackRate()
 				return .run { send in
 					let result = fileService.getAudioFiles()
 					switch result {
@@ -207,6 +210,7 @@ public struct AudioListFeature {
 				let newRate = PlaybackRate.nextRate(after: currentRate)
 				state.playbackRate = newRate
 				audioService.changePlayback(rate: newRate)
+				storageService.savePlaybackRate(newRate)
 				return .none
 				
 			case .playNextTrackButtonTapped:

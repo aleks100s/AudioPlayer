@@ -15,6 +15,10 @@ let package = Package(
 			name: "AudioService",
 			targets: ["AudioService"]
 		),
+		.library(
+			name: "StorageService",
+			targets: ["StorageService"]
+		),
     ],
 	dependencies: [
 		.package(name: "Domain", path: "./Domain"),
@@ -35,6 +39,13 @@ let package = Package(
 			dependencies: [
 				"Domain",
 				"Shared",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+			]
+		),
+		.target(
+			name: "StorageService",
+			dependencies: [
+				"Domain",
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]
 		)

@@ -26,6 +26,7 @@ let package = Package(
 				"Shared",
 				.product(name: "AudioService", package: "Services"),
 				.product(name: "FileService", package: "Services"),
+				.product(name: "StorageService", package: "Services"),
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]
 		),
