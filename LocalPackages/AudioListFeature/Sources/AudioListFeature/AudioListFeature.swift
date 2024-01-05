@@ -238,7 +238,7 @@ public struct AudioListFeature {
 				
 				return .run { [state] send in
 					let playbackStatus = state.playbackStatus
-					if playbackStatus?.currentTime ?? 0 < 5 {
+					if playbackStatus?.currentTime ?? 0 > 5 {
 						await send(.playbackSliderPositionChanged(0))
 					} else if index > 0 {
 						let previousAudio = state.filteredFiles[index - 1]

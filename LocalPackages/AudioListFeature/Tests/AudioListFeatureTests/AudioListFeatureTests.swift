@@ -14,6 +14,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.fileService = .mock()
+			$0.storageService = .previewValue
 		}
 	}
 	
@@ -50,6 +51,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		let status = PlaybackStatus(currentTime: 123, duration: 1000, isPlaying: true)
 		await store.send(.playbackStatusChanged(status)) {
@@ -65,6 +67,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		let status = PlaybackStatus(currentTime: 123, duration: 1000, isPlaying: false)
 		await store.send(.playbackStatusChanged(status)) {
@@ -107,6 +110,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		await store.send(.changePlaybackRateButtonTapped) {
 			$0.playbackRate = .x125
@@ -142,6 +146,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		await store.send(.playNextTrackButtonTapped)
 		await store.receive(.audioTapped(allAudio[2]))
@@ -182,6 +187,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		await store.send(.playPreviousTrackButtonTapped)
 		await store.receive(.audioTapped(allAudio[0]))
@@ -220,6 +226,7 @@ final class AudioListFeatureTests: XCTestCase {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		await store.send(.playPreviousTrackButtonTapped)
 		await store.receive(.playbackSliderPositionChanged(0))
@@ -235,12 +242,14 @@ extension AudioListFeatureTests {
 			AudioListFeature()
 		} withDependencies: {
 			$0.fileService = .mock(getAudioFilesResult: { .failure(error) })
+			$0.storageService = .previewValue
 		}
 		
 		await store.send(.viewDidLoad)
 		await store.receive(.errorOccurred(error.localizedDescription), timeout: .milliseconds(100)) {
 			$0.errorMessage = error.localizedDescription
 		}
+		await store.receive(.restoreAudioSession)
 	}
 	
 	func test_fileServiceReturnsNoAudioFiles_afterViewDidLoad() async {
@@ -248,10 +257,12 @@ extension AudioListFeatureTests {
 			AudioListFeature()
 		} withDependencies: {
 			$0.fileService = .mock(getAudioFilesResult: { .success([]) })
+			$0.storageService = .previewValue
 		}
 		
 		await store.send(.viewDidLoad)
 		await store.receive(.filesLoaded([]), timeout: .milliseconds(100))
+		await store.receive(.restoreAudioSession)
 	}
 	
 	func test_fileServiceReturnsAudioFiles_afterViewDidLoad() async {
@@ -260,6 +271,7 @@ extension AudioListFeatureTests {
 			AudioListFeature()
 		} withDependencies: {
 			$0.fileService = .mock(getAudioFilesResult: { .success([file]) })
+			$0.storageService = .previewValue
 		}
 		
 		await store.send(.viewDidLoad)
@@ -267,6 +279,7 @@ extension AudioListFeatureTests {
 			$0.allFiles = [file]
 			$0.filteredFiles = [file]
 		}
+		await store.receive(.restoreAudioSession)
 	}
 	
 	func test_saveEmptyArrayOfFiles() async {
@@ -277,6 +290,7 @@ extension AudioListFeatureTests {
 		await store.send(.saveFiles([URL(string: "url://")!]))
 		await store.receive(.viewDidLoad, timeout: .microseconds(100))
 		await store.receive(.filesLoaded([]), timeout: .milliseconds(100))
+		await store.receive(.restoreAudioSession)
 	}
 	
 	func test_saveFilesFails() async {
@@ -353,11 +367,11 @@ extension AudioListFeatureTests {
 	}
 	
 	func test_audioTapped_success() async {
-		let error = MockError.unknown(UUID().uuidString)
 		store = TestStore(initialState: AudioListFeature.State()) {
 			AudioListFeature()
 		} withDependencies: {
 			$0.audioService = AudioServiceImpl.mock()
+			$0.storageService = .previewValue
 		}
 		
 		let file = AudioFile.mock()
