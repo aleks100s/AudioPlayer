@@ -19,6 +19,7 @@ public final class AudioServiceImpl: NSObject, AudioService {
 			// Schedule a timer in a way that's safe for the @Sendable closure
 			queue.async {
 				let timer = Timer(timeInterval: 0.5, repeats: true) { _ in
+					self?.updatePlaybackTime()
 					let status = PlaybackStatus(
 						currentTime: self?.audioPlayer?.currentTime ?? 0,
 						duration: self?.audioPlayer?.duration ?? 0,
