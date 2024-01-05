@@ -69,6 +69,7 @@ public struct AudioListFeature {
 		case changePlaybackRateButtonTapped
 		case playNextTrackButtonTapped
 		case playPreviousTrackButtonTapped
+		case restoreAudioSession
 		case test
 	}
 	
@@ -83,7 +84,8 @@ public struct AudioListFeature {
 			switch action {
 			case .viewDidLoad:
 				state.playbackRate = storageService.getPlaybackRate()
-				return .run { send in
+				
+				return .run { [storageService] send in
 					let result = fileService.getAudioFiles()
 					switch result {
 					case let .success(files):
@@ -92,6 +94,7 @@ public struct AudioListFeature {
 					case let .failure(error):
 						await send(.errorOccurred(error.localizedDescription))
 					}
+					await send(.restoreAudioSession)
 				}
 				
 			case let .saveFiles(files):
@@ -143,6 +146,7 @@ public struct AudioListFeature {
 			case let .playerStarted(file):
 				state.playerState = .playing
 				state.currentAudio = file
+				storageService.saveCurrentAudio(file)
 				return .run { send in
 					for await currentStatus in audioService.playbackStatusStream {
 						await send(.playbackStatusChanged(currentStatus))
@@ -240,6 +244,24 @@ public struct AudioListFeature {
 						await send(.audioTapped(previousAudio))
 					}
 				}
+				
+			case .restoreAudioSession:
+				guard let file = storageService.getCurrentAudio() else {
+					return .none
+				}
+				
+				state.currentAudio = file
+
+				if case .success(()) = audioService.setupAudio(file: file, rate: state.playbackRate) {
+					audioService.prepareToPlayRestoredAudio()
+					return .run { send in
+						for await currentStatus in audioService.playbackStatusStream {
+							await send(.playbackStatusChanged(currentStatus))
+						}
+						await send(.playNextTrackButtonTapped)
+					}
+				}
+				return .none
 
 			case .test:
 				return .none

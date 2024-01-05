@@ -19,4 +19,5 @@ public protocol AudioService {
 	func skipForward(time: TimeInterval)
 	func skipBackward(time: TimeInterval)
 	func changePlayback(rate: PlaybackRate)
+	func prepareToPlayRestoredAudio()
 }

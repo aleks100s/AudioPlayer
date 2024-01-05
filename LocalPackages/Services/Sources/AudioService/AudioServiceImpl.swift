@@ -20,11 +20,11 @@ public final class AudioServiceImpl: NSObject, AudioService {
 			queue.async {
 				let timer = Timer(timeInterval: 0.5, repeats: true) { _ in
 					self?.updatePlaybackTime()
-					let status = PlaybackStatus(
-						currentTime: self?.audioPlayer?.currentTime ?? 0,
-						duration: self?.audioPlayer?.duration ?? 0,
-						isPlaying: self?.audioPlayer?.isPlaying ?? false
-					)
+					guard let status = self?.getPlaybackStatus() else {
+						continuation.finish()
+						return
+					}
+					
 					continuation.yield(status)
 				}
 				RunLoop.current.add(timer, forMode: .common)
@@ -71,6 +71,10 @@ public final class AudioServiceImpl: NSObject, AudioService {
 			Log.error("Error playing the audio player: \(error)")
 			return .failure(error)
 		}
+	}
+	
+	public func prepareToPlayRestoredAudio() {
+		updatePlayerWithNewAudio()
 	}
 	
 	private func updatePlayerWithNewAudio() {
@@ -132,6 +136,14 @@ public final class AudioServiceImpl: NSObject, AudioService {
 			}
 		}
 		return nil
+	}
+	
+	private func getPlaybackStatus() -> PlaybackStatus {
+		PlaybackStatus(
+			currentTime: audioPlayer?.currentTime ?? 0,
+			duration: audioPlayer?.duration ?? 0,
+			isPlaying: audioPlayer?.isPlaying ?? false
+		)
 	}
 
 	deinit {
