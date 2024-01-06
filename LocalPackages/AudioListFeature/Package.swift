@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "AudioListFeature",
+	defaultLocalization: "en",
 	platforms: [.iOS(.v17)],
     products: [
         .library(
@@ -28,7 +29,8 @@ let package = Package(
 				.product(name: "FileService", package: "Services"),
 				.product(name: "StorageService", package: "Services"),
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-			]
+			],
+			resources: [.process("Resources")]
 		),
         .testTarget(
             name: "AudioListFeatureTests",
