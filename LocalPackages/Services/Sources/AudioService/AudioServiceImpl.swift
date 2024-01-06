@@ -89,10 +89,12 @@ public final class AudioServiceImpl: NSObject, AudioService {
 				let artwork = try await extractArtwork(from: asset)
 				let title = try await extractStringResource(by: .commonKeyTitle, from: asset) ?? currentFile?.name
 				let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
+				let album = try await extractStringResource(by: .commonKeyAlbumName, from: asset)
 				var nowPlayingInfo = [String: Any]()
 				nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
 				nowPlayingInfo[MPMediaItemPropertyTitle] = title
 				nowPlayingInfo[MPMediaItemPropertyArtist] = artist
+				nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album
 				nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
 				nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
 				MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo

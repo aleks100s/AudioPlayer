@@ -14,11 +14,12 @@ public struct AudioListView: View {
 	private typealias AudioListViewStore = ViewStore<AudioListFeature.State, AudioListFeature.Action>
 	
 	private let store: StoreOf<AudioListFeature>
-	
+		
 	@State private var isFilePickerPresented = false
 	@State private var searchText = ""
 	@State private var progress: Double = 0
 	@State private var durationRange: ClosedRange<TimeInterval> = 0...0
+	@State private var isSliderBusy = false
 	
 	public init(store: StoreOf<AudioListFeature>) {
 		self.store = store
@@ -69,8 +70,10 @@ public struct AudioListView: View {
 					viewStore.send(.searchTextChanged(newValue))
 				}
 				.onChange(of: viewStore.playbackStatus, initial: false) { _, newValue in
-					progress = newValue?.currentTime ?? 0
-					durationRange = 0...(newValue?.duration ?? 0)
+					if !isSliderBusy {
+						progress = newValue?.currentTime ?? 0
+						durationRange = 0...(newValue?.duration ?? 0)
+					}
 				}
 		}
 	}
@@ -93,6 +96,7 @@ public struct AudioListView: View {
 				playerView(viewStore)
 			}
 		}
+		.background(.thinMaterial)
 	}
 	
 	@ViewBuilder 
@@ -143,8 +147,13 @@ public struct AudioListView: View {
 		HStack {
 			Text(viewStore.currentTime)
 				.monospaced()
-			Slider(value: $progress, in: durationRange) { _ in
-				viewStore.send(.playbackSliderPositionChanged(progress))
+			Slider(value: $progress, in: durationRange) { isSliderBusy in
+				self.isSliderBusy = isSliderBusy
+			}
+			.onChange(of: progress) { _, newValue in
+				if isSliderBusy {
+					viewStore.send(.playbackSliderPositionChanged(newValue))
+				}
 			}
 			Text(viewStore.duration)
 				.monospaced()
