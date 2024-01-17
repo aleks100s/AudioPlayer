@@ -14,14 +14,13 @@ public final class AudioServiceImpl: NSObject, AudioService {
 	public var playbackStatusStream: AsyncStream<PlaybackStatus> {
 		AsyncStream(PlaybackStatus.self) { [weak self] continuation in
 			self?.continuation = continuation
-			// Create a serial DispatchQueue
 			let queue = DispatchQueue(label: "com.alextos.Player")
-			// Schedule a timer in a way that's safe for the @Sendable closure
 			queue.async {
-				let timer = Timer(timeInterval: 0.5, repeats: true) { _ in
+				let timer = Timer(timeInterval: 0.5, repeats: true) { timer in
 					self?.updatePlaybackTime()
 					guard let status = self?.getPlaybackStatus() else {
 						continuation.finish()
+						timer.invalidate()
 						return
 					}
 					
@@ -29,9 +28,6 @@ public final class AudioServiceImpl: NSObject, AudioService {
 				}
 				RunLoop.current.add(timer, forMode: .common)
 				RunLoop.current.run()
-				continuation.onTermination = { @Sendable _ in
-					timer.invalidate()
-				}
 			}
 		}
 	}

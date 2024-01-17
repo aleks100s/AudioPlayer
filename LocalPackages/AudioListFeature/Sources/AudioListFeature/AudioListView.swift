@@ -53,7 +53,7 @@ public struct AudioListView: View {
 						viewStore.send(.saveFiles(files))
 						
 					case .failure(let error):
-						print(error)
+						viewStore.send(.errorOccurred(error.localizedDescription))
 					}
 				})
 				.onAppear {
