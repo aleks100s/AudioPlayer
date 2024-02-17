@@ -6,6 +6,7 @@
 //
 
 import AudioListFeature
+import BookshelfFeature
 import ComposableArchitecture
 import Domain
 import FileService
@@ -16,11 +17,13 @@ struct AppFeature {
 	struct State: Equatable {
 		var path = StackState<Path.State>()
 		var audioListState = AudioListFeature.State()
+		var bookshelfState = BookshelfFeature.State()
 	}
 	
 	enum Action: Equatable {
 		case path(StackAction<Path.State, Path.Action>)
 		case audioList(AudioListFeature.Action)
+		case bookshelf(BookshelfFeature.Action)
 	}
 	
 	struct Path: Reducer {
@@ -40,6 +43,10 @@ struct AppFeature {
 	}
 		
 	var body: some ReducerOf<Self> {
+		Scope(state: \.bookshelfState, action: /Action.bookshelf) {
+			BookshelfFeature()
+		}
+		
 		Scope(state: \.audioListState, action: /Action.audioList) {
 			AudioListFeature()
 		}

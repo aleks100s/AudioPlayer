@@ -85,7 +85,7 @@ public struct AudioListFeature {
 			case .viewDidLoad:
 				state.playbackRate = storageService.getPlaybackRate()
 				
-				return .run { [storageService] send in
+				return .run { send in
 					let result = fileService.getAudioFiles()
 					switch result {
 					case let .success(files):

@@ -19,6 +19,10 @@ let package = Package(
 			name: "StorageService",
 			targets: ["StorageService"]
 		),
+		.library(
+			name: "BookMetaInfoService",
+			targets: ["BookMetaInfoService"]
+		)
     ],
 	dependencies: [
 		.package(name: "Domain", path: "./Domain"),
@@ -46,6 +50,14 @@ let package = Package(
 			name: "StorageService",
 			dependencies: [
 				"Domain",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+			]
+		),
+		.target(
+			name: "BookMetaInfoService",
+			dependencies: [
+				"Domain",
+				"Shared",
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]
 		)

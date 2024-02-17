@@ -6,6 +6,7 @@
 //
 
 import AudioListFeature
+import BookshelfFeature
 import ComposableArchitecture
 import SwiftUI
 
@@ -21,12 +22,7 @@ struct AppView: View {
 				action: { .path($0) }
 			),
 			root: {
-				AudioListView(
-					store: self.store.scope(
-						state: \.audioListState,
-						action: { .audioList($0) }
-					)
-				)
+				BookshelfView(store: store.scope(state: \.bookshelfState, action: { .bookshelf($0) }))
 			},
 			destination: { state in
 				switch state {
