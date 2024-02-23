@@ -8,12 +8,14 @@
 import UIKit
 
 public struct Book {
+	public let id: UUID
 	public let title: String
 	public let author: String
 	public let artwork: UIImage?
 	public let chapters: [AudioFile]
 	
-	public init(title: String, author: String, artwork: UIImage?, chapters: [AudioFile]) {
+	public init(id: UUID, title: String, author: String, artwork: UIImage?, chapters: [AudioFile]) {
+		self.id = id
 		self.title = title
 		self.author = author
 		self.artwork = artwork
@@ -21,14 +23,10 @@ public struct Book {
 	}
 }
 
-extension Book: Equatable {
-	public static func == (lhs: Self, rhs: Self) -> Bool {
-		lhs.title == rhs.title && lhs.author == rhs.author
+extension Book: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(id)
 	}
 }
 
-extension Book: Identifiable {
-	public var id: String {
-		title + author
-	}
-}
+extension Book: Identifiable {}

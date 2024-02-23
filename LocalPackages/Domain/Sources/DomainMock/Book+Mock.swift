@@ -10,15 +10,17 @@ import UIKit
 
 public extension Book {
 	static func mock(
+		id: UUID = UUID(),
 		title: String = "Дюна",
 		author: String = "Фрэнк Герберт",
-		artwork: UIImage? = UIImage(),
+		artwork: UIImage? = nil,
 		chapters: [AudioFile] = []
 	) -> Book {
 		Book(
+			id: id,
 			title: title,
 			author: author,
-			artwork: artwork ?? .init(resource: .dune),
+			artwork: artwork,
 			chapters: chapters
 		)
 	}

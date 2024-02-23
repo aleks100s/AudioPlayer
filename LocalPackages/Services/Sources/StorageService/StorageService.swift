@@ -27,6 +27,7 @@ public struct StorageService {
 	public let getBooks: () -> [BookDto]
 	public let saveCurrentBook: (Book) -> Void
 	public let getCurrentBook: () -> String?
+	public let deleteBook: (Book) -> Void
 	
 	public init(
 		savePlaybackRate: @escaping (PlaybackRate) -> Void,
@@ -38,7 +39,8 @@ public struct StorageService {
 		saveBooks: @escaping ([BookDto]) -> Void,
 		getBooks: @escaping () -> [BookDto],
 		saveCurrentBook: @escaping (Book) -> Void,
-		getCurrentBook: @escaping () -> String?
+		getCurrentBook: @escaping () -> String?,
+		deleteBook: @escaping (Book) -> Void
 	) {
 		self.savePlaybackRate = savePlaybackRate
 		self.getPlaybackRate = getPlaybackRate
@@ -50,5 +52,6 @@ public struct StorageService {
 		self.getBooks = getBooks
 		self.saveCurrentBook = saveCurrentBook
 		self.getCurrentBook = getCurrentBook
+		self.deleteBook = deleteBook
 	}
 }

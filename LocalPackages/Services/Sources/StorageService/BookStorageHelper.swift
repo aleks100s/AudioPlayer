@@ -28,4 +28,14 @@ enum BookStorageHelper {
 		
 		return books
 	}
+	
+	static func saveBooks(books: [BookDto]) -> Void {
+		guard let data = try? JSONEncoder().encode(books) else {
+			Log.error("Couldn't encode books to save in UserDefaults")
+			return
+		}
+		
+		let stringValue = String(data: data, encoding: .utf8)
+		UserDefaults.standard.setValue(stringValue, forKey: StorageService.Key.books.rawValue)
+	}
 }

@@ -38,6 +38,13 @@ public struct BookshelfView: View {
 								.onTapGesture {
 									viewStore.send(.bookTapped(book))
 								}
+								.contextMenu {
+									Button(role: .destructive) {
+										viewStore.send(.deleteBook(book))
+									} label: {
+										Label("Удалить книгу", systemImage: "trash")
+									}
+								}
 						}
 					}
 					.padding()

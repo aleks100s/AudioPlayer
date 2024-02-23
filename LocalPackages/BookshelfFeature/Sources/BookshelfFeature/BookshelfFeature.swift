@@ -70,6 +70,8 @@ public struct BookshelfFeature {
 		case playNextTrackButtonTapped
 		case playPreviousTrackButtonTapped
 		case restoreAudioSession
+		case deleteBook(Book)
+		case bookDeleted(Book)
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -93,7 +95,7 @@ public struct BookshelfFeature {
 						case let .success(files):
 							let artwork = try? await metaService.extractArtworkFromURL(files.first?.url)
 							let image = artwork?.image(at: artwork?.bounds.size ?? .zero)
-							let book = Book(title: dto.title, author: dto.author, artwork: image, chapters: files)
+							let book = Book(id: dto.id, title: dto.title, author: dto.author, artwork: image, chapters: files)
 							books.append(book)
 							
 						case let .failure(error):
@@ -271,6 +273,23 @@ public struct BookshelfFeature {
 						await send(.playNextTrackButtonTapped)
 					}
 				}
+				return .none
+				
+			case let .deleteBook(book):
+				return .run { [filesToDelete = book.chapters] send in
+					let result = fileService.deleteAudioFiles(filesToDelete)
+					switch result {
+					case let .failure(error):
+						await send(.errorOccurred(error.localizedDescription))
+						
+					case .success(_):
+						storageService.deleteBook(book)
+						await send(.bookDeleted(book))
+					}
+				}
+				
+			case let .bookDeleted(book):
+				state.books.removeAll(where: { $0 == book })
 				return .none
 			}
 		}

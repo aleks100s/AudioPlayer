@@ -57,13 +57,7 @@ extension StorageService: DependencyKey {
 					}
 				}
 				
-				guard let data = try? JSONEncoder().encode(allBooks) else {
-					Log.error("Couldn't encode books to save in UserDefaults")
-					return
-				}
-				
-				let stringValue = String(data: data, encoding: .utf8)
-				UserDefaults.standard.setValue(stringValue, forKey: StorageService.Key.books.rawValue)
+				BookStorageHelper.saveBooks(books: allBooks)
 			},
 			getBooks: {
 				BookStorageHelper.fetchBooks()
@@ -79,6 +73,11 @@ extension StorageService: DependencyKey {
 				}
 				
 				return value
+			},
+			deleteBook: { book in
+				var allBooks = BookStorageHelper.fetchBooks()
+				allBooks.removeAll(where: { dto in dto.id == book.id})
+				BookStorageHelper.saveBooks(books: allBooks)
 			}
 		)
 	}
@@ -94,7 +93,8 @@ extension StorageService: DependencyKey {
 			saveBooks: { _ in },
 			getBooks: { [] },
 			saveCurrentBook: { _ in },
-			getCurrentBook: { nil }
+			getCurrentBook: { nil },
+			deleteBook: { _ in }
 		)
 	}
 	
@@ -108,7 +108,8 @@ extension StorageService: DependencyKey {
 		saveBooks: @escaping ([BookDto]) -> Void = { _ in },
 		getBooks: @escaping () -> [BookDto] = { [] },
 		saveCurrentBook: @escaping (Book) -> Void = { _ in },
-		getCurrentBook: @escaping () -> String? = { nil }
+		getCurrentBook: @escaping () -> String? = { nil },
+		deleteBook: @escaping (Book) -> Void = { _ in }
 	) -> StorageService {
 		StorageService(
 			savePlaybackRate: savePlaybackRate,
@@ -120,7 +121,8 @@ extension StorageService: DependencyKey {
 			saveBooks: saveBooks,
 			getBooks: getBooks,
 			saveCurrentBook: saveCurrentBook,
-			getCurrentBook: getCurrentBook
+			getCurrentBook: getCurrentBook,
+			deleteBook: deleteBook
 		)
 	}
 }

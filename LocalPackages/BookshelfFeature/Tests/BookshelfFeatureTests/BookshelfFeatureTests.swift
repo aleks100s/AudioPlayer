@@ -276,13 +276,14 @@ extension BookshelfFeatureTests {
 	}
 	
 	func test_fileServiceReturnsAudioFiles_afterViewDidLoad() async {
+		let id = UUID()
 		let audio = AudioFile.mock()
-		let book = Book.mock(chapters: [audio])
+		let book = Book.mock(id: id, chapters: [audio])
 		store = TestStore(initialState: BookshelfFeature.State()) {
 			BookshelfFeature()
 		} withDependencies: {
 			$0.fileService = .mock(getBookAudioFilesResult: { _ in .success([audio]) })
-			$0.storageService = .mock(getBooks: { [BookDto(id: UUID(), title: "Дюна", author: "Фрэнк Герберт", files: [])]})
+			$0.storageService = .mock(getBooks: { [BookDto(id: id, title: "Дюна", author: "Фрэнк Герберт", files: [])]})
 			$0.bookMetaInfoService = .mock()
 		}
 		
@@ -320,32 +321,34 @@ extension BookshelfFeatureTests {
 		}
 	}
 	
-//	func test_deleteFiles_success() async {
-//		store = TestStore(initialState: BookshelfFeature.State(books: [.mock()])) {
-//			BookshelfFeature()
-//		} withDependencies: {
-//			$0.fileService = .mock(deleteAudioFilesResult: { _ in .success(()) })
-//		}
-//		
-//		await store.send(.deleteFiles(IndexSet(integer: 0))) {
-//			$0.allFiles = []
-//			$0.filteredFiles = []
-//		}
-//	}
-//	
-//	func test_deleteFiles_failure() async {
-//		let error = MockError.unknown(UUID().uuidString)
-//		store = TestStore(initialState: BookshelfFeature.State()) {
-//			BookshelfFeature()
-//		} withDependencies: {
-//			$0.fileService = .mock(deleteAudioFilesResult: { _ in .failure(error) })
-//		}
-//		
-//		await store.send(.deleteFiles(IndexSet()))
-//		await store.receive(.errorOccurred(error.localizedDescription)) {
-//			$0.errorMessage = error.localizedDescription
-//		}
-//	}
+	func test_deleteBook_success() async {
+		let book = Book.mock()
+		store = TestStore(initialState: BookshelfFeature.State(books: [book])) {
+			BookshelfFeature()
+		} withDependencies: {
+			$0.fileService = .mock(deleteAudioFilesResult: { _ in .success(()) })
+			$0.storageService = .mock()
+		}
+		
+		await store.send(.deleteBook(book))
+		await store.receive(.bookDeleted(book)) {
+			$0.books = []
+		}
+	}
+	
+	func test_deleteBook_failure() async {
+		let error = MockError.unknown(UUID().uuidString)
+		store = TestStore(initialState: BookshelfFeature.State()) {
+			BookshelfFeature()
+		} withDependencies: {
+			$0.fileService = .mock(deleteAudioFilesResult: { _ in .failure(error) })
+		}
+		
+		await store.send(.deleteBook(.mock()))
+		await store.receive(.errorOccurred(error.localizedDescription)) {
+			$0.errorMessage = error.localizedDescription
+		}
+	}
 }
 
 // MARK: - Audio
