@@ -215,6 +215,7 @@ final class AudioListFeatureTests: XCTestCase {
 			$0.audioService = AudioServiceImpl.mock()
 		}
 		await store.send(.playPreviousTrackButtonTapped)
+		await store.receive(.playbackSliderPositionChanged(0))
 	}
 	
 	func test_playPreviousTrackButtonTapped_currentTimeIsBiggerThan5Seconds() async {
