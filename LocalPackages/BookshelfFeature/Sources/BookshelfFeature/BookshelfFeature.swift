@@ -101,6 +101,7 @@ public struct BookshelfFeature {
 						}
 					}
 					await send(.booksLoaded(books))
+					await send(.restoreAudioSession)
 				}
 				
 			case let .booksLoaded(books):
@@ -136,6 +137,8 @@ public struct BookshelfFeature {
 				
 			case let .bookTapped(book):
 				state.currentBook = book
+				storageService.saveCurrentBook(book)
+				
 				guard let file = book.chapters.first else { return .none }
 				
 				return .run { send in
@@ -243,12 +246,18 @@ public struct BookshelfFeature {
 				}
 				
 			case .restoreAudioSession:
-				guard let file = storageService.getCurrentAudio() else {
+				guard let currentBookName = storageService.getCurrentBook() else { return .none }
+				
+				state.currentBook = state.books.first(where: { $0.title == currentBookName })
+				
+				guard let currentAudioName = storageService.getCurrentAudio(),
+					  let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName }) else {
 					return .none
 				}
 				
-				let currentTime = storageService.getCurrentTime()
 				state.currentAudio = file
+
+				let currentTime = storageService.getCurrentTime()
 
 				if case .success(()) = audioService.setupAudio(file: file, rate: state.playbackRate) {
 					audioService.prepareToPlayRestoredAudio()

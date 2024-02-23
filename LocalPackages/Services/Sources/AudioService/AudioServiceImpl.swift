@@ -52,7 +52,7 @@ public final class AudioServiceImpl: NSObject, AudioService {
 			audioPlayer?.rate = rate.rawValue
 			return .success(())
 		} catch {
-			Log.error("Error initializing the audio player: \(error)")
+			Log.error("Error initializing the audio player: \(error)\nfor file \(file.url.absoluteString)")
 			return .failure(error)
 		}
 	}

@@ -251,7 +251,8 @@ public struct AudioListFeature {
 				}
 				
 			case .restoreAudioSession:
-				guard let file = storageService.getCurrentAudio() else {
+				guard let currentAudioName = storageService.getCurrentAudio(),
+					  let file = state.allFiles.first(where: { $0.name == currentAudioName }) else {
 					return .none
 				}
 				

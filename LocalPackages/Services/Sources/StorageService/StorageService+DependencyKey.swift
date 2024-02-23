@@ -26,16 +26,16 @@ extension StorageService: DependencyKey {
 				return rate
 			},
 			saveCurrentAudio: { file in
-				UserDefaults.standard.setValue(file.url.absoluteString, forKey: StorageService.Key.currentAudio.rawValue)
+				UserDefaults.standard.setValue(file.name, forKey: StorageService.Key.currentAudio.rawValue)
 			},
 			getCurrentAudio: {
 				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentAudio.rawValue) as? String
-				guard let value, let url = URL(string: value) else {
+				guard let value else {
 					Log.error("Couldn't fetch current audio from UserDefaults")
 					return nil
 				}
 				
-				return AudioFile(url: url)
+				return value
 			},
 			saveCurrentTime: { time in
 				UserDefaults.standard.setValue(time, forKey: StorageService.Key.currentTime.rawValue)
@@ -67,6 +67,18 @@ extension StorageService: DependencyKey {
 			},
 			getBooks: {
 				BookStorageHelper.fetchBooks()
+			},
+			saveCurrentBook: { book in
+				UserDefaults.standard.setValue(book.title, forKey: StorageService.Key.currentBook.rawValue)
+			},
+			getCurrentBook: {
+				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentBook.rawValue) as? String
+				guard let value else {
+					Log.error("Couldn't fetch current book from UserDefaults")
+					return nil
+				}
+				
+				return value
 			}
 		)
 	}
@@ -80,7 +92,9 @@ extension StorageService: DependencyKey {
 			saveCurrentTime: { _ in },
 			getCurrentTime: { 0 },
 			saveBooks: { _ in },
-			getBooks: { [] }
+			getBooks: { [] },
+			saveCurrentBook: { _ in },
+			getCurrentBook: { nil }
 		)
 	}
 }

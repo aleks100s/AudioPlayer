@@ -14,26 +14,31 @@ public struct StorageService {
 		case currentAudio
 		case currentTime
 		case books
+		case currentBook
 	}
 	
 	public let savePlaybackRate: (PlaybackRate) -> Void
 	public let getPlaybackRate: () -> PlaybackRate
 	public let saveCurrentAudio: (AudioFile) -> Void
-	public let getCurrentAudio: () -> AudioFile?
+	public let getCurrentAudio: () -> String?
 	public let saveCurrentTime: (TimeInterval) -> Void
 	public let getCurrentTime: () -> TimeInterval
 	public let saveBooks: ([BookDto]) -> Void
 	public let getBooks: () -> [BookDto]
+	public let saveCurrentBook: (Book) -> Void
+	public let getCurrentBook: () -> String?
 	
 	public init(
 		savePlaybackRate: @escaping (PlaybackRate) -> Void,
 		getPlaybackRate: @escaping () -> PlaybackRate,
 		saveCurrentAudio: @escaping (AudioFile) -> Void,
-		getCurrentAudio: @escaping () -> AudioFile?,
+		getCurrentAudio: @escaping () -> String?,
 		saveCurrentTime: @escaping (TimeInterval) -> Void,
 		getCurrentTime: @escaping () -> TimeInterval,
 		saveBooks: @escaping ([BookDto]) -> Void,
-		getBooks: @escaping () -> [BookDto]
+		getBooks: @escaping () -> [BookDto],
+		saveCurrentBook: @escaping (Book) -> Void,
+		getCurrentBook: @escaping () -> String?
 	) {
 		self.savePlaybackRate = savePlaybackRate
 		self.getPlaybackRate = getPlaybackRate
@@ -43,5 +48,7 @@ public struct StorageService {
 		self.getCurrentTime = getCurrentTime
 		self.saveBooks = saveBooks
 		self.getBooks = getBooks
+		self.saveCurrentBook = saveCurrentBook
+		self.getCurrentBook = getCurrentBook
 	}
 }
