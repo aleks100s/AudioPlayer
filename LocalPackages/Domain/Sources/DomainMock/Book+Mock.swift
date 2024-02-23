@@ -12,7 +12,7 @@ public extension Book {
 	static func mock(
 		title: String = "Дюна",
 		author: String = "Фрэнк Герберт",
-		artwork: UIImage? = nil,
+		artwork: UIImage? = UIImage(),
 		chapters: [AudioFile] = []
 	) -> Book {
 		Book(

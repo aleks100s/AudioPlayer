@@ -97,4 +97,30 @@ extension StorageService: DependencyKey {
 			getCurrentBook: { nil }
 		)
 	}
+	
+	public static func mock(
+		savePlaybackRate: @escaping (PlaybackRate) -> Void = { _ in },
+		getPlaybackRate: @escaping () -> PlaybackRate = { .x100 },
+		saveCurrentAudio: @escaping (AudioFile) -> Void = { _ in },
+		getCurrentAudio: @escaping () -> String? = { nil },
+		saveCurrentTime: @escaping (TimeInterval) -> Void = { _ in },
+		getCurrentTime: @escaping () -> TimeInterval = { .zero },
+		saveBooks: @escaping ([BookDto]) -> Void = { _ in },
+		getBooks: @escaping () -> [BookDto] = { [] },
+		saveCurrentBook: @escaping (Book) -> Void = { _ in },
+		getCurrentBook: @escaping () -> String? = { nil }
+	) -> StorageService {
+		StorageService(
+			savePlaybackRate: savePlaybackRate,
+			getPlaybackRate: getPlaybackRate,
+			saveCurrentAudio: saveCurrentAudio,
+			getCurrentAudio: getCurrentAudio,
+			saveCurrentTime: saveCurrentTime,
+			getCurrentTime: getCurrentTime,
+			saveBooks: saveBooks,
+			getBooks: getBooks,
+			saveCurrentBook: saveCurrentBook,
+			getCurrentBook: getCurrentBook
+		)
+	}
 }

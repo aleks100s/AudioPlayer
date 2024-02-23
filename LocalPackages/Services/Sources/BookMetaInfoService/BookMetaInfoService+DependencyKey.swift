@@ -7,6 +7,7 @@
 
 import AVFoundation
 import ComposableArchitecture
+import MediaPlayer
 
 extension BookMetaInfoService: DependencyKey {
 	public static var liveValue: BookMetaInfoService {
@@ -34,6 +35,18 @@ extension BookMetaInfoService: DependencyKey {
 			extractTitleFromURL: { _ in nil },
 			extractAuthorFromURL: { _ in nil },
 			extractArtworkFromURL: { _ in nil }
+		)
+	}
+	
+	public static func mock(
+		extractTitleFromURL: @escaping (URL?) async throws -> String? = { _ in nil },
+		extractAuthorFromURL: @escaping (URL?) async throws -> String? = { _ in nil },
+		extractArtworkFromURL: @escaping (URL?) async throws -> MPMediaItemArtwork? = { _ in nil }
+	) -> BookMetaInfoService {
+		BookMetaInfoService(
+			extractTitleFromURL: extractTitleFromURL,
+			extractAuthorFromURL: extractAuthorFromURL,
+			extractArtworkFromURL: extractArtworkFromURL
 		)
 	}
 }

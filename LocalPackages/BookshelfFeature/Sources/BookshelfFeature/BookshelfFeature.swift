@@ -98,8 +98,10 @@ public struct BookshelfFeature {
 							
 						case let .failure(error):
 							await send(.errorOccurred(error.localizedDescription))
+							return
 						}
 					}
+					
 					await send(.booksLoaded(books))
 					await send(.restoreAudioSession)
 				}
