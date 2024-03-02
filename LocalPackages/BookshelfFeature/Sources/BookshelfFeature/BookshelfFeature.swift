@@ -76,6 +76,7 @@ public struct BookshelfFeature {
 		case bookDeleted(Book)
 		case bookOpened(Book)
 		case audioListAction(PresentationAction<AudioListFeature.Action>)
+		case updateAudioListIfNeeded
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -218,6 +219,7 @@ public struct BookshelfFeature {
 				state.currentAudio = file
 				storageService.saveCurrentAudio(book, file)
 				return .run { send in
+					await send(.updateAudioListIfNeeded)
 					for await currentStatus in audioService.playbackStatusStream {
 						await send(.playbackStatusChanged(currentStatus))
 					}
@@ -242,7 +244,9 @@ public struct BookshelfFeature {
 				state.duration = makeTimeString(from: status.duration)
 				state.playerState = status.isPlaying ? .playing : .paused
 				storageService.saveCurrentTime(file, status.currentTime)
-				return .none
+				return .run { send in
+					await send(.updateAudioListIfNeeded)
+				}
 				
 			case let .playbackSliderPositionChanged(desiredTime):
 				audioService.setPlayback(time: desiredTime)
@@ -314,10 +318,16 @@ public struct BookshelfFeature {
 				return .none
 				
 			case let .bookOpened(book):
-				state.audioList = AudioListFeature.State(book: book)
+				state.audioList = AudioListFeature.State(book: book, currentAudio: state.currentAudio, isPlaying: state.playbackStatus?.isPlaying ?? false)
 				return .none
 				
-			case let .audioListAction(action):
+			case .audioListAction:
+				return .none
+				
+			case .updateAudioListIfNeeded:
+				guard let book = state.currentBook, state.audioList != nil else { return .none }
+				
+				state.audioList = AudioListFeature.State(book: book, currentAudio: state.currentAudio, isPlaying: state.playerState == .playing)
 				return .none
 			}
 		}

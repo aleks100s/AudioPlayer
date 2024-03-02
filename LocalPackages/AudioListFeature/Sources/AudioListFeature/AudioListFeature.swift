@@ -15,13 +15,15 @@ import StorageService
 @Reducer
 public struct AudioListFeature {
 	public struct State: Equatable {		
-		var book: Book
+		@BindingState var book: Book
 		var errorMessage: String?
-		// var playbackStatus: PlaybackStatus?
-		// var currentAudio: AudioFile?
+		var currentAudio: AudioFile?
+		var isPlaying: Bool
 		
-		public init(book: Book) {
+		public init(book: Book, currentAudio: AudioFile?, isPlaying: Bool) {
 			self.book = book
+			self.currentAudio = currentAudio
+			self.isPlaying = isPlaying
 		}
 	}
 	
