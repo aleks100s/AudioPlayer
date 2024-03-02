@@ -14,6 +14,7 @@ extension StorageService: DependencyKey {
 	public static var liveValue: StorageService {
 		StorageService(
 			savePlaybackRate: { rate in
+				Log.debug("Save playback rate \(rate.rawValue)")
 				UserDefaults.standard.setValue(rate.rawValue, forKey: StorageService.Key.playbackRate.rawValue)
 			},
 			getPlaybackRate: {
@@ -83,6 +84,21 @@ extension StorageService: DependencyKey {
 				for chapter in book.chapters {
 					UserDefaults.standard.removeObject(forKey: StorageService.Key.currentTime.rawValue + chapter.name)
 				}
+			},
+			markAudioFileAsListened: { book, file in
+				Log.debug("Mark file \(file.name) as listened")
+				UserDefaults.standard.setValue(true, forKey: StorageService.Key.listened.rawValue + book.id.uuidString + file.name)
+			},
+			isAudioFileListened: { book, file in
+				let value = UserDefaults.standard.value(forKey: StorageService.Key.listened.rawValue + book.id.uuidString + file.name) as? Bool
+				Log.debug("File \(file.name) is listened = \(value)")
+
+				guard let value else {
+					Log.error("Couldn't fetch isListened mark of file \(file) from UserDefaults")
+					return false
+				}
+				
+				return value
 			}
 		)
 	}
@@ -99,7 +115,9 @@ extension StorageService: DependencyKey {
 			getBooks: { [] },
 			saveCurrentBook: { _ in },
 			getCurrentBook: { nil },
-			deleteBook: { _ in }
+			deleteBook: { _ in },
+			markAudioFileAsListened: { _, _ in },
+			isAudioFileListened: { _, _ in false }
 		)
 	}
 	
@@ -114,7 +132,9 @@ extension StorageService: DependencyKey {
 		getBooks: @escaping () -> [BookDto] = { [] },
 		saveCurrentBook: @escaping (Book) -> Void = { _ in },
 		getCurrentBook: @escaping () -> String? = { nil },
-		deleteBook: @escaping (Book) -> Void = { _ in }
+		deleteBook: @escaping (Book) -> Void = { _ in },
+		markAudioFileAsListened: @escaping (Book, AudioFile) -> Void = { _, _ in },
+		isAudioFileListened: @escaping (BookDto, AudioFile) -> Bool = { _, _ in false }
 	) -> StorageService {
 		StorageService(
 			savePlaybackRate: savePlaybackRate,
@@ -127,7 +147,9 @@ extension StorageService: DependencyKey {
 			getBooks: getBooks,
 			saveCurrentBook: saveCurrentBook,
 			getCurrentBook: getCurrentBook,
-			deleteBook: deleteBook
+			deleteBook: deleteBook,
+			markAudioFileAsListened: markAudioFileAsListened,
+			isAudioFileListened: isAudioFileListened
 		)
 	}
 }

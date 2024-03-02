@@ -102,6 +102,9 @@ public struct AudioListView: View {
 						PlaybackIndicatorView(animationDuration: 0.6, isPlaying: viewStore.isPlaying)
 						PlaybackIndicatorView(animationDuration: 1.4, isPlaying: viewStore.isPlaying)
 					}
+				} else if file.isListened {
+					Image(systemName: "checkmark")
+						.foregroundStyle(.green)
 				}
 			}
 		}

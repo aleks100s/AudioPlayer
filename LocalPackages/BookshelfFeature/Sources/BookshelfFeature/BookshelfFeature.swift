@@ -77,6 +77,7 @@ public struct BookshelfFeature {
 		case bookOpened(Book)
 		case audioListAction(PresentationAction<AudioListFeature.Action>)
 		case updateAudioListIfNeeded
+		case markFileAsListened(AudioFile)
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -90,6 +91,8 @@ public struct BookshelfFeature {
 		Reduce { state, action in
 			switch action {
 			case .viewDidLoad:
+				state.playbackRate = storageService.getPlaybackRate()
+				
 				return .run { send in
 					var books = [Book]()
 					let dtos = storageService.getBooks()
@@ -103,6 +106,7 @@ public struct BookshelfFeature {
 								var file = file
 								let duration = (try? await metaService.extractDurationFromURL(file.url)) ?? 0
 								file.duration = makeTimeString(from: duration)
+								file.isListened = storageService.isAudioFileListened(dto, file)
 								audioFiles.append(file)
 							}
 							let artwork = try? await metaService.extractArtworkFromURL(audioFiles.first?.url)
@@ -146,6 +150,7 @@ public struct BookshelfFeature {
 						for await currentStatus in audioService.playbackStatusStream {
 							await send(.playbackStatusChanged(currentStatus))
 						}
+						await send(.markFileAsListened(file))
 						await send(.playNextTrackButtonTapped)
 					}
 				}
@@ -230,6 +235,7 @@ public struct BookshelfFeature {
 					for await currentStatus in audioService.playbackStatusStream {
 						await send(.playbackStatusChanged(currentStatus))
 					}
+					await send(.markFileAsListened(file))
 					await send(.playNextTrackButtonTapped)
 				}
 				
@@ -335,6 +341,16 @@ public struct BookshelfFeature {
 				guard let book = state.currentBook, state.audioList != nil else { return .none }
 				
 				state.audioList = AudioListFeature.State(book: book, currentAudio: state.currentAudio, isPlaying: state.playerState == .playing)
+				return .none
+				
+			case let .markFileAsListened(file):
+				guard let book = state.currentBook,
+					  let index = book.chapters.firstIndex(where: { $0 == file })
+				else { return .none }
+				
+				state.currentBook?.chapters[index].isListened = true
+				state.currentAudio?.isListened = true
+				storageService.markAudioFileAsListened(book, file)
 				return .none
 			}
 		}

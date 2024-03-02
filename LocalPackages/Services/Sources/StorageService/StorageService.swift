@@ -15,6 +15,7 @@ public struct StorageService {
 		case currentTime
 		case books
 		case currentBook
+		case listened
 	}
 	
 	public let savePlaybackRate: (PlaybackRate) -> Void
@@ -28,6 +29,8 @@ public struct StorageService {
 	public let saveCurrentBook: (Book) -> Void
 	public let getCurrentBook: () -> String?
 	public let deleteBook: (Book) -> Void
+	public let markAudioFileAsListened: (Book, AudioFile) -> Void
+	public let isAudioFileListened: (BookDto, AudioFile) -> Bool
 	
 	public init(
 		savePlaybackRate: @escaping (PlaybackRate) -> Void,
@@ -40,7 +43,9 @@ public struct StorageService {
 		getBooks: @escaping () -> [BookDto],
 		saveCurrentBook: @escaping (Book) -> Void,
 		getCurrentBook: @escaping () -> String?,
-		deleteBook: @escaping (Book) -> Void
+		deleteBook: @escaping (Book) -> Void,
+		markAudioFileAsListened: @escaping (Book, AudioFile) -> Void,
+		isAudioFileListened: @escaping (BookDto, AudioFile) -> Bool
 	) {
 		self.savePlaybackRate = savePlaybackRate
 		self.getPlaybackRate = getPlaybackRate
@@ -53,5 +58,7 @@ public struct StorageService {
 		self.saveCurrentBook = saveCurrentBook
 		self.getCurrentBook = getCurrentBook
 		self.deleteBook = deleteBook
+		self.markAudioFileAsListened = markAudioFileAsListened
+		self.isAudioFileListened = isAudioFileListened
 	}
 }
