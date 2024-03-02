@@ -98,9 +98,16 @@ public struct BookshelfFeature {
 						
 						switch result {
 						case let .success(files):
-							let artwork = try? await metaService.extractArtworkFromURL(files.first?.url)
+							var audioFiles = [AudioFile]()
+							for file in files {
+								var file = file
+								let duration = (try? await metaService.extractDurationFromURL(file.url)) ?? 0
+								file.duration = makeTimeString(from: duration)
+								audioFiles.append(file)
+							}
+							let artwork = try? await metaService.extractArtworkFromURL(audioFiles.first?.url)
 							let image = artwork?.image(at: artwork?.bounds.size ?? .zero)
-							let book = Book(id: dto.id, title: dto.title, author: dto.author, artwork: image, chapters: files)
+							let book = Book(id: dto.id, title: dto.title, author: dto.author, artwork: image, chapters: audioFiles)
 							books.append(book)
 							
 						case let .failure(error):

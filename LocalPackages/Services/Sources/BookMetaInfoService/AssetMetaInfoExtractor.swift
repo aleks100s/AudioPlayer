@@ -45,4 +45,8 @@ enum AssetMetaInfoExtractor {
 		}
 		return nil
 	}
+	
+	static func extractDuration(from asset: AVAsset) async throws -> TimeInterval {
+		try await asset.load(.duration).seconds
+	}
 }

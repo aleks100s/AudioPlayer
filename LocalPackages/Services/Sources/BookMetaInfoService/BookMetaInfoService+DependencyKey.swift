@@ -26,6 +26,11 @@ extension BookMetaInfoService: DependencyKey {
 				guard let url else { return nil }
 
 				return try await AssetMetaInfoExtractor.extractArtwork(from: AVAsset(url: url))
+			},
+			extractDurationFromURL: { url in
+				guard let url else { return 0 }
+
+				return try await AssetMetaInfoExtractor.extractDuration(from: AVAsset(url: url))
 			}
 		)
 	}
@@ -34,19 +39,22 @@ extension BookMetaInfoService: DependencyKey {
 		BookMetaInfoService(
 			extractTitleFromURL: { _ in nil },
 			extractAuthorFromURL: { _ in nil },
-			extractArtworkFromURL: { _ in nil }
+			extractArtworkFromURL: { _ in nil },
+			extractDurationFromURL: { _ in 0 }
 		)
 	}
 	
 	public static func mock(
 		extractTitleFromURL: @escaping (URL?) async throws -> String? = { _ in nil },
 		extractAuthorFromURL: @escaping (URL?) async throws -> String? = { _ in nil },
-		extractArtworkFromURL: @escaping (URL?) async throws -> MPMediaItemArtwork? = { _ in nil }
+		extractArtworkFromURL: @escaping (URL?) async throws -> MPMediaItemArtwork? = { _ in nil },
+		extractDurationFromURL: @escaping (URL?) async throws -> TimeInterval = { _ in 0 }
 	) -> BookMetaInfoService {
 		BookMetaInfoService(
 			extractTitleFromURL: extractTitleFromURL,
 			extractAuthorFromURL: extractAuthorFromURL,
-			extractArtworkFromURL: extractArtworkFromURL
+			extractArtworkFromURL: extractArtworkFromURL,
+			extractDurationFromURL: extractDurationFromURL
 		)
 	}
 }

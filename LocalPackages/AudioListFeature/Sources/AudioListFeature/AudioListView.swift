@@ -85,7 +85,14 @@ public struct AudioListView: View {
 			onTap()
 		} label: {
 			HStack {
-				Text(file.name)
+				VStack(alignment: .leading) {
+					Text(file.name)
+					if let duration = file.duration {
+						Text(duration)
+							.font(.caption)
+							.foregroundStyle(.gray)
+					}
+				}
 				
 				Spacer()
 				
