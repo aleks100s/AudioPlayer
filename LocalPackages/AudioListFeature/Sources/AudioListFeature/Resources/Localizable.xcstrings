@@ -2,6 +2,7 @@
   "sourceLanguage" : "en",
   "strings" : {
     "All audio" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

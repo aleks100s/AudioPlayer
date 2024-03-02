@@ -5,6 +5,7 @@
 //  Created by Alexander on 17.02.2024.
 //
 
+import AudioListFeature
 import AudioService
 import BookMetaInfoService
 import ComposableArchitecture
@@ -44,6 +45,7 @@ public struct BookshelfFeature {
 		var duration: String = "00:00"
 		var playbackStatus: PlaybackStatus?
 		var playbackRate: PlaybackRate = .x100
+		@PresentationState var audioList: AudioListFeature.State?
 		
 		public init(books: [Book] = [], errorMessage: String? = nil) {
 			self.books = books
@@ -73,6 +75,7 @@ public struct BookshelfFeature {
 		case deleteBook(Book)
 		case bookDeleted(Book)
 		case bookOpened(Book)
+		case audioListAction(PresentationAction<AudioListFeature.Action>)
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -302,7 +305,6 @@ public struct BookshelfFeature {
 						
 					case .success(_):
 						storageService.deleteBook(book)
-						storageService
 						await send(.bookDeleted(book))
 					}
 				}
@@ -311,9 +313,16 @@ public struct BookshelfFeature {
 				state.books.removeAll(where: { $0 == book })
 				return .none
 				
-			case .bookOpened:
+			case let .bookOpened(book):
+				state.audioList = AudioListFeature.State(book: book)
+				return .none
+				
+			case let .audioListAction(action):
 				return .none
 			}
+		}
+		.ifLet(\.$audioList, action: /Action.audioListAction) {
+			AudioListFeature()
 		}
 	}
 	

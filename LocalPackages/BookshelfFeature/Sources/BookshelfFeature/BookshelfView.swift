@@ -5,6 +5,7 @@
 //  Created by Alexander on 17.02.2024.
 //
 
+import AudioListFeature
 import ComposableArchitecture
 import Domain
 import Shared
@@ -91,6 +92,16 @@ public struct BookshelfView: View {
 				if !isSliderBusy {
 					progress = newValue?.currentTime ?? 0
 					durationRange = 0...(newValue?.duration ?? 0)
+				}
+			}
+			.sheet(
+				store: self.store.scope(
+					state: \.$audioList,
+					action: { .audioListAction($0) }
+				)
+			) { (store: StoreOf<AudioListFeature>) in
+				NavigationStack {
+					AudioListView(store: store)
 				}
 			}
 		}

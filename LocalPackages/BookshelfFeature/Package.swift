@@ -17,6 +17,7 @@ let package = Package(
 		.package(name: "Domain", path: "./Domain"),
 		.package(name: "Shared", path: "./Shared"),
 		.package(name: "Services", path: "./Services"),
+		.package(name: "AudioListFeature", path: "./AudioListFeature"),
 		.package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.5.5"),
 	],
     targets: [
@@ -30,19 +31,14 @@ let package = Package(
 				.product(name: "FileService", package: "Services"),
 				.product(name: "StorageService", package: "Services"),
 				.product(name: "BookMetaInfoService", package: "Services"),
+				.product(name: "AudioListFeature", package: "AudioListFeature"),
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 			]
 		),
         .testTarget(
             name: "BookshelfFeatureTests",
             dependencies: [
-				"BookshelfFeature",
-				.product(name: "DomainMock", package: "Domain"),
-				.product(name: "AudioService", package: "Services"),
-				.product(name: "FileService", package: "Services"),
-				.product(name: "StorageService", package: "Services"),
-				.product(name: "BookMetaInfoService", package: "Services"),
-				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+				"BookshelfFeature"
 			]
 		),
     ]

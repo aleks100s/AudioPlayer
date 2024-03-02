@@ -12,29 +12,11 @@ import SwiftUI
 
 struct AppView: View {
 	let store: StoreOf<AppFeature>
-	
-	@State private var isPresented = false
-	
+		
 	var body: some View {
-		NavigationStackStore(
-			self.store.scope(
-				state: \.path,
-				action: { .path($0) }
-			),
-			root: {
-				BookshelfView(store: store.scope(state: \.bookshelfState, action: { .bookshelf($0) }))
-			},
-			destination: { state in
-				switch state {
-				case .audioList:
-					CaseLet(
-						/AppFeature.Path.State.audioList,
-						 action: AppFeature.Path.Action.audioList,
-						 then: AudioListView.init(store:)
-					)
-				}
-			}
-		)
+		NavigationStack {
+			BookshelfView(store: store.scope(state: \.bookshelfState, action: { .bookshelf($0) }))
+		}
 	}
 }
 

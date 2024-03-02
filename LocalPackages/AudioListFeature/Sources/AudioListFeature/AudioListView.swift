@@ -25,7 +25,7 @@ public struct AudioListView: View {
 	public var body: some View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
 			contentView(viewStore)
-				.navigationTitle("All audio")
+				.navigationTitle(viewStore.book.title)
 				.toolbar {
 					ToolbarItem(placement: .topBarTrailing) {
 						Button(action: {
