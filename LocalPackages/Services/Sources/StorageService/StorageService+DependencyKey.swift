@@ -79,6 +79,10 @@ extension StorageService: DependencyKey {
 				var allBooks = BookStorageHelper.fetchBooks()
 				allBooks.removeAll(where: { dto in dto.id == book.id})
 				BookStorageHelper.saveBooks(books: allBooks)
+				UserDefaults.standard.removeObject(forKey: StorageService.Key.currentAudio.rawValue + book.id.uuidString)
+				for chapter in book.chapters {
+					UserDefaults.standard.removeObject(forKey: StorageService.Key.currentTime.rawValue + chapter.name)
+				}
 			}
 		)
 	}

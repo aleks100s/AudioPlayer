@@ -118,13 +118,11 @@ public struct BookshelfFeature {
 				
 				state.currentBook = state.books.first(where: { $0.title == currentBookName })
 				
-				guard let book = state.currentBook,
-					  let currentAudioName = storageService.getCurrentAudio(book),
-					  let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName })
-						?? state.currentBook?.chapters.first
-				else {
-					return .none
-				}
+				guard let book = state.currentBook else { return .none }
+				
+				let currentAudioName = storageService.getCurrentAudio(book)
+				guard let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName })
+						?? state.currentBook?.chapters.first else { return .none }
 				
 				state.currentAudio = file
 
@@ -163,6 +161,7 @@ public struct BookshelfFeature {
 						let dto = BookDto(id: id, title: title ?? "-", author: author ?? "-", files: urls.map(\.relativeString))
 						storageService.saveBooks([dto])
 						await send(.viewDidLoad)
+						await send(.resumeButtonTapped)
 						
 					case let .failure(error):
 						await send(.errorOccurred(error.localizedDescription))
@@ -233,7 +232,7 @@ public struct BookshelfFeature {
 				return .none
 				
 			case let .playbackStatusChanged(status):
-				guard let file = state.currentAudio else { return .none }
+				guard let file = state.currentAudio, status != state.playbackStatus else { return .none }
 				
 				state.playbackStatus = status
 				state.currentTime = makeTimeString(from: status.currentTime)
@@ -303,6 +302,7 @@ public struct BookshelfFeature {
 						
 					case .success(_):
 						storageService.deleteBook(book)
+						storageService
 						await send(.bookDeleted(book))
 					}
 				}
