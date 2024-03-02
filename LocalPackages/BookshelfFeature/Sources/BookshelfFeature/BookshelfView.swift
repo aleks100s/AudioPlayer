@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Domain
 import Shared
 import SwiftUI
 
@@ -32,26 +33,21 @@ public struct BookshelfView: View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
 			VStack {
 				ScrollView {
-					LazyVStack {
+					LazyVStack(spacing: 16) {
 						ForEach(viewStore.books, id: \.title) { book in
 							let isPlaying = viewStore.currentBook == book && viewStore.playerState == .playing
-							BookView(book: book, isPlaying: isPlaying)
-								.onTapGesture {
-									viewStore.send(.bookTapped(book))
-								}
-								.contextMenu {
-									Button() {
-										viewStore.send(.bookOpened(book))
-									} label: {
-										Label("Открыть книгу", systemImage: "list")
+							BookView(book: book, isPlaying: isPlaying) {
+								menuContent(for: book)
+							}
+							.highPriorityGesture(
+								TapGesture()
+									.onEnded { _ in
+										viewStore.send(.bookTapped(book))
 									}
-									
-									Button(role: .destructive) {
-										viewStore.send(.deleteBook(book))
-									} label: {
-										Label("Удалить книгу", systemImage: "trash")
-									}
-								}
+							)
+							.contextMenu {
+								menuContent(for: book)
+							}
 						}
 					}
 					.padding()
@@ -97,6 +93,21 @@ public struct BookshelfView: View {
 					durationRange = 0...(newValue?.duration ?? 0)
 				}
 			}
+		}
+	}
+	
+	@ViewBuilder
+	private func menuContent(for book: Book) -> some View {
+		Button() {
+			store.send(.bookOpened(book))
+		} label: {
+			Label("Открыть книгу", systemImage: "list")
+		}
+		
+		Button(role: .destructive) {
+			store.send(.deleteBook(book))
+		} label: {
+			Label("Удалить книгу", systemImage: "trash")
 		}
 	}
 	
