@@ -5,9 +5,9 @@
 //  Created by Alexander on 17.02.2024.
 //
 
-import SwiftUI
 import ComposableArchitecture
 import Shared
+import SwiftUI
 
 public struct BookshelfView: View {
 	private typealias BookshelfViewStore = ViewStore<BookshelfFeature.State, BookshelfFeature.Action>
@@ -32,13 +32,20 @@ public struct BookshelfView: View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
 			VStack {
 				ScrollView {
-					LazyVGrid(columns: columns, alignment: .center, spacing: 32) {
+					LazyVStack {
 						ForEach(viewStore.books, id: \.title) { book in
-							BookView(book: book)
+							let isPlaying = viewStore.currentBook == book && viewStore.playerState == .playing
+							BookView(book: book, isPlaying: isPlaying)
 								.onTapGesture {
 									viewStore.send(.bookTapped(book))
 								}
 								.contextMenu {
+									Button() {
+										viewStore.send(.bookOpened(book))
+									} label: {
+										Label("Открыть книгу", systemImage: "list")
+									}
+									
 									Button(role: .destructive) {
 										viewStore.send(.deleteBook(book))
 									} label: {

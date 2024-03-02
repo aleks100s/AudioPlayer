@@ -84,12 +84,15 @@ extension FileService: DependencyKey {
 				}
 				
 				let bookDirectory = documentsDirectory.appendingPathComponent(id.uuidString, conformingTo: .directory)
-				do {
-					Log.debug("Creating book directory at \(bookDirectory)")
-					try manager.createDirectory(at: bookDirectory, withIntermediateDirectories: true)
-				} catch {
-					Log.error(error.localizedDescription)
-					return .failure(FileError.directoryCreationFailed)
+				var isDir : ObjCBool = true
+				if !manager.fileExists(atPath: bookDirectory.absoluteString, isDirectory: &isDir) {
+					do {
+						Log.debug("Creating book directory at \(bookDirectory)")
+						try manager.createDirectory(at: bookDirectory, withIntermediateDirectories: true)
+					} catch {
+						Log.error(error.localizedDescription)
+						return .failure(FileError.directoryCreationFailed)
+					}
 				}
 				
 				var resultUrls = [URL]()

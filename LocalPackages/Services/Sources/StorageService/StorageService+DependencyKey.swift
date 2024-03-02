@@ -25,11 +25,11 @@ extension StorageService: DependencyKey {
 				
 				return rate
 			},
-			saveCurrentAudio: { file in
-				UserDefaults.standard.setValue(file.name, forKey: StorageService.Key.currentAudio.rawValue)
+			saveCurrentAudio: { book, file in
+				UserDefaults.standard.setValue(file.name, forKey: StorageService.Key.currentAudio.rawValue + book.id.uuidString)
 			},
-			getCurrentAudio: {
-				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentAudio.rawValue) as? String
+			getCurrentAudio: { book in
+				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentAudio.rawValue + book.id.uuidString) as? String
 				guard let value else {
 					Log.error("Couldn't fetch current audio from UserDefaults")
 					return nil
@@ -37,11 +37,12 @@ extension StorageService: DependencyKey {
 				
 				return value
 			},
-			saveCurrentTime: { time in
-				UserDefaults.standard.setValue(time, forKey: StorageService.Key.currentTime.rawValue)
+			saveCurrentTime: { file, time in
+				Log.debug("Save current time \(time) for file \(file.name)")
+				UserDefaults.standard.setValue(time, forKey: StorageService.Key.currentTime.rawValue + file.name)
 			},
-			getCurrentTime: {
-				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentTime.rawValue) as? TimeInterval
+			getCurrentTime: { file in
+				let value = UserDefaults.standard.value(forKey: StorageService.Key.currentTime.rawValue + file.name) as? TimeInterval
 				guard let value else {
 					Log.error("Couldn't fetch current time from UserDefaults")
 					return 0
@@ -86,10 +87,10 @@ extension StorageService: DependencyKey {
 		StorageService(
 			savePlaybackRate: { _ in },
 			getPlaybackRate: { .x100 },
-			saveCurrentAudio: { _ in },
-			getCurrentAudio: { nil },
-			saveCurrentTime: { _ in },
-			getCurrentTime: { 0 },
+			saveCurrentAudio: { _, _ in },
+			getCurrentAudio: { _ in nil },
+			saveCurrentTime: { _, _ in },
+			getCurrentTime: { _ in 0 },
 			saveBooks: { _ in },
 			getBooks: { [] },
 			saveCurrentBook: { _ in },
@@ -101,10 +102,10 @@ extension StorageService: DependencyKey {
 	public static func mock(
 		savePlaybackRate: @escaping (PlaybackRate) -> Void = { _ in },
 		getPlaybackRate: @escaping () -> PlaybackRate = { .x100 },
-		saveCurrentAudio: @escaping (AudioFile) -> Void = { _ in },
-		getCurrentAudio: @escaping () -> String? = { nil },
-		saveCurrentTime: @escaping (TimeInterval) -> Void = { _ in },
-		getCurrentTime: @escaping () -> TimeInterval = { .zero },
+		saveCurrentAudio: @escaping (Book, AudioFile) -> Void = { _, _ in },
+		getCurrentAudio: @escaping (Book) -> String? = { _ in nil },
+		saveCurrentTime: @escaping (AudioFile, TimeInterval) -> Void = { _, _ in },
+		getCurrentTime: @escaping (AudioFile) -> TimeInterval = { _ in .zero },
 		saveBooks: @escaping ([BookDto]) -> Void = { _ in },
 		getBooks: @escaping () -> [BookDto] = { [] },
 		saveCurrentBook: @escaping (Book) -> Void = { _ in },

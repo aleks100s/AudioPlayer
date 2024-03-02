@@ -19,10 +19,10 @@ public struct StorageService {
 	
 	public let savePlaybackRate: (PlaybackRate) -> Void
 	public let getPlaybackRate: () -> PlaybackRate
-	public let saveCurrentAudio: (AudioFile) -> Void
-	public let getCurrentAudio: () -> String?
-	public let saveCurrentTime: (TimeInterval) -> Void
-	public let getCurrentTime: () -> TimeInterval
+	public let saveCurrentAudio: (Book, AudioFile) -> Void
+	public let getCurrentAudio: (Book) -> String?
+	public let saveCurrentTime: (AudioFile, TimeInterval) -> Void
+	public let getCurrentTime: (AudioFile) -> TimeInterval
 	public let saveBooks: ([BookDto]) -> Void
 	public let getBooks: () -> [BookDto]
 	public let saveCurrentBook: (Book) -> Void
@@ -32,10 +32,10 @@ public struct StorageService {
 	public init(
 		savePlaybackRate: @escaping (PlaybackRate) -> Void,
 		getPlaybackRate: @escaping () -> PlaybackRate,
-		saveCurrentAudio: @escaping (AudioFile) -> Void,
-		getCurrentAudio: @escaping () -> String?,
-		saveCurrentTime: @escaping (TimeInterval) -> Void,
-		getCurrentTime: @escaping () -> TimeInterval,
+		saveCurrentAudio: @escaping (Book, AudioFile) -> Void,
+		getCurrentAudio: @escaping (Book) -> String?,
+		saveCurrentTime: @escaping (AudioFile, TimeInterval) -> Void,
+		getCurrentTime: @escaping (AudioFile) -> TimeInterval,
 		saveBooks: @escaping ([BookDto]) -> Void,
 		getBooks: @escaping () -> [BookDto],
 		saveCurrentBook: @escaping (Book) -> Void,

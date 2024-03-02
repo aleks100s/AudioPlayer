@@ -26,11 +26,11 @@ struct AppView: View {
 			},
 			destination: { state in
 				switch state {
-				case .empty:
+				case .audioList:
 					CaseLet(
-						/AppFeature.Path.State.empty,
-						 action: AppFeature.Path.Action.empty,
-						 then: EmptyFeatureView.init(store:)
+						/AppFeature.Path.State.audioList,
+						 action: AppFeature.Path.Action.audioList,
+						 then: AudioListView.init(store:)
 					)
 				}
 			}

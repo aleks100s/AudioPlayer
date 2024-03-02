@@ -72,6 +72,7 @@ public struct BookshelfFeature {
 		case restoreAudioSession
 		case deleteBook(Book)
 		case bookDeleted(Book)
+		case bookOpened(Book)
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -112,6 +113,35 @@ public struct BookshelfFeature {
 				state.books = books
 				return .none
 				
+			case .restoreAudioSession:
+				guard let currentBookName = storageService.getCurrentBook() else { return .none }
+				
+				state.currentBook = state.books.first(where: { $0.title == currentBookName })
+				
+				guard let book = state.currentBook,
+					  let currentAudioName = storageService.getCurrentAudio(book),
+					  let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName })
+						?? state.currentBook?.chapters.first
+				else {
+					return .none
+				}
+				
+				state.currentAudio = file
+
+				let currentTime = storageService.getCurrentTime(file)
+
+				if case .success(()) = audioService.setupAudio(file: file, rate: state.playbackRate) {
+					audioService.prepareToPlayRestoredAudio()
+					return .run { send in
+						await send(.playbackSliderPositionChanged(currentTime))
+						for await currentStatus in audioService.playbackStatusStream {
+							await send(.playbackStatusChanged(currentStatus))
+						}
+						await send(.playNextTrackButtonTapped)
+					}
+				}
+				return .none
+				
 			case let .errorOccurred(error):
 				state.errorMessage = error
 				return .none
@@ -140,13 +170,24 @@ public struct BookshelfFeature {
 				}
 				
 			case let .bookTapped(book):
-				state.currentBook = book
-				storageService.saveCurrentBook(book)
-				
-				guard let file = book.chapters.first else { return .none }
-				
-				return .run { send in
-					await send(.audioSelected(file))
+				if state.currentBook == book {
+					return .run { [state = state.playerState] send in
+						switch state {
+						case .playing:
+							await send(.pauseButtonTapped)
+
+						case .paused, .hidden:
+							await send(.resumeButtonTapped)
+						}
+					}
+				} else {
+					state.currentBook = book
+					storageService.saveCurrentBook(book)
+										
+					return .run { send in
+						await send(.restoreAudioSession)
+						await send(.resumeButtonTapped)
+					}
 				}
 				
 			case let .audioSelected(file):
@@ -169,9 +210,11 @@ public struct BookshelfFeature {
 				}
 				
 			case let .playerStarted(file):
+				guard let book = state.currentBook else { return .none }
+				
 				state.playerState = .playing
 				state.currentAudio = file
-				storageService.saveCurrentAudio(file)
+				storageService.saveCurrentAudio(book, file)
 				return .run { send in
 					for await currentStatus in audioService.playbackStatusStream {
 						await send(.playbackStatusChanged(currentStatus))
@@ -190,11 +233,13 @@ public struct BookshelfFeature {
 				return .none
 				
 			case let .playbackStatusChanged(status):
+				guard let file = state.currentAudio else { return .none }
+				
 				state.playbackStatus = status
 				state.currentTime = makeTimeString(from: status.currentTime)
 				state.duration = makeTimeString(from: status.duration)
 				state.playerState = status.isPlaying ? .playing : .paused
-				storageService.saveCurrentTime(status.currentTime)
+				storageService.saveCurrentTime(file, status.currentTime)
 				return .none
 				
 			case let .playbackSliderPositionChanged(desiredTime):
@@ -249,32 +294,6 @@ public struct BookshelfFeature {
 					}
 				}
 				
-			case .restoreAudioSession:
-				guard let currentBookName = storageService.getCurrentBook() else { return .none }
-				
-				state.currentBook = state.books.first(where: { $0.title == currentBookName })
-				
-				guard let currentAudioName = storageService.getCurrentAudio(),
-					  let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName }) else {
-					return .none
-				}
-				
-				state.currentAudio = file
-
-				let currentTime = storageService.getCurrentTime()
-
-				if case .success(()) = audioService.setupAudio(file: file, rate: state.playbackRate) {
-					audioService.prepareToPlayRestoredAudio()
-					return .run { send in
-						await send(.playbackSliderPositionChanged(currentTime))
-						for await currentStatus in audioService.playbackStatusStream {
-							await send(.playbackStatusChanged(currentStatus))
-						}
-						await send(.playNextTrackButtonTapped)
-					}
-				}
-				return .none
-				
 			case let .deleteBook(book):
 				return .run { [filesToDelete = book.chapters] send in
 					let result = fileService.deleteAudioFiles(filesToDelete)
@@ -290,6 +309,9 @@ public struct BookshelfFeature {
 				
 			case let .bookDeleted(book):
 				state.books.removeAll(where: { $0 == book })
+				return .none
+				
+			case .bookOpened:
 				return .none
 			}
 		}

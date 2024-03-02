@@ -16,7 +16,6 @@ import Foundation
 struct AppFeature {
 	struct State: Equatable {
 		var path = StackState<Path.State>()
-		var audioListState = AudioListFeature.State()
 		var bookshelfState = BookshelfFeature.State()
 	}
 	
@@ -28,16 +27,16 @@ struct AppFeature {
 	
 	struct Path: Reducer {
 		enum State: Equatable {
-			case empty(EmptyFeature.State)
+			case audioList(AudioListFeature.State)
 		}
 		
 		enum Action: Equatable {
-			case empty(EmptyFeature.Action)
+			case audioList(AudioListFeature.Action)
 		}
 		
 		var body: some ReducerOf<Self> {
-			Scope(state: /State.empty, action: /Action.empty) {
-				EmptyFeature()
+			Scope(state: /State.audioList, action: /Action.audioList) {
+				AudioListFeature()
 			}
 		}
 	}
@@ -47,16 +46,13 @@ struct AppFeature {
 			BookshelfFeature()
 		}
 		
-		Scope(state: \.audioListState, action: /Action.audioList) {
-			AudioListFeature()
-		}
-		
 		Reduce { state, action in
 			switch action {
-			case let .audioList(audioListAction):
-				switch audioListAction {
-				case .test:
-					state.path.append(.empty(EmptyFeature.State(title: "Hello, world!")))
+			case let .bookshelf(bookshelfAction):
+				switch bookshelfAction {
+				case let .bookOpened(book):
+					print(book)
+					// state.path.append(.audioList(AudioListFeature.State(book: book)))
 					
 				default:
 					break

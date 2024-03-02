@@ -11,7 +11,7 @@ import Foundation
 public protocol AudioService {
 	var playbackStatusStream: AsyncStream<PlaybackStatus> { get }
 	
-	func setupAudio(file: AudioFile, rate: PlaybackRate) -> Result<Void, Error>
+	func setupAudio(file: AudioFile, rate: PlaybackRate?) -> Result<Void, Error>
 	func playCurrentAudio() -> Result<Void, Error>
 	func pauseCurrentAudio()
 	func resumeCurrentAudio()

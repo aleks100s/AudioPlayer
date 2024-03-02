@@ -12,7 +12,7 @@ public struct Book {
 	public let title: String
 	public let author: String
 	public let artwork: UIImage?
-	public let chapters: [AudioFile]
+	public var chapters: [AudioFile]
 	
 	public init(id: UUID, title: String, author: String, artwork: UIImage?, chapters: [AudioFile]) {
 		self.id = id

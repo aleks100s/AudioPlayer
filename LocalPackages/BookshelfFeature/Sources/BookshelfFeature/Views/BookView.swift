@@ -24,17 +24,24 @@ struct BookView: View {
 				.aspectRatio(1, contentMode: .fill)
 				.clipShape(RoundedRectangle(cornerRadius: 16))
 			
-			VStack(alignment: .leading) {
-				Text(book.title)
-					.font(.footnote)
-					.lineLimit(2)
+			HStack {
+				VStack(alignment: .leading) {
+					Text(book.title)
+						.font(.footnote)
+						.lineLimit(2)
+					
+					Text(book.author)
+						.font(.caption)
+						.lineLimit(1)
+						.foregroundStyle(.gray)
+				}
+				.padding()
 				
-				Text(book.author)
-					.font(.caption)
-					.lineLimit(1)
-					.foregroundStyle(.gray)
+				Spacer()
+				
+				Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+					.padding()
 			}
-			.padding()
 		}
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))

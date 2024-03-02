@@ -24,7 +24,7 @@ struct MockAudioService: AudioService {
 		self.playCurrentAudioResult = playCurrentAudioResult
 	}
 	
-	func setupAudio(file: AudioFile, rate: PlaybackRate) -> Result<Void, Error> {
+	func setupAudio(file: AudioFile, rate: PlaybackRate?) -> Result<Void, Error> {
 		setupAudioResult()
 	}
 	
