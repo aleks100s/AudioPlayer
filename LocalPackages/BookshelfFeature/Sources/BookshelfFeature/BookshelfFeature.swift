@@ -336,7 +336,16 @@ public struct BookshelfFeature {
 				state.audioList = AudioListFeature.State(book: book, currentAudio: state.currentAudio, isPlaying: state.playbackStatus?.isPlaying ?? false)
 				return .none
 				
-			case .audioListAction:
+			case let .audioListAction(action):
+				switch action {
+				case let .presented(.delegate(.audioSelected(audio))):
+					return .run { send in
+						await send(.audioSelected(audio))
+					}
+					
+				default:
+					break
+				}
 				return .none
 				
 			case .updateAudioListIfNeeded:

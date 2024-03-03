@@ -26,6 +26,7 @@ public struct AudioListView: View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
 			contentView(viewStore)
 				.navigationTitle(viewStore.book.title)
+				.navigationBarTitleDisplayMode(.inline)
 				.toolbar {
 					ToolbarItem(placement: .topBarTrailing) {
 						Button(action: {
@@ -64,7 +65,7 @@ public struct AudioListView: View {
 			List {
 				ForEach(viewStore.book.chapters, id: \.url.absoluteString) { file in
 					audioFileItem(viewStore, file: file) {
-						// viewStore.send(.audioTapped(file))
+						viewStore.send(.delegate(.audioSelected(file)))
 					}
 				}
 				.onDelete { indexSet in

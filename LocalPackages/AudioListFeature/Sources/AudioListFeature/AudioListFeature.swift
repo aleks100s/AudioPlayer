@@ -28,15 +28,19 @@ public struct AudioListFeature {
 	}
 	
 	public enum Action: Equatable {
+		public enum Delegate: Equatable {
+			case audioSelected(AudioFile)
+		}
+		
 		case viewDidLoad
 		// case saveFiles([URL])
 		case errorOccurred(String)
 		// case filesAdded([AudioFile])
 		case errorAlertDismissed
-		// case audioTapped(AudioFile)
 		// case playerStarted(AudioFile)
 		// case deleteFiles(IndexSet)
 		// case playbackStatusChanged(PlaybackStatus)
+		case delegate(Delegate)
 	}
 	
 	@Dependency(\.fileService) var fileService
@@ -78,25 +82,6 @@ public struct AudioListFeature {
 				state.errorMessage = nil
 				return .none
 //
-//			case let .audioTapped(file):
-//				return .run { send in
-//					let setupResult = audioService.setupAudio(file: file, rate: nil)
-//					switch setupResult {
-//					case .success:
-//						let playResult = audioService.playCurrentAudio()
-//						switch playResult {
-//						case let .failure(error):
-//							await send(.errorOccurred(error.localizedDescription))
-//
-//						case .success:
-//							await send(.playerStarted(file))
-//						}
-//
-//					case let .failure(error):
-//						await send(.errorOccurred(error.localizedDescription))
-//					}
-//				}
-//
 //			case let .playerStarted(file):
 //				state.currentAudio = file
 //				storageService.saveCurrentAudio(file)
@@ -127,6 +112,8 @@ public struct AudioListFeature {
 //				state.playbackStatus = status
 //				storageService.saveCurrentTime(status.currentTime)
 //				return .none
+			case .delegate:
+				return .none
 			}
 		}
 	}
