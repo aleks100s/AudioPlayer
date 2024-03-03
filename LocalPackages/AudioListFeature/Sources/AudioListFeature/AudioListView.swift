@@ -68,9 +68,6 @@ public struct AudioListView: View {
 						viewStore.send(.delegate(.audioSelected(file)))
 					}
 				}
-				.onDelete { indexSet in
-					// viewStore.send(.deleteFiles(indexSet))
-				}
 			}
 		}
 		.background(.thinMaterial)

@@ -227,10 +227,12 @@ public struct BookshelfFeature {
 				
 			case let .playerStarted(file):
 				guard let book = state.currentBook else { return .none }
+				guard let index = state.books.firstIndex(where: { $0 == book }) else { return .none }
 				
 				state.playerState = .playing
 				state.currentAudio = file
 				state.currentBook?.currentChapterName = file.name
+				state.books[index].currentChapterName = file.name
 				storageService.saveCurrentAudio(book, file)
 				return .run { send in
 					await send(.updateAudioListIfNeeded)
