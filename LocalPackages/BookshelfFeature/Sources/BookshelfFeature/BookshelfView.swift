@@ -32,7 +32,7 @@ public struct BookshelfView: View {
 	
 	public var body: some View {
 		WithViewStore(self.store, observe: { $0 }) { viewStore in
-			VStack {
+			ZStack {
 				ScrollView {
 					LazyVStack(spacing: 16) {
 						ForEach(viewStore.books, id: \.title) { book in
@@ -50,13 +50,18 @@ public struct BookshelfView: View {
 								menuContent(for: book)
 							}
 						}
+						Spacer()
+							.frame(height: 176)
 					}
 					.padding()
 				}
 				.scrollIndicators(.hidden)
 				
 				if viewStore.playerState != .hidden {
-					playerView(viewStore)
+					VStack {
+						Spacer()
+						playerView(viewStore)
+					}
 				}
 			}
 			.navigationTitle("Мои книги")
@@ -136,6 +141,7 @@ public struct BookshelfView: View {
 		}
 		.padding()
 		.padding(.bottom, 16)
+		.background(.regularMaterial)
 	}
 	
 	@ViewBuilder
