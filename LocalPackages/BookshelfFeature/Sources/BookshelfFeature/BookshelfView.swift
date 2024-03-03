@@ -16,11 +16,6 @@ public struct BookshelfView: View {
 	
 	private let store: StoreOf<BookshelfFeature>
 	
-	private let columns: [GridItem] = [
-		GridItem(.adaptive(minimum: 100, maximum: 160), spacing: 16),
-		GridItem(.adaptive(minimum: 100, maximum: 160), spacing: 16)
-	]
-	
 	@State private var isFilePickerPresented = false
 	@State private var progress: Double = 0
 	@State private var durationRange: ClosedRange<TimeInterval> = 0...0

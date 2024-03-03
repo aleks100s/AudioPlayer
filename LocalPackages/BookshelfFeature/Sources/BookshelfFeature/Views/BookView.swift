@@ -22,29 +22,45 @@ struct BookView<MenuContent: View>: View {
 	var body: some View {
 		ZStack {
 			VStack(alignment: .leading, spacing: .zero) {
-				Image(uiImage: book.artwork ?? UIImage(resource: .placeholder))
-					.resizable()
-					.aspectRatio(1, contentMode: .fill)
-					.clipShape(RoundedRectangle(cornerRadius: 16))
+				ZStack {
+					Image(uiImage: book.artwork ?? UIImage(resource: .placeholder))
+						.resizable()
+						.aspectRatio(1, contentMode: .fill)
+						.clipShape(RoundedRectangle(cornerRadius: 16))
+					
+					VStack {
+						Spacer()
+						
+						HStack {
+							VStack(alignment: .leading) {
+								Text(book.title)
+									.font(.headline)
+									.lineLimit(2)
+								
+								Text(book.author)
+									.font(.subheadline)
+									.lineLimit(1)
+									.foregroundStyle(.gray)
+							}
+							
+							Spacer()
+						}
+						.padding()
+						.background(.ultraThinMaterial)
+					}
+				}
 				
 				HStack {
-					VStack(alignment: .leading) {
-						Text(book.title)
+					if let chapter = book.currentChapterName {
+						Text("\(isPlaying ? "сейчас играет:" : "продолжить прослушивание:") \(chapter)")
 							.font(.footnote)
-							.lineLimit(2)
-						
-						Text(book.author)
-							.font(.caption)
-							.lineLimit(1)
-							.foregroundStyle(.gray)
 					}
-					.padding()
 					
 					Spacer()
 					
 					Image(systemName: isPlaying ? "pause.circle" : "play.circle")
-						.padding()
 				}
+				.padding()
 			}
 			.background(.regularMaterial.opacity(0.6))
 			.clipShape(RoundedRectangle(cornerRadius: 16))

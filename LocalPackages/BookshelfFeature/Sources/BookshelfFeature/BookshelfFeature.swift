@@ -111,7 +111,8 @@ public struct BookshelfFeature {
 							}
 							let artwork = try? await metaService.extractArtworkFromURL(audioFiles.first?.url)
 							let image = artwork?.image(at: artwork?.bounds.size ?? .zero)
-							let book = Book(id: dto.id, title: dto.title, author: dto.author, artwork: image, chapters: audioFiles)
+							var book = Book(id: dto.id, title: dto.title, author: dto.author, artwork: image, chapters: audioFiles)
+							book.currentChapterName = storageService.getCurrentAudio(book)
 							books.append(book)
 							
 						case let .failure(error):
@@ -229,6 +230,7 @@ public struct BookshelfFeature {
 				
 				state.playerState = .playing
 				state.currentAudio = file
+				state.currentBook?.currentChapterName = file.name
 				storageService.saveCurrentAudio(book, file)
 				return .run { send in
 					await send(.updateAudioListIfNeeded)
