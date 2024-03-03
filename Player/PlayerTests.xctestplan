@@ -19,6 +19,13 @@
         "identifier" : "AudioListFeatureTests",
         "name" : "AudioListFeatureTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:LocalPackages\/BookshelfFeature",
+        "identifier" : "BookshelfFeatureTests",
+        "name" : "BookshelfFeatureTests"
+      }
     }
   ],
   "version" : 1

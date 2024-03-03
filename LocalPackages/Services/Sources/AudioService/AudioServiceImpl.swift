@@ -42,17 +42,19 @@ public final class AudioServiceImpl: NSObject, AudioService {
 		setupRemoteCommandCenter()
 	}
 	
-	public func setupAudio(file: AudioFile, rate: PlaybackRate) -> Result<Void, Error> {
+	public func setupAudio(file: AudioFile, rate: PlaybackRate?) -> Result<Void, Error> {
 		do {
 			currentFile = file
 			audioPlayer = try AVAudioPlayer(contentsOf: file.url)
 			audioPlayer?.delegate = self
 			audioPlayer?.prepareToPlay()
 			audioPlayer?.enableRate = true
-			audioPlayer?.rate = rate.rawValue
+			if let rate {
+				audioPlayer?.rate = rate.rawValue
+			}
 			return .success(())
 		} catch {
-			Log.error("Error initializing the audio player: \(error)")
+			Log.error("Error initializing the audio player: \(error)\nfor file \(file.url.absoluteString)")
 			return .failure(error)
 		}
 	}

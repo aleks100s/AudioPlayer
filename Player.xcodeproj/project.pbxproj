@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		272CB0BA2B806EE100AE8A56 /* BookshelfFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 272CB0B92B806EE100AE8A56 /* BookshelfFeature */; };
 		276AA33E2B30BF8200D3BD89 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */; };
 		276AA3412B37F5DD00D3BD89 /* AudioService in Frameworks */ = {isa = PBXBuildFile; productRef = 276AA3402B37F5DD00D3BD89 /* AudioService */; };
 		276D3B562B2DA04300461640 /* PlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D3B552B2DA04300461640 /* PlayerApp.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		272CB0B82B806B5400AE8A56 /* BookshelfFeature */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = BookshelfFeature; path = LocalPackages/BookshelfFeature; sourceTree = "<group>"; };
 		27432CC72B2F321000A18CA3 /* PlayerTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = PlayerTests.xctestplan; sourceTree = "<group>"; };
 		276AA33C2B2F537500D3BD89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		276AA33D2B30BF8200D3BD89 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2785B5A22B47FA140006CE19 /* StorageService in Frameworks */,
+				272CB0BA2B806EE100AE8A56 /* BookshelfFeature in Frameworks */,
 				276D3B8F2B2EB4BC00461640 /* FileService in Frameworks */,
 				276AA3412B37F5DD00D3BD89 /* AudioService in Frameworks */,
 				276D3B8C2B2EB18F00461640 /* Domain in Frameworks */,
@@ -63,6 +66,7 @@
 		276D3B492B2DA04300461640 = {
 			isa = PBXGroup;
 			children = (
+				272CB0B82B806B5400AE8A56 /* BookshelfFeature */,
 				276D3B9A2B2EC2E600461640 /* AudioListFeature */,
 				276D3B8D2B2EB1EA00461640 /* Services */,
 				276D3B8A2B2EB12F00461640 /* Domain */,
@@ -145,6 +149,7 @@
 				276D3B9B2B2EC3CC00461640 /* AudioListFeature */,
 				276AA3402B37F5DD00D3BD89 /* AudioService */,
 				2785B5A12B47FA140006CE19 /* StorageService */,
+				272CB0B92B806EE100AE8A56 /* BookshelfFeature */,
 			);
 			productName = Player;
 			productReference = 276D3B522B2DA04300461640 /* Harmony Tales.app */;
@@ -432,6 +437,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		272CB0B92B806EE100AE8A56 /* BookshelfFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BookshelfFeature;
+		};
 		276AA3402B37F5DD00D3BD89 /* AudioService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AudioService;

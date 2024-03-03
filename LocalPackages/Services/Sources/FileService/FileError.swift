@@ -12,6 +12,7 @@ enum FileError: LocalizedError {
 	case copyingFailed(path: String)
 	case readingFailed
 	case deletionFailed
+	case directoryCreationFailed
 	
 	var errorDescription: String? {
 		switch self {
@@ -26,6 +27,9 @@ enum FileError: LocalizedError {
 			
 		case .deletionFailed:
 			return "Ошибка при удалении файлов"
+			
+		case .directoryCreationFailed:
+			return "Не удалось создать папку для книги"
 		}
 	}
 }

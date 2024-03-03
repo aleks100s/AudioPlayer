@@ -20,7 +20,8 @@ let package = Package(
         .target(name: "Domain"),
 		.target(
 			name: "DomainMock",
-			dependencies: ["Domain"]
+			dependencies: ["Domain"],
+			resources: [.process("Resources")]
 		),
     ]
 )
