@@ -19,13 +19,12 @@ public final class AudioServiceImpl: NSObject, AudioService {
 				let timer = Timer(timeInterval: 0.5, repeats: true) { timer in
 					self?.updatePlaybackTime()
 					guard let status = self?.getPlaybackStatus() else {
-						continuation.finish()
-						timer.invalidate()
+						self?.finishCurrentAudioStream()
 						return
 					}
-					
 					continuation.yield(status)
 				}
+				self?.timer = timer
 				RunLoop.current.add(timer, forMode: .common)
 				RunLoop.current.run()
 			}
@@ -35,6 +34,7 @@ public final class AudioServiceImpl: NSObject, AudioService {
 	private var audioPlayer: AVAudioPlayer?
 	private var currentFile: AudioFile?
 	private var continuation: AsyncStream<PlaybackStatus>.Continuation?
+	private var timer: Timer?
 	
 	public override init() {
 		super.init()
@@ -175,8 +175,14 @@ extension AudioServiceImpl {
 	}
 	
 	public func setPlayback(time: TimeInterval) {
-		audioPlayer?.currentTime = time
-		updatePlaybackTime()
+		guard let audioPlayer else { return }
+		
+		if time >= audioPlayer.duration {
+			finishCurrentAudioStream()
+		} else {
+			audioPlayer.currentTime = time
+			updatePlaybackTime()
+		}
 	}
 	
 	public func skipForward(time: TimeInterval) {
@@ -201,6 +207,11 @@ extension AudioServiceImpl {
 		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
 		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+	}
+	
+	private func finishCurrentAudioStream() {
+		continuation?.finish()
+		timer?.invalidate()
 	}
 }
 

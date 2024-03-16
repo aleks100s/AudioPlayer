@@ -11,6 +11,7 @@ import BookMetaInfoService
 import ComposableArchitecture
 import Domain
 import FileService
+import Shared
 import StorageService
 import UIKit
 
@@ -43,6 +44,7 @@ public struct BookshelfFeature {
 		var currentAudio: AudioFile?
 		var currentTime: String = "00:00"
 		var duration: String = "00:00"
+		var sliderProgress: String?
 		var playbackStatus: PlaybackStatus?
 		var playbackRate: PlaybackRate = .x100
 		@PresentationState var audioList: AudioListFeature.State?
@@ -78,6 +80,7 @@ public struct BookshelfFeature {
 		case audioListAction(PresentationAction<AudioListFeature.Action>)
 		case updateAudioListIfNeeded
 		case markFileAsListened(AudioFile)
+		case playbackSliderPositionChangeInProgress(TimeInterval)
 	}
 	
 	@Dependency(\.audioService) var audioService
@@ -266,6 +269,7 @@ public struct BookshelfFeature {
 				}
 				
 			case let .playbackSliderPositionChanged(desiredTime):
+				state.sliderProgress = nil
 				audioService.setPlayback(time: desiredTime)
 				return .none
 				
@@ -364,6 +368,10 @@ public struct BookshelfFeature {
 				state.currentBook?.chapters[index].isListened = true
 				state.currentAudio?.isListened = true
 				storageService.markAudioFileAsListened(book, file)
+				return .none
+				
+			case let .playbackSliderPositionChangeInProgress(time):
+				state.sliderProgress = makeTimeString(from: time)
 				return .none
 			}
 		}

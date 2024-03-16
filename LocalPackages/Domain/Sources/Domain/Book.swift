@@ -24,6 +24,12 @@ public struct Book {
 	}
 }
 
+extension Book: Equatable {
+	public static func == (lhs: Self, rhs: Self) -> Bool {
+		lhs.id == rhs.id
+	}
+}
+
 extension Book: Hashable {
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(id)

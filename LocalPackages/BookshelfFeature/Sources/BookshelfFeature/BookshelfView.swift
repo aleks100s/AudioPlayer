@@ -58,6 +58,20 @@ public struct BookshelfView: View {
 						playerView(viewStore)
 					}
 				}
+				
+				if let time = viewStore.sliderProgress {
+					VStack {
+						Text(time)
+							.font(.title2)
+							.padding(.horizontal, 16)
+							.padding(.vertical, 32)
+							.background(.regularMaterial.opacity(0.6))
+							.clipShape(RoundedRectangle(cornerRadius: 16))
+						
+						Spacer()
+							.frame(height: 50)
+					}
+				}
 			}
 			.navigationTitle("Мои книги")
 			.onFirstAppear {
@@ -146,10 +160,13 @@ public struct BookshelfView: View {
 				.monospaced()
 			Slider(value: $progress, in: durationRange) { isSliderBusy in
 				self.isSliderBusy = isSliderBusy
+				if !isSliderBusy {
+					viewStore.send(.playbackSliderPositionChanged(progress))
+				}
 			}
 			.onChange(of: progress) { _, newValue in
 				if isSliderBusy {
-					viewStore.send(.playbackSliderPositionChanged(newValue))
+					viewStore.send(.playbackSliderPositionChangeInProgress(newValue))
 				}
 			}
 			Text(viewStore.duration)
