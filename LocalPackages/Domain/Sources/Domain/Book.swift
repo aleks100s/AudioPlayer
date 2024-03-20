@@ -15,6 +15,12 @@ public struct Book {
 	public var chapters: [AudioFile]
 	public var currentChapterName: String?
 	
+	public var progress: Double {
+		let allChapters = chapters.count
+		let readChapters = chapters.filter(\.isListened).count
+		return Double(readChapters) / Double(allChapters)
+	}
+	
 	public init(id: UUID, title: String, author: String, artwork: UIImage?, chapters: [AudioFile]) {
 		self.id = id
 		self.title = title

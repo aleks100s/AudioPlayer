@@ -63,9 +63,10 @@ public struct BookshelfView: View {
 					VStack {
 						Text(time)
 							.font(.title2)
+							.monospaced()
 							.padding(.horizontal, 16)
 							.padding(.vertical, 32)
-							.background(.regularMaterial.opacity(0.6))
+							.background(.regularMaterial)
 							.clipShape(RoundedRectangle(cornerRadius: 16))
 						
 						Spacer()

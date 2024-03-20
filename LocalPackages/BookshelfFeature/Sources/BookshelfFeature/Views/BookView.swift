@@ -44,11 +44,16 @@ struct BookView<MenuContent: View>: View {
 							}
 							
 							Spacer()
+							
+							Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+								.font(.title)
 						}
 						.padding()
 						.background(.ultraThinMaterial)
 					}
 				}
+				
+				ProgressView(value: book.progress, total: 1.0)
 				
 				HStack {
 					if let chapter = book.currentChapterName {
@@ -57,8 +62,8 @@ struct BookView<MenuContent: View>: View {
 					}
 					
 					Spacer()
-					
-					Image(systemName: isPlaying ? "pause.circle" : "play.circle")
+															
+					Text(String(format: "%.0f%%", book.progress * 100))
 				}
 				.padding()
 			}
