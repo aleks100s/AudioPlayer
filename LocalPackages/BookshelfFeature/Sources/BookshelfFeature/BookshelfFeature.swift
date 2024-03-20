@@ -143,7 +143,11 @@ public struct BookshelfFeature {
 				guard let file = state.currentBook?.chapters.first(where: { $0.name == currentAudioName })
 						?? state.currentBook?.chapters.first else { return .none }
 				
+				guard let index = state.books.firstIndex(where: { $0 == book }) else { return .none }
+				
 				state.currentAudio = file
+				state.currentBook?.currentChapterName = file.name
+				state.books[index].currentChapterName = file.name
 
 				let currentTime = storageService.getCurrentTime(file)
 
@@ -362,10 +366,12 @@ public struct BookshelfFeature {
 				
 			case let .markFileAsListened(file):
 				guard let book = state.currentBook,
-					  let index = book.chapters.firstIndex(where: { $0 == file })
+					  let bookIndex = state.books.firstIndex(where: { $0 == book }),
+					  let chapterIndex = book.chapters.firstIndex(where: { $0 == file })
 				else { return .none }
 				
-				state.currentBook?.chapters[index].isListened = true
+				state.books[bookIndex].chapters[chapterIndex].isListened = true
+				state.currentBook?.chapters[chapterIndex].isListened = true
 				state.currentAudio?.isListened = true
 				storageService.markAudioFileAsListened(book, file)
 				return .none

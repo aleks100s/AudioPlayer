@@ -127,7 +127,7 @@ public struct BookshelfView: View {
 		Button() {
 			store.send(.bookOpened(book))
 		} label: {
-			Label("Открыть книгу", systemImage: "list")
+			Label("Показать главы", systemImage: "list")
 		}
 		
 		Button(role: .destructive) {
@@ -181,7 +181,7 @@ public struct BookshelfView: View {
 			Button {
 				viewStore.send(.changePlaybackRateButtonTapped)
 			} label: {
-				Text("Speed \(viewStore.playbackRate.title)")
+				Text("Скорость \(viewStore.playbackRate.title)")
 			}
 
 			Spacer()

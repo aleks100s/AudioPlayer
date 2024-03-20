@@ -40,7 +40,7 @@ struct BookView<MenuContent: View>: View {
 								Text(book.author)
 									.font(.subheadline)
 									.lineLimit(1)
-									.foregroundStyle(.gray)
+									.foregroundStyle(.secondary)
 							}
 							
 							Spacer()
