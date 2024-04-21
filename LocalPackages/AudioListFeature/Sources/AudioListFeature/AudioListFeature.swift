@@ -21,6 +21,8 @@ public struct AudioListFeature {
 		var isPlaying: Bool
 		
 		public init(book: Book, currentAudio: AudioFile?, isPlaying: Bool) {
+			print(book.chapters.first)
+			print(currentAudio)
 			self.book = book
 			self.currentAudio = currentAudio
 			self.isPlaying = isPlaying
@@ -30,6 +32,8 @@ public struct AudioListFeature {
 	public enum Action: Equatable {
 		public enum Delegate: Equatable {
 			case audioSelected(AudioFile)
+			case markAsRead(AudioFile)
+			case markAsUnread(AudioFile)
 		}
 		
 		case viewDidLoad
