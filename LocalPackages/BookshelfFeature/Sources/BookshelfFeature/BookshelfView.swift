@@ -30,7 +30,7 @@ public struct BookshelfView: View {
 			ZStack {
 				ScrollView {
 					LazyVStack(spacing: 16) {
-						ForEach(viewStore.books, id: \.title) { book in
+						ForEach(viewStore.books, id: \.id) { book in
 							let isPlaying = viewStore.currentBook == book && viewStore.playerState == .playing
 							BookView(book: book, isPlaying: isPlaying) {
 								menuContent(for: book)

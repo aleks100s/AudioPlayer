@@ -99,6 +99,10 @@ extension StorageService: DependencyKey {
 				}
 				
 				return value
+			},
+			markAudioFileAsNotListened: { book, file in
+				Log.debug("Mark file \(file.name) as not listened")
+				UserDefaults.standard.setValue(false, forKey: StorageService.Key.listened.rawValue + book.id.uuidString + file.name)
 			}
 		)
 	}
@@ -117,7 +121,8 @@ extension StorageService: DependencyKey {
 			getCurrentBook: { nil },
 			deleteBook: { _ in },
 			markAudioFileAsListened: { _, _ in },
-			isAudioFileListened: { _, _ in false }
+			isAudioFileListened: { _, _ in false },
+			markAudioFileAsNotListened: { _, _ in }
 		)
 	}
 	
@@ -134,7 +139,8 @@ extension StorageService: DependencyKey {
 		getCurrentBook: @escaping () -> String? = { nil },
 		deleteBook: @escaping (Book) -> Void = { _ in },
 		markAudioFileAsListened: @escaping (Book, AudioFile) -> Void = { _, _ in },
-		isAudioFileListened: @escaping (BookDto, AudioFile) -> Bool = { _, _ in false }
+		isAudioFileListened: @escaping (BookDto, AudioFile) -> Bool = { _, _ in false },
+		markAudioFileAsNotListened: @escaping (Book, AudioFile) -> Void = { _, _ in }
 	) -> StorageService {
 		StorageService(
 			savePlaybackRate: savePlaybackRate,
@@ -149,7 +155,8 @@ extension StorageService: DependencyKey {
 			getCurrentBook: getCurrentBook,
 			deleteBook: deleteBook,
 			markAudioFileAsListened: markAudioFileAsListened,
-			isAudioFileListened: isAudioFileListened
+			isAudioFileListened: isAudioFileListened,
+			markAudioFileAsNotListened: markAudioFileAsNotListened
 		)
 	}
 }
