@@ -67,6 +67,12 @@ public struct AudioListView: View {
 					audioFileItem(viewStore, file: file) {
 						viewStore.send(.delegate(.audioSelected(file)))
 					}
+					.swipeActions(edge: .leading) {
+						Button(file.isListened ? "Отметить непрослушанным" : "Отметить прослушанным") {
+							viewStore.send(file.isListened ? .delegate(.markAsUnread(file)) : .delegate(.markAsRead(file)))
+						}
+						.tint(.green)
+					}
 				}
 			}
 		}

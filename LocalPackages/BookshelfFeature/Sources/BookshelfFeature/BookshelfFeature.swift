@@ -80,6 +80,7 @@ public struct BookshelfFeature {
 		case audioListAction(PresentationAction<AudioListFeature.Action>)
 		case updateAudioListIfNeeded
 		case markFileAsListened(AudioFile)
+		case markFileAsNotListened(AudioFile)
 		case playbackSliderPositionChangeInProgress(TimeInterval)
 	}
 	
@@ -302,6 +303,7 @@ public struct BookshelfFeature {
 				
 				let nextAudio = currentBook.chapters[index + 1]
 				return .run { send in
+					await send(.markFileAsListened(currentAudio))
 					await send(.audioSelected(nextAudio))
 				}
 				
@@ -353,6 +355,16 @@ public struct BookshelfFeature {
 						await send(.audioSelected(audio))
 					}
 					
+				case let .presented(.delegate(.markAsRead(audio))):
+					return .run { send in
+						await send(.markFileAsListened(audio))
+					}
+					
+				case let .presented(.delegate(.markAsUnread(audio))):
+					return .run { send in
+						await send(.markFileAsNotListened(audio))
+					}
+					
 				default:
 					break
 				}
@@ -367,14 +379,36 @@ public struct BookshelfFeature {
 			case let .markFileAsListened(file):
 				guard let book = state.currentBook,
 					  let bookIndex = state.books.firstIndex(where: { $0 == book }),
-					  let chapterIndex = book.chapters.firstIndex(where: { $0 == file })
+					  let chapterIndex = book.chapters.firstIndex(where: { $0 == file }),
+					  !file.isListened
 				else { return .none }
 				
 				state.books[bookIndex].chapters[chapterIndex].isListened = true
 				state.currentBook?.chapters[chapterIndex].isListened = true
-				state.currentAudio?.isListened = true
+				if file == state.currentAudio {
+					state.currentAudio?.isListened = true
+				}
 				storageService.markAudioFileAsListened(book, file)
-				return .none
+				return .run { send in
+					await send(.updateAudioListIfNeeded)
+				}
+				
+			case let .markFileAsNotListened(file):
+				guard let book = state.currentBook,
+					  let bookIndex = state.books.firstIndex(where: { $0 == book }),
+					  let chapterIndex = book.chapters.firstIndex(where: { $0 == file }),
+					  file.isListened
+				else { return .none }
+				
+				state.books[bookIndex].chapters[chapterIndex].isListened = false
+				state.currentBook?.chapters[chapterIndex].isListened = false
+				if file == state.currentAudio {
+					state.currentAudio?.isListened = false
+				}
+				storageService.markAudioFileAsNotListened(book, file)
+				return .run { send in
+					await send(.updateAudioListIfNeeded)
+				}
 				
 			case let .playbackSliderPositionChangeInProgress(time):
 				state.sliderProgress = makeTimeString(from: time)
