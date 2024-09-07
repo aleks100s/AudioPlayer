@@ -12,6 +12,9 @@
 		2767CFF92C8C89B900F5F12D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2767CFF82C8C89B900F5F12D /* Assets.xcassets */; };
 		2767CFFC2C8C89B900F5F12D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2767CFFB2C8C89B900F5F12D /* Preview Assets.xcassets */; };
 		2767D0052C8C8A6100F5F12D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0042C8C8A6100F5F12D /* AppDelegate.swift */; };
+		2767D0092C8C8D9500F5F12D /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0082C8C8D9500F5F12D /* Chapter.swift */; };
+		2767D00B2C8C8E7800F5F12D /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D00A2C8C8E7800F5F12D /* Book.swift */; };
+		2767D00D2C8C8F4900F5F12D /* PlaybackRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		2767CFFB2C8C89B900F5F12D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2767D0032C8C8A3C00F5F12D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2767D0042C8C8A6100F5F12D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2767D0082C8C8D9500F5F12D /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
+		2767D00A2C8C8E7800F5F12D /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackRate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,7 @@
 		2767CFF32C8C89B800F5F12D /* AudioPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				2767D0072C8C8D4500F5F12D /* Domain */,
 				2767CFF62C8C89B800F5F12D /* ContentView.swift */,
 				2767CFF42C8C89B800F5F12D /* AudioPlayerApp.swift */,
 				2767D0042C8C8A6100F5F12D /* AppDelegate.swift */,
@@ -70,6 +77,16 @@
 				2767CFFB2C8C89B900F5F12D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2767D0072C8C8D4500F5F12D /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				2767D0082C8C8D9500F5F12D /* Chapter.swift */,
+				2767D00A2C8C8E7800F5F12D /* Book.swift */,
+				2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +162,10 @@
 			files = (
 				2767D0052C8C8A6100F5F12D /* AppDelegate.swift in Sources */,
 				2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */,
+				2767D00D2C8C8F4900F5F12D /* PlaybackRate.swift in Sources */,
 				2767CFF52C8C89B800F5F12D /* AudioPlayerApp.swift in Sources */,
+				2767D00B2C8C8E7800F5F12D /* Book.swift in Sources */,
+				2767D0092C8C8D9500F5F12D /* Chapter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
