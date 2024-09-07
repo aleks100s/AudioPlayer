@@ -12,6 +12,7 @@ struct BookshelfView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.metaInfoService) private var metaInfoService
 	@Environment(\.fileService) private var fileService
+	@Environment(\.spotlightService) private var spotlightService
 	
 	@Query(animation: .default) private var books: [Book]
 	
@@ -99,6 +100,7 @@ struct BookshelfView: View {
 			Task {
 				do {
 					try fileService.deleteBookFiles(book)
+					spotlightService.deindex(book: book)
 					modelContext.delete(book)
 				} catch {
 					Log.error(error.localizedDescription)
@@ -138,6 +140,7 @@ struct BookshelfView: View {
 				
 				let book = Book(id: id, title: bookMeta.albumName, author: bookMeta.artist, chapters: chapters)
 				modelContext.insert(book)
+				spotlightService.index(book: book)
 			} catch {
 				Log.error(error.localizedDescription)
 			}
