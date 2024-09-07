@@ -26,8 +26,7 @@
 		2767D0252C8C969100F5F12D /* BookshelfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0242C8C969100F5F12D /* BookshelfView.swift */; };
 		2767D0272C8C97D800F5F12D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0262C8C97D800F5F12D /* Constants.swift */; };
 		2767D02A2C8C988500F5F12D /* CompactPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0292C8C988500F5F12D /* CompactPlayerView.swift */; };
-		2767D02D2C8C993A00F5F12D /* Book+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D02C2C8C993A00F5F12D /* Book+Mock.swift */; };
-		2767D02F2C8C996E00F5F12D /* Chapter+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D02E2C8C996E00F5F12D /* Chapter+Mock.swift */; };
+		279426D32C8CA24200461C4E /* Environment+BookMetaInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,8 +51,7 @@
 		2767D0242C8C969100F5F12D /* BookshelfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookshelfView.swift; sourceTree = "<group>"; };
 		2767D0262C8C97D800F5F12D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2767D0292C8C988500F5F12D /* CompactPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactPlayerView.swift; sourceTree = "<group>"; };
-		2767D02C2C8C993A00F5F12D /* Book+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Book+Mock.swift"; sourceTree = "<group>"; };
-		2767D02E2C8C996E00F5F12D /* Chapter+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chapter+Mock.swift"; sourceTree = "<group>"; };
+		279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+BookMetaInfoService.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +109,6 @@
 		2767D0072C8C8D4500F5F12D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				2767D02B2C8C992E00F5F12D /* Mock */,
 				2767D0082C8C8D9500F5F12D /* Chapter.swift */,
 				2767D00A2C8C8E7800F5F12D /* Book.swift */,
 				2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */,
@@ -153,6 +150,7 @@
 			children = (
 				2767D01C2C8C917E00F5F12D /* IBookMetaInfoService.swift */,
 				2767D01E2C8C924800F5F12D /* BookMetaInfoService.swift */,
+				279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */,
 			);
 			path = BookMetaInfo;
 			sourceTree = "<group>";
@@ -165,15 +163,6 @@
 				2767D0292C8C988500F5F12D /* CompactPlayerView.swift */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		2767D02B2C8C992E00F5F12D /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				2767D02C2C8C993A00F5F12D /* Book+Mock.swift */,
-				2767D02E2C8C996E00F5F12D /* Chapter+Mock.swift */,
-			);
-			path = Mock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,7 +241,6 @@
 				2767D02A2C8C988500F5F12D /* CompactPlayerView.swift in Sources */,
 				2767D0182C8C907100F5F12D /* Logger+Extensions.swift in Sources */,
 				2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */,
-				2767D02F2C8C996E00F5F12D /* Chapter+Mock.swift in Sources */,
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
 				2767D00D2C8C8F4900F5F12D /* PlaybackRate.swift in Sources */,
@@ -262,7 +250,7 @@
 				2767D0132C8C8FFB00F5F12D /* View+FirstAppear.swift in Sources */,
 				2767D0092C8C8D9500F5F12D /* Chapter.swift in Sources */,
 				2767D01F2C8C924800F5F12D /* BookMetaInfoService.swift in Sources */,
-				2767D02D2C8C993A00F5F12D /* Book+Mock.swift in Sources */,
+				279426D32C8CA24200461C4E /* Environment+BookMetaInfoService.swift in Sources */,
 				2767D0112C8C8FE600F5F12D /* ErrorAlert.swift in Sources */,
 				2767D01D2C8C917E00F5F12D /* IBookMetaInfoService.swift in Sources */,
 				2767D0252C8C969100F5F12D /* BookshelfView.swift in Sources */,

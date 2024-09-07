@@ -10,56 +10,62 @@ import Foundation
 import MediaPlayer
 
 struct BookMetaInfoService: IBookMetaInfoService {
+	func extractAlbumName(from url: URL?) async throws -> String? {
+		guard let url else { return nil }
+		
+		return try await extractStringResource(by: .commonKeyAlbumName, from: url)
+	}
+	
 	func extractTitle(from url: URL?) async throws -> String? {
 		guard let url else { return nil }
 		
-		return try await extractStringResource(by: .commonKeyAlbumName, from: AVAsset(url: url))
+		return try await extractStringResource(by: .commonKeyTitle, from: url)
 	}
 	
 	func extractAuthor(from url: URL?) async throws -> String? {
 		guard let url else { return nil }
 
-		return try await extractStringResource(by: .commonKeyArtist, from: AVAsset(url: url))
+		return try await extractStringResource(by: .commonKeyArtist, from: url)
 	}
 	
-	func extractArtwork(from url: URL?) async throws -> MPMediaItemArtwork? {
+	func extractArtwork(from url: URL?) async throws -> Data? {
 		guard let url else { return nil }
 
-		return try await extractArtwork(from: AVAsset(url: url))
+		return try await extractArtwork(from: url)
 	}
 	
 	func extractDuration(from url: URL?) async throws -> TimeInterval {
 		guard let url else { return 0 }
 
-		return try await extractDuration(from: AVAsset(url: url))
+		return try await extractDuration(from: url)
 	}
 }
 
 private extension BookMetaInfoService {
-	func extractArtwork(from asset: AVAsset) async throws -> MPMediaItemArtwork? {
+	func extractArtwork(from url: URL) async throws -> Data? {
+		let asset = AVAsset(url: url)
 		let metadata = try await asset.load(.commonMetadata)
-		for item in metadata {
-			if item.commonKey == .commonKeyArtwork {
-				if let data = try await item.load(.value) as? Data {
-					guard let artworkImage = UIImage(data: data) else {
-						Log.debug("Failed to extract artwork from metadata of \(asset.description)")
-						break
-					}
-					
-					let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
-						return artworkImage
-					}
-					return artwork
-				}
-			}
+		for item in metadata where item.commonKey == .commonKeyArtwork {
+			return try await item.load(.value) as? Data
 		}
 		return nil
 	}
 	
+//	guard let artworkImage = UIImage(data: data) else {
+//		Log.debug("Failed to extract artwork from metadata of \(asset.description)")
+//		break
+//	}
+//	
+//	let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
+//		return artworkImage
+//	}
+//	return artwork
+	
 	func extractStringResource(
 		by key: AVMetadataKey,
-		from asset: AVAsset
+		from url: URL
 	) async throws -> String? {
+		let asset = AVAsset(url: url)
 		let metadata = try await asset.load(.commonMetadata)
 		for item in metadata {
 			if item.commonKey == key {

@@ -5,10 +5,14 @@
 //  Created by Alexander on 07.09.2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct BookshelfView: View {
-	let books: [Book]
+	@Environment(\.modelContext) private var modelContext
+	@Environment(\.metaInfoService) private var metaInfoService
+	
+	@Query(animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
 	
@@ -77,12 +81,10 @@ struct BookshelfView: View {
 		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
 			switch results {
 			case .success(let files):
-				break
-				// viewStore.send(.saveBookFiles(files))
+				handle(files: files)
 				
 			case .failure(let error):
-				break
-				// viewStore.send(.errorOccurred(error.localizedDescription))
+				Log.error(error.localizedDescription)
 			}
 		})
 	}
@@ -99,6 +101,41 @@ struct BookshelfView: View {
 			// store.send(.deleteBook(book))
 		} label: {
 			Label("Удалить книгу", systemImage: "trash")
+		}
+	}
+	
+	private func handle(files: [URL]) {
+		guard !files.isEmpty, files.first?.startAccessingSecurityScopedResource() == true else { return }
+		
+		Task {
+			do {
+				let bookTitle = try await metaInfoService.extractAlbumName(from: files.first)
+				if bookTitle == nil {
+					Log.error("Не удалось извлечь название книги")
+				}
+				
+				let author = try await metaInfoService.extractAuthor(from: files.first)
+				if author == nil {
+					Log.error("Не удалось извлечь автора")
+				}
+				
+				var chapters = [Chapter]()
+				for file in files {
+					guard file.startAccessingSecurityScopedResource() else {
+						continue
+					}
+					
+					let data = try await metaInfoService.extractArtwork(from: file)
+					let name = try await metaInfoService.extractTitle(from: file) ?? file.lastPathComponent
+					let chapter = Chapter(name: name, url: file, artworkData: data)
+					chapters.append(chapter)
+				}
+				
+				let book = Book(title: bookTitle ?? "-", author: author ?? "-", chapters: chapters)
+				modelContext.insert(book)
+			} catch {
+				Log.error(error.localizedDescription)
+			}
 		}
 	}
 }

@@ -15,8 +15,6 @@ final class Book {
 	let title: String
 	@Attribute(.spotlight)
 	let author: String
-	@Attribute(.externalStorage)
-	let artworkData: Data?
 	@Relationship(deleteRule: .cascade)
 	var chapters: [Chapter]
 	
@@ -26,11 +24,10 @@ final class Book {
 		return Double(readChapters) / Double(allChapters)
 	}
 	
-	init(id: UUID, title: String, author: String, artworkData: Data?, chapters: [Chapter]) {
+	init(id: UUID = UUID(), title: String, author: String, chapters: [Chapter]) {
 		self.id = id
 		self.title = title
 		self.author = author
-		self.artworkData = artworkData
 		self.chapters = chapters
 	}
 }

@@ -14,12 +14,15 @@ final class Chapter {
 	@Attribute(.spotlight)
 	let name: String
 	let url: URL
+	@Attribute(.externalStorage)
+	let artworkData: Data?
 	var isListened: Bool
 	
-	init(id: UUID = UUID(), name: String, url: URL, isListened: Bool = false) {
+	init(id: UUID = UUID(), name: String, url: URL, artworkData: Data?, isListened: Bool = false) {
 		self.id = id
 		self.name = name
 		self.url = url
+		self.artworkData = artworkData
 		self.isListened = isListened
 	}
 }
