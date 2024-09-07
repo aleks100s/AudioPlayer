@@ -11,6 +11,7 @@ import SwiftUI
 struct BookshelfView: View {
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.metaInfoService) private var metaInfoService
+	@Environment(\.fileService) private var fileService
 	
 	@Query(animation: .default) private var books: [Book]
 	
@@ -95,7 +96,14 @@ struct BookshelfView: View {
 		}
 		
 		Button(role: .destructive) {
-			modelContext.delete(book)
+			Task {
+				do {
+					try fileService.deleteBookFiles(book)
+					modelContext.delete(book)
+				} catch {
+					Log.error(error.localizedDescription)
+				}
+			}
 		} label: {
 			Label("Удалить книгу", systemImage: "trash")
 		}
@@ -116,6 +124,9 @@ struct BookshelfView: View {
 					Log.error("Не удалось извлечь автора")
 				}
 				
+				let id = UUID()
+				let files = try fileService.saveBookFiles(files, id: id)
+				
 				var chapters = [Chapter]()
 				for file in files {
 					guard file.startAccessingSecurityScopedResource() else {
@@ -128,7 +139,7 @@ struct BookshelfView: View {
 					chapters.append(chapter)
 				}
 				
-				let book = Book(title: bookTitle ?? "-", author: author ?? "-", chapters: chapters)
+				let book = Book(id: id, title: bookTitle ?? "-", author: author ?? "-", chapters: chapters)
 				modelContext.insert(book)
 			} catch {
 				Log.error(error.localizedDescription)
