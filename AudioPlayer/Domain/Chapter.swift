@@ -11,11 +11,12 @@ import SwiftData
 @Model
 final class Chapter {
 	let id: UUID
+	@Attribute(.spotlight)
 	let name: String
 	let url: URL
 	var isListened: Bool
 	
-	init(id: UUID = UUID(), name: String, url: URL, isListened: Bool) {
+	init(id: UUID = UUID(), name: String, url: URL, isListened: Bool = false) {
 		self.id = id
 		self.name = name
 		self.url = url
