@@ -66,9 +66,6 @@ struct BookshelfView: View {
 //			}
 		}
 		.navigationTitle("Мои книги")
-		.onFirstAppear {
-			// viewStore.send(.viewDidLoad)
-		}
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
 				Button {
@@ -98,7 +95,7 @@ struct BookshelfView: View {
 		}
 		
 		Button(role: .destructive) {
-			// store.send(.deleteBook(book))
+			modelContext.delete(book)
 		} label: {
 			Label("Удалить книгу", systemImage: "trash")
 		}
