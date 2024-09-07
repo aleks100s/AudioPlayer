@@ -30,6 +30,9 @@
 		27A7B2832C8CAEA1002C4914 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2822C8CAEA1002C4914 /* FileService.swift */; };
 		27A7B2852C8CAF84002C4914 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2842C8CAF84002C4914 /* FileError.swift */; };
 		27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2862C8CB051002C4914 /* Environment+FileService.swift */; };
+		27A7B2892C8CB4E0002C4914 /* IFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2882C8CB4E0002C4914 /* IFileService.swift */; };
+		27A7B28B2C8CB518002C4914 /* ChapterMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B28A2C8CB518002C4914 /* ChapterMetadata.swift */; };
+		27A7B28D2C8CB521002C4914 /* BookMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B28C2C8CB521002C4914 /* BookMetadata.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +61,9 @@
 		27A7B2822C8CAEA1002C4914 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		27A7B2842C8CAF84002C4914 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
 		27A7B2862C8CB051002C4914 /* Environment+FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+FileService.swift"; sourceTree = "<group>"; };
+		27A7B2882C8CB4E0002C4914 /* IFileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IFileService.swift; sourceTree = "<group>"; };
+		27A7B28A2C8CB518002C4914 /* ChapterMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterMetadata.swift; sourceTree = "<group>"; };
+		27A7B28C2C8CB521002C4914 /* BookMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMetadata.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +161,8 @@
 		2767D0202C8C93CD00F5F12D /* BookMetaInfo */ = {
 			isa = PBXGroup;
 			children = (
+				27A7B28A2C8CB518002C4914 /* ChapterMetadata.swift */,
+				27A7B28C2C8CB521002C4914 /* BookMetadata.swift */,
 				2767D01C2C8C917E00F5F12D /* IBookMetaInfoService.swift */,
 				2767D01E2C8C924800F5F12D /* BookMetaInfoService.swift */,
 				279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */,
@@ -175,8 +183,9 @@
 		27A7B2812C8CAE89002C4914 /* FileService */ = {
 			isa = PBXGroup;
 			children = (
-				27A7B2822C8CAEA1002C4914 /* FileService.swift */,
 				27A7B2842C8CAF84002C4914 /* FileError.swift */,
+				27A7B2882C8CB4E0002C4914 /* IFileService.swift */,
+				27A7B2822C8CAEA1002C4914 /* FileService.swift */,
 				27A7B2862C8CB051002C4914 /* Environment+FileService.swift */,
 			);
 			path = FileService;
@@ -262,7 +271,10 @@
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
 				27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */,
+				27A7B28D2C8CB521002C4914 /* BookMetadata.swift in Sources */,
+				27A7B2892C8CB4E0002C4914 /* IFileService.swift in Sources */,
 				2767D00D2C8C8F4900F5F12D /* PlaybackRate.swift in Sources */,
+				27A7B28B2C8CB518002C4914 /* ChapterMetadata.swift in Sources */,
 				2767D0272C8C97D800F5F12D /* Constants.swift in Sources */,
 				2767CFF52C8C89B800F5F12D /* AudioPlayerApp.swift in Sources */,
 				2767D00B2C8C8E7800F5F12D /* Book.swift in Sources */,

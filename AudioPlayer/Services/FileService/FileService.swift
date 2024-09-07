@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FileService {
+struct FileService: IFileService {
 	func saveBookFiles(_ files: [URL], id: UUID) throws -> [URL] {
 		Log.debug("Trying to save book files \(files)")
 		let manager = FileManager.default

@@ -10,40 +10,30 @@ import Foundation
 import MediaPlayer
 
 struct BookMetaInfoService: IBookMetaInfoService {
-	func extractAlbumName(from url: URL?) async throws -> String? {
-		guard let url else { return nil }
-		
-		return try await extractStringResource(by: .commonKeyAlbumName, from: url)
-	}
-	
-	func extractTitle(from url: URL?) async throws -> String? {
-		guard let url else { return nil }
-		
-		return try await extractStringResource(by: .commonKeyTitle, from: url)
-	}
-	
-	func extractAuthor(from url: URL?) async throws -> String? {
+	func extractBookMetadata(from url: URL?) async throws -> BookMetadata? {
 		guard let url else { return nil }
 
-		return try await extractStringResource(by: .commonKeyArtist, from: url)
+		let asset = AVAsset(url: url)
+		let albumName = try await extractStringResource(by: .commonKeyAlbumName, from: asset) ?? "-"
+		let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? "-"
+		let metadata = BookMetadata(albumName: albumName, artist: artist)
+		return metadata
 	}
 	
-	func extractArtwork(from url: URL?) async throws -> Data? {
+	func extractChapterMetadata(from url: URL?) async throws -> ChapterMetadata? {
 		guard let url else { return nil }
 
-		return try await extractArtwork(from: url)
-	}
-	
-	func extractDuration(from url: URL?) async throws -> TimeInterval {
-		guard let url else { return 0 }
-
-		return try await extractDuration(from: url)
+		let asset = AVAsset(url: url)
+		let title = try await extractStringResource(by: .commonKeyTitle, from: asset) ?? url.lastPathComponent
+		let duration = try await asset.load(.duration).seconds
+		let data = try await extractArtwork(from: asset)
+		let metadata = ChapterMetadata(title: title, duration: duration, artworkData: data)
+		return metadata
 	}
 }
 
 private extension BookMetaInfoService {
-	func extractArtwork(from url: URL) async throws -> Data? {
-		let asset = AVAsset(url: url)
+	func extractArtwork(from asset: AVAsset) async throws -> Data? {
 		let metadata = try await asset.load(.commonMetadata)
 		for item in metadata where item.commonKey == .commonKeyArtwork {
 			return try await item.load(.value) as? Data
@@ -63,9 +53,8 @@ private extension BookMetaInfoService {
 	
 	func extractStringResource(
 		by key: AVMetadataKey,
-		from url: URL
+		from asset: AVAsset
 	) async throws -> String? {
-		let asset = AVAsset(url: url)
 		let metadata = try await asset.load(.commonMetadata)
 		for item in metadata {
 			if item.commonKey == key {

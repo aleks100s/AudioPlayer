@@ -110,36 +110,33 @@ struct BookshelfView: View {
 	}
 	
 	private func handle(files: [URL]) {
-		guard !files.isEmpty, files.first?.startAccessingSecurityScopedResource() == true else { return }
+		guard !files.isEmpty else {
+			Log.error("Массив файлов пуст")
+			return
+		}
 		
 		Task {
 			do {
-				let bookTitle = try await metaInfoService.extractAlbumName(from: files.first)
-				if bookTitle == nil {
-					Log.error("Не удалось извлечь название книги")
-				}
-				
-				let author = try await metaInfoService.extractAuthor(from: files.first)
-				if author == nil {
-					Log.error("Не удалось извлечь автора")
-				}
-				
 				let id = UUID()
 				let files = try fileService.saveBookFiles(files, id: id)
 				
 				var chapters = [Chapter]()
 				for file in files {
-					guard file.startAccessingSecurityScopedResource() else {
+					guard file.startAccessingSecurityScopedResource(), let chapterMeta = try await metaInfoService.extractChapterMetadata(from: file) else {
+						Log.error("Проблема с обработкой файла \(file.absoluteString)")
 						continue
 					}
 					
-					let data = try await metaInfoService.extractArtwork(from: file)
-					let name = try await metaInfoService.extractTitle(from: file) ?? file.lastPathComponent
-					let chapter = Chapter(name: name, url: file, artworkData: data)
+					let chapter = Chapter(name: chapterMeta.title, duration: chapterMeta.duration, url: file, artworkData: chapterMeta.artworkData)
 					chapters.append(chapter)
 				}
 				
-				let book = Book(id: id, title: bookTitle ?? "-", author: author ?? "-", chapters: chapters)
+				guard let bookMeta = try await metaInfoService.extractBookMetadata(from: files.first) else {
+					Log.debug("Не удалось извлечь информацию о книге")
+				return
+				}
+				
+				let book = Book(id: id, title: bookMeta.albumName, author: bookMeta.artist, chapters: chapters)
 				modelContext.insert(book)
 			} catch {
 				Log.error(error.localizedDescription)
