@@ -40,6 +40,7 @@
 		27A7B2992C8DBBDC002C4914 /* Environment+PlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2982C8DBBDC002C4914 /* Environment+PlayerService.swift */; };
 		27A7B29B2C8DBC6D002C4914 /* IPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B29A2C8DBC6D002C4914 /* IPlayerService.swift */; };
 		27A7B29E2C8DBD12002C4914 /* PlayerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */; };
+		27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B29F2C8E082B002C4914 /* Double+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		27A7B2982C8DBBDC002C4914 /* Environment+PlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+PlayerService.swift"; sourceTree = "<group>"; };
 		27A7B29A2C8DBC6D002C4914 /* IPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPlayerService.swift; sourceTree = "<group>"; };
 		27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatus.swift; sourceTree = "<group>"; };
+		27A7B29F2C8E082B002C4914 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 				2767D0122C8C8FFB00F5F12D /* View+FirstAppear.swift */,
 				2767D0172C8C907100F5F12D /* Logger+Extensions.swift */,
 				2767D0192C8C908E00F5F12D /* URL+Extensions.swift */,
+				27A7B29F2C8E082B002C4914 /* Double+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */,
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
+				27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */,
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
 				27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */,
 				27A7B28D2C8CB521002C4914 /* BookMetadata.swift in Sources */,

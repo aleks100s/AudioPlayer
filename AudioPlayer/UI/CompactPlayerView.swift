@@ -12,9 +12,11 @@ struct CompactPlayerView: View {
 	@State private var durationRange: ClosedRange<TimeInterval> = 0...0
 	@State private var isSliderBusy = false
 	
+	@Environment(\.playerService) private var playerService
+	
 	var body: some View {
 		VStack(alignment: .center, spacing: 12) {
-			Text("Название главы")
+			Text(playerService.currentBook?.currentChapter?.name ?? "")
 				.font(.title3)
 			
 			seeker()
@@ -31,9 +33,13 @@ struct CompactPlayerView: View {
 	@ViewBuilder
 	private func seeker() -> some View {
 		HStack {
-			Text("currentTime")
+			Text(playerService.currentBook?.currentChapter?.currentTime.timeString ?? "")
 				.monospaced()
-			Slider(value: $progress, in: durationRange) { isSliderBusy in
+			
+			Slider(
+				value: $progress,
+				in: 0...(playerService.currentBook?.currentChapter?.duration ?? .zero)
+			) { isSliderBusy in
 				self.isSliderBusy = isSliderBusy
 				if !isSliderBusy {
 					// viewStore.send(.playbackSliderPositionChanged(progress))
@@ -44,7 +50,13 @@ struct CompactPlayerView: View {
 					// viewStore.send(.playbackSliderPositionChangeInProgress(newValue))
 				}
 			}
-			Text("00:00")
+			.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: false) { _, newValue in
+				if !isSliderBusy {
+					progress = newValue ?? .zero
+				}
+			}
+			
+			Text(playerService.currentBook?.currentChapter?.duration.timeString ?? "")
 				.monospaced()
 		}
 	}
@@ -102,15 +114,13 @@ struct CompactPlayerView: View {
 	@ViewBuilder
 	private func playButton() -> some View {
 		Button {
-//			if viewStore.playerState == .playing {
-//				viewStore.send(.pauseButtonTapped)
-//			} else if viewStore.playerState == .paused {
-//				viewStore.send(.resumeButtonTapped)
-//			}
+			playerService.pauseOrResume()
 		} label: {
-			Image(systemName: "play.fill")
+			Image(systemName: playerService.isPlaying ? "pause.fill" : "play.fill")
 				.font(.title)
+				.animation(.spring, value: playerService.isPlaying)
 		}
+		.sensoryFeedback(playerService.isPlaying ? .stop : .start, trigger: playerService.isPlaying)
 	}
 	
 	@ViewBuilder

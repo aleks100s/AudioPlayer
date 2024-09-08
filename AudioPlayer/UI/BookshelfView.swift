@@ -38,14 +38,11 @@ struct BookshelfView: View {
 			.padding()
 		}
 		.scrollIndicators(.hidden)
-			
-//			if viewStore.playerState != .hidden {
-//				VStack {
-//					Spacer()
-//					playerView(viewStore)
-//				}
-//			}
-			
+		.safeAreaInset(edge: .bottom) {
+			if playerService.currentBook != nil {
+				CompactPlayerView()
+			}
+		}
 //			if let time = viewStore.sliderProgress {
 //				VStack {
 //					Text(time)

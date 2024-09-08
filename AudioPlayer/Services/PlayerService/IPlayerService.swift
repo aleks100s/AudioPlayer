@@ -13,8 +13,7 @@ protocol IPlayerService {
 	var isPlaying: Bool { get }
 
 	func playAudio(book: Book, rate: PlaybackRate?) throws
-	func pauseCurrentAudio()
-	func resumeCurrentAudio()
+	func pauseOrResume()
 	func setPlayback(time: TimeInterval)
 	func skipForward(time: TimeInterval)
 	func skipBackward(time: TimeInterval)

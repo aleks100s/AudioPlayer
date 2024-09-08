@@ -31,7 +31,7 @@ final class PlayerService: NSObject, IPlayerService {
 	
 	func playAudio(book: Book, rate: PlaybackRate?) throws {
 		guard currentBook != book else {
-			resumeCurrentAudio()
+			pauseOrResume()
 			return
 		}
 		
@@ -53,9 +53,10 @@ final class PlayerService: NSObject, IPlayerService {
 		
 		do {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
-			updatePlayerWithNewAudio()
 			audioPlayer?.delegate = self
 			audioPlayer?.enableRate = true
+			audioPlayer?.currentTime = chapter.currentTime
+			updatePlayerWithNewAudio()
 			if let rate {
 				audioPlayer?.rate = rate.rawValue
 			}
@@ -92,12 +93,20 @@ extension PlayerService: AVAudioPlayerDelegate {
 // MARK: - In-App Controls
 
 extension PlayerService {
-	func pauseCurrentAudio() {
+	func pauseOrResume() {
+		if isPlaying {
+			pauseCurrentAudio()
+		} else {
+			resumeCurrentAudio()
+		}
+	}
+	
+	private func pauseCurrentAudio() {
 		audioPlayer?.pause()
 		updatePlayback()
 	}
 	
-	func resumeCurrentAudio() {
+	private func resumeCurrentAudio() {
 		audioPlayer?.play()
 		updatePlayback()
 	}

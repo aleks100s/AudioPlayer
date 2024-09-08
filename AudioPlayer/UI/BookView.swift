@@ -79,11 +79,7 @@ struct BookView: View {
 	
 	private func handlePlayButtonTap() {
 		do {
-			if isPlaying {
-				playerService.pauseCurrentAudio()
-			} else {
-				try playerService.playAudio(book: book, rate: nil)
-			}
+			try playerService.playAudio(book: book, rate: nil)
 		} catch {
 			Log.error(error.localizedDescription)
 		}
