@@ -31,9 +31,6 @@ struct BookshelfView: View {
 							menuContent(for: book)
 						}
 				}
-				
-				Spacer()
-					.frame(height: 176)
 			}
 			.padding()
 		}
@@ -83,7 +80,7 @@ struct BookshelfView: View {
 		Button {
 			// store.send(.bookOpened(book))
 		} label: {
-			Label("Показать главы", systemImage: "list")
+			Label("Показать главы", systemImage: "list.bullet")
 		}
 		
 		Button(role: .destructive) {
@@ -91,6 +88,7 @@ struct BookshelfView: View {
 				do {
 					try fileService.deleteBookFiles(book)
 					spotlightService.deindex(book: book)
+					playerService.remove(book: book)
 					modelContext.delete(book)
 				} catch {
 					Log.error(error.localizedDescription)

@@ -29,7 +29,7 @@ struct FileService: IFileService {
 		}
 		
 		var resultUrls = [URL]()
-		for file in files.sorted(by: { $0.absoluteString > $1.absoluteString }) {
+		for file in files.sorted(by: { $0.absoluteString < $1.absoluteString }) {
 			guard file.startAccessingSecurityScopedResource() else {
 				Log.error("No permission to open file \(file)")
 				throw FileError.readingFailed

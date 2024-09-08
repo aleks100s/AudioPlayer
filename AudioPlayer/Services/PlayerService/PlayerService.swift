@@ -56,7 +56,7 @@ final class PlayerService: NSObject, IPlayerService {
 			audioPlayer?.delegate = self
 			audioPlayer?.enableRate = true
 			audioPlayer?.currentTime = chapter.currentTime
-			updatePlayerWithNewAudio()
+			setupMediaPlayer()
 			if let rate {
 				audioPlayer?.rate = rate.rawValue
 			}
@@ -70,8 +70,14 @@ final class PlayerService: NSObject, IPlayerService {
 		}
 	}
 	
-	func prepareToPlayRestoredAudio() {
-		updatePlayerWithNewAudio()
+	func remove(book: Book) {
+		guard book == currentBook else {
+			return
+		}
+		
+		currentBook = nil
+		stopAudioPlayer()
+		stopMediaPlayer()
 	}
 
 	deinit {
@@ -101,21 +107,11 @@ extension PlayerService {
 		}
 	}
 	
-	private func pauseCurrentAudio() {
-		audioPlayer?.pause()
-		updatePlayback()
-	}
-	
-	private func resumeCurrentAudio() {
-		audioPlayer?.play()
-		updatePlayback()
-	}
-	
 	func setPlayback(time: TimeInterval) {
 		guard let audioPlayer else { return }
 		
 		if time >= audioPlayer.duration {
-			finishCurrentAudioStream()
+			// next audio
 		} else {
 			audioPlayer.currentTime = time
 			updatePlayback()
@@ -132,15 +128,6 @@ extension PlayerService {
 	
 	func changePlayback(rate: PlaybackRate) {
 		audioPlayer?.rate = rate.rawValue
-	}
-	
-	private func skip(time interval: TimeInterval, forward: Bool) {
-		audioPlayer?.currentTime += interval * (forward ? 1 : -1)
-		updatePlayback()
-	}
-		
-	private func finishCurrentAudioStream() {
-		//
 	}
 }
 
@@ -262,7 +249,7 @@ private extension PlayerService {
 		}
 	}
 	
-	func updatePlayerWithNewAudio() {
+	func setupMediaPlayer() {
 		var nowPlayingInfo = [String: Any]()
 		nowPlayingInfo[MPMediaItemPropertyArtwork] = currentBook?.currentChapter?.artwork
 		nowPlayingInfo[MPMediaItemPropertyTitle] = currentBook?.currentChapter?.name
@@ -271,6 +258,21 @@ private extension PlayerService {
 		nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? .zero)
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 		MPNowPlayingInfoCenter.default().playbackState = .playing
+	}
+	
+	func pauseCurrentAudio() {
+		audioPlayer?.pause()
+		updatePlayback()
+	}
+	
+	func resumeCurrentAudio() {
+		audioPlayer?.play()
+		updatePlayback()
+	}
+	
+	func skip(time interval: TimeInterval, forward: Bool) {
+		audioPlayer?.currentTime += interval * (forward ? 1 : -1)
+		updatePlayback()
 	}
 	
 	func updatePlayback() {
@@ -284,10 +286,24 @@ private extension PlayerService {
 	}
 	
 	func updatePlaybackTime() {
-		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? .zero)
-		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? .zero)
-		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-		MPNowPlayingInfoCenter.default().playbackState = audioPlayer?.isPlaying == true ? .playing : .paused
+		if let audioPlayer {
+			MPNowPlayingInfoCenter.default().playbackState = audioPlayer.isPlaying ? .playing : .paused
+			var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+			nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer.duration)
+			nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer.currentTime)
+			MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+		} else {
+			stopMediaPlayer()
+		}
+	}
+	
+	func stopAudioPlayer() {
+		audioPlayer?.stop()
+		audioPlayer = nil
+	}
+	
+	func stopMediaPlayer() {
+		MPNowPlayingInfoCenter.default().playbackState = .stopped
+		MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
 	}
 }
