@@ -13,7 +13,7 @@ struct BookView<MenuContent: View>: View {
 	private let menuContent: () -> MenuContent
 	
 	private var image: UIImage {
-		guard let data = book.chapters.first?.artworkData else {
+		guard let data = book.orderedChapters.first?.artworkData else {
 			return UIImage(resource: .placeholder)
 		}
 		

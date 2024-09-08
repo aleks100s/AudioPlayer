@@ -16,7 +16,11 @@ final class Book {
 	@Attribute(.spotlight)
 	let author: String
 	@Relationship(deleteRule: .cascade)
-	var chapters: [Chapter]
+	private var chapters: [Chapter]
+	
+	var orderedChapters: [Chapter] {
+		chapters.sorted(by: { $0.order > $1.order })
+	}
 	
 	public var progress: Double {
 		let allChapters = chapters.count

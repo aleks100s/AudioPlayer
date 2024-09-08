@@ -13,6 +13,7 @@ struct BookshelfView: View {
 	@Environment(\.metaInfoService) private var metaInfoService
 	@Environment(\.fileService) private var fileService
 	@Environment(\.spotlightService) private var spotlightService
+	@Environment(\.playerService) private var playerService
 	
 	@Query(animation: .default) private var books: [Book]
 	
@@ -30,7 +31,12 @@ struct BookshelfView: View {
 						.highPriorityGesture(
 							TapGesture()
 								.onEnded { _ in
-									// viewStore.send(.bookTapped(book))
+									guard let chapter = book.orderedChapters.first else {
+										return
+									}
+									
+									playerService.setupAudio(file: chapter, rate: .x100)
+									playerService.playCurrentAudio()
 								}
 						)
 						.contextMenu {
@@ -123,13 +129,13 @@ struct BookshelfView: View {
 				let files = try fileService.saveBookFiles(files, id: id)
 				
 				var chapters = [Chapter]()
-				for file in files {
+				for (index, file) in files.enumerated() {
 					guard file.startAccessingSecurityScopedResource(), let chapterMeta = try await metaInfoService.extractChapterMetadata(from: file) else {
 						Log.error("Проблема с обработкой файла \(file.absoluteString)")
 						continue
 					}
 					
-					let chapter = Chapter(name: chapterMeta.title, duration: chapterMeta.duration, url: file, artworkData: chapterMeta.artworkData)
+					let chapter = Chapter(name: chapterMeta.title, duration: chapterMeta.duration, url: file, artworkData: chapterMeta.artworkData, order: index)
 					chapters.append(chapter)
 				}
 				

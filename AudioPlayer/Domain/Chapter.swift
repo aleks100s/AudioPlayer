@@ -17,14 +17,16 @@ final class Chapter {
 	let url: URL
 	@Attribute(.externalStorage)
 	let artworkData: Data?
+	let order: Int
 	var isListened: Bool
 	
-	init(id: UUID = UUID(), name: String, duration: Double, url: URL, artworkData: Data?, isListened: Bool = false) {
+	init(id: UUID = UUID(), name: String, duration: Double, url: URL, artworkData: Data?, order: Int, isListened: Bool = false) {
 		self.id = id
 		self.name = name
 		self.duration = duration
 		self.url = url
 		self.artworkData = artworkData
+		self.order = order
 		self.isListened = isListened
 	}
 }
