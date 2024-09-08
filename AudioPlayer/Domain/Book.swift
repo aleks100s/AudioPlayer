@@ -15,6 +15,7 @@ final class Book {
 	let title: String
 	@Attribute(.spotlight)
 	let author: String
+	var currentChapter: Chapter?
 	@Relationship(deleteRule: .cascade)
 	private var chapters: [Chapter]
 	
@@ -22,7 +23,7 @@ final class Book {
 		chapters.sorted(by: { $0.order > $1.order })
 	}
 	
-	public var progress: Double {
+	var progress: Double {
 		let allChapters = chapters.count
 		let readChapters = chapters.filter(\.isListened).count
 		return Double(readChapters) / Double(allChapters)
@@ -33,5 +34,6 @@ final class Book {
 		self.title = title
 		self.author = author
 		self.chapters = chapters
+		currentChapter = chapters.first
 	}
 }

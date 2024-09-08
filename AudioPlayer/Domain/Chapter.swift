@@ -20,6 +20,7 @@ final class Chapter {
 	let artworkData: Data?
 	let order: Int
 	var isListened: Bool
+	var currentTime: Double = 0
 	
 	var artwork: MPMediaItemArtwork? {
 		guard let data = artworkData, let artworkImage = UIImage(data: data) else {

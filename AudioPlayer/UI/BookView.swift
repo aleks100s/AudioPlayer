@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct BookView: View {
-	private let book: Book
-	private let isPlaying: Bool
+	let book: Book
+	
+	@Environment(\.playerService) private var playerService
 	
 	private var image: UIImage {
 		guard let data = book.orderedChapters.first?.artworkData else {
@@ -19,9 +20,8 @@ struct BookView: View {
 		return UIImage(data: data) ?? UIImage(resource: .placeholder)
 	}
 	
-	init(book: Book, isPlaying: Bool) {
-		self.book = book
-		self.isPlaying = isPlaying
+	private var isPlaying: Bool {
+		playerService.currentBook == book && playerService.isPlaying
 	}
 	
 	var body: some View {
@@ -49,8 +49,10 @@ struct BookView: View {
 						
 						Spacer()
 						
-						Image(systemName: isPlaying ? "pause.circle" : "play.circle")
-							.font(.title)
+						Button("", systemImage: isPlaying ? "pause.circle" : "play.circle") {
+							handlePlayButtonTap()
+						}
+						.font(.title)
 					}
 					.padding()
 					.background(.ultraThinMaterial)
@@ -60,10 +62,10 @@ struct BookView: View {
 			ProgressView(value: book.progress, total: 1.0)
 			
 			HStack {
-//					if let chapter = book.currentChapterName {
-//						Text("\(isPlaying ? "сейчас играет:" : "продолжить прослушивание:") \(chapter)")
-//							.font(.footnote)
-//					}
+//				if let chapter = book.currentChapterName {
+//					Text("\(isPlaying ? "сейчас играет:" : "продолжить прослушивание:") \(chapter)")
+//						.font(.footnote)
+//				}
 				
 				Spacer()
 														
@@ -73,5 +75,17 @@ struct BookView: View {
 		}
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))
+	}
+	
+	private func handlePlayButtonTap() {
+		do {
+			if isPlaying {
+				playerService.pauseCurrentAudio()
+			} else {
+				try playerService.playAudio(book: book, rate: nil)
+			}
+		} catch {
+			Log.error(error.localizedDescription)
+		}
 	}
 }

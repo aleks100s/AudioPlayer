@@ -12,12 +12,15 @@ import MediaPlayer
 
 @Observable
 final class PlayerService: NSObject, IPlayerService {
-	var currentChapter: Chapter?
 	var currentBook: Book?
-	var playerStatus: PlayerStatus = .init(currentTime: 0, duration: 0, isPlaying: false)
+	var isPlaying = false
 
 	private var audioPlayer: AVAudioPlayer?
 	private var timer: Timer?
+
+	private var currentChapter: Chapter? {
+		currentBook?.currentChapter
+	}
 	
 	override init() {
 		super.init()
@@ -26,7 +29,19 @@ final class PlayerService: NSObject, IPlayerService {
 		setupRemoteCommandCenter()
 	}
 	
-	func playAudio(chapter: Chapter, book: Book, rate: PlaybackRate?) throws {
+	func playAudio(book: Book, rate: PlaybackRate?) throws {
+		guard currentBook != book else {
+			resumeCurrentAudio()
+			return
+		}
+		
+		currentBook = book
+		guard let chapter = book.currentChapter ?? book.orderedChapters.first else {
+			Log.error("No current chapter")
+			return
+		}
+		book.currentChapter = chapter
+		
 		guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
 			Log.error("Can't find documents directory")
 			return
@@ -37,8 +52,6 @@ final class PlayerService: NSObject, IPlayerService {
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
 		
 		do {
-			currentChapter = chapter
-			currentBook = book
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			updatePlayerWithNewAudio()
 			audioPlayer?.delegate = self
@@ -69,8 +82,9 @@ final class PlayerService: NSObject, IPlayerService {
 
 extension PlayerService: AVAudioPlayerDelegate {
 	func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+		Log.debug("audioPlayerDidFinishPlaying \(currentChapter?.name ?? "???") successfully=\(flag)")
 		if player == audioPlayer, flag {
-			playerStatus.isPlaying = false
+			isPlaying = false
 		}
 	}
 }
@@ -80,12 +94,12 @@ extension PlayerService: AVAudioPlayerDelegate {
 extension PlayerService {
 	func pauseCurrentAudio() {
 		audioPlayer?.pause()
-		updatePlaybackTime()
+		updatePlayback()
 	}
 	
 	func resumeCurrentAudio() {
 		audioPlayer?.play()
-		updatePlaybackTime()
+		updatePlayback()
 	}
 	
 	func setPlayback(time: TimeInterval) {
@@ -95,7 +109,7 @@ extension PlayerService {
 			finishCurrentAudioStream()
 		} else {
 			audioPlayer.currentTime = time
-			updatePlaybackTime()
+			updatePlayback()
 		}
 	}
 	
@@ -113,12 +127,11 @@ extension PlayerService {
 	
 	private func skip(time interval: TimeInterval, forward: Bool) {
 		audioPlayer?.currentTime += interval * (forward ? 1 : -1)
-		updatePlaybackTime()
+		updatePlayback()
 	}
 		
 	private func finishCurrentAudioStream() {
-		playerStatus.isPlaying = false
-		timer?.invalidate()
+		//
 	}
 }
 
@@ -230,8 +243,9 @@ private extension PlayerService {
 	func setupTimer() {
 		DispatchQueue.global().async { [weak self] in
 			let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] timer in
-				self?.updatePlaybackStatus()
-				self?.updatePlaybackTime()
+				DispatchQueue.main.async {
+					self?.updatePlayback()
+				}
 			}
 			self?.timer = timer
 			RunLoop.current.add(timer, forMode: .common)
@@ -241,27 +255,30 @@ private extension PlayerService {
 	
 	func updatePlayerWithNewAudio() {
 		var nowPlayingInfo = [String: Any]()
-		nowPlayingInfo[MPMediaItemPropertyArtwork] = currentChapter?.artwork
-		nowPlayingInfo[MPMediaItemPropertyTitle] = currentChapter?.name
+		nowPlayingInfo[MPMediaItemPropertyArtwork] = currentBook?.currentChapter?.artwork
+		nowPlayingInfo[MPMediaItemPropertyTitle] = currentBook?.currentChapter?.name
 		nowPlayingInfo[MPMediaItemPropertyArtist] = currentBook?.title
-		nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
-		nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+		nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? .zero)
+		nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? .zero)
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 		MPNowPlayingInfoCenter.default().playbackState = .playing
 	}
 	
+	func updatePlayback() {
+		updatePlaybackStatus()
+		updatePlaybackTime()
+	}
+	
 	func updatePlaybackStatus() {
-		playerStatus = PlayerStatus(
-			currentTime: audioPlayer?.currentTime ?? 0,
-			duration: audioPlayer?.duration ?? 0,
-			isPlaying: audioPlayer?.isPlaying ?? false
-		)
+		currentChapter?.currentTime = audioPlayer?.currentTime ?? .zero
+		isPlaying = audioPlayer?.isPlaying ?? false
 	}
 	
 	func updatePlaybackTime() {
 		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
-		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? .zero)
+		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? .zero)
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+		MPNowPlayingInfoCenter.default().playbackState = audioPlayer?.isPlaying == true ? .playing : .paused
 	}
 }

@@ -20,34 +20,24 @@ struct BookshelfView: View {
 	@State private var isFilePickerPresented = false
 	
 	var body: some View {
-		ZStack {
-			ScrollView {
-				LazyVStack(spacing: 16) {
-					ForEach(books) { book in
-						let isPlaying = playerService.currentBook == book && playerService.playerStatus.isPlaying
-						BookView(book: book, isPlaying: isPlaying)
-							.onTapGesture {
-								guard let chapter = book.orderedChapters.first else {
-									return
-								}
-								
-								do {
-									try playerService.playAudio(chapter: chapter, book: book, rate: .x100)
-								} catch {
-									Log.error(error.localizedDescription)
-								}
-							}
-							.contextMenu {
-								menuContent(for: book)
-							}
-					}
-					
-					Spacer()
-						.frame(height: 176)
+		ScrollView {
+			LazyVStack(spacing: 16) {
+				ForEach(books) { book in
+					BookView(book: book)
+						.onTapGesture {
+							// open the book
+						}
+						.contextMenu {
+							menuContent(for: book)
+						}
 				}
-				.padding()
+				
+				Spacer()
+					.frame(height: 176)
 			}
-			.scrollIndicators(.hidden)
+			.padding()
+		}
+		.scrollIndicators(.hidden)
 			
 //			if viewStore.playerState != .hidden {
 //				VStack {
@@ -70,7 +60,6 @@ struct BookshelfView: View {
 //						.frame(height: 50)
 //				}
 //			}
-		}
 		.navigationTitle("Мои книги")
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
