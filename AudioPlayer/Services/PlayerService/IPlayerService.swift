@@ -9,10 +9,11 @@ import Combine
 import Foundation
 
 protocol IPlayerService {	
-	var playerStatus: AnyPublisher<PlayerStatus?, Never> { get }
+	var currentChapter: Chapter? { get }
+	var currentBook: Book? { get }
+	var playerStatus: PlayerStatus { get }
 
-	func setupAudio(file: Chapter, rate: PlaybackRate?) -> Result<Void, Error>
-	func playCurrentAudio() -> Result<Void, Error>
+	func playAudio(chapter: Chapter, book: Book, rate: PlaybackRate?) throws
 	func pauseCurrentAudio()
 	func resumeCurrentAudio()
 	func setPlayback(time: TimeInterval)

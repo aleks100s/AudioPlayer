@@ -15,7 +15,7 @@ struct BookMetaInfoService: IBookMetaInfoService {
 
 		let asset = AVAsset(url: url)
 		let albumName = try await extractStringResource(by: .commonKeyAlbumName, from: asset) ?? "-"
-		let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? "-"
+		let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String ?? "-"
 		let metadata = BookMetadata(albumName: albumName, artist: artist)
 		return metadata
 	}

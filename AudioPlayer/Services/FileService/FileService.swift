@@ -29,10 +29,14 @@ struct FileService: IFileService {
 		}
 		
 		var resultUrls = [URL]()
-		for file in files {
+		for file in files.sorted(by: { $0.absoluteString > $1.absoluteString }) {
 			guard file.startAccessingSecurityScopedResource() else {
 				Log.error("No permission to open file \(file)")
 				throw FileError.readingFailed
+			}
+			
+			defer {
+				file.stopAccessingSecurityScopedResource()
 			}
 			
 			let newUrl = bookDirectory.appendingPathComponent(file.lastPathComponent, conformingTo: .audio)

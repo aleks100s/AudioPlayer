@@ -24,24 +24,22 @@ struct BookshelfView: View {
 			ScrollView {
 				LazyVStack(spacing: 16) {
 					ForEach(books) { book in
-						// let isPlaying = viewStore.currentBook == book && viewStore.playerState == .playing
-						BookView(book: book, isPlaying: false) {
-							menuContent(for: book)
-						}
-						.highPriorityGesture(
-							TapGesture()
-								.onEnded { _ in
-									guard let chapter = book.orderedChapters.first else {
-										return
-									}
-									
-									playerService.setupAudio(file: chapter, rate: .x100)
-									playerService.playCurrentAudio()
+						let isPlaying = playerService.currentBook == book && playerService.playerStatus.isPlaying
+						BookView(book: book, isPlaying: isPlaying)
+							.onTapGesture {
+								guard let chapter = book.orderedChapters.first else {
+									return
 								}
-						)
-						.contextMenu {
-							menuContent(for: book)
-						}
+								
+								do {
+									try playerService.playAudio(chapter: chapter, book: book, rate: .x100)
+								} catch {
+									Log.error(error.localizedDescription)
+								}
+							}
+							.contextMenu {
+								menuContent(for: book)
+							}
 					}
 					
 					Spacer()
@@ -130,12 +128,12 @@ struct BookshelfView: View {
 				
 				var chapters = [Chapter]()
 				for (index, file) in files.enumerated() {
-					guard file.startAccessingSecurityScopedResource(), let chapterMeta = try await metaInfoService.extractChapterMetadata(from: file) else {
+					guard let chapterMeta = try await metaInfoService.extractChapterMetadata(from: file) else {
 						Log.error("Проблема с обработкой файла \(file.absoluteString)")
 						continue
 					}
 					
-					let chapter = Chapter(name: chapterMeta.title, duration: chapterMeta.duration, url: file, artworkData: chapterMeta.artworkData, order: index)
+					let chapter = Chapter(name: chapterMeta.title, duration: chapterMeta.duration, urlLastPathComponent: file.lastPathComponent, artworkData: chapterMeta.artworkData, order: index)
 					chapters.append(chapter)
 				}
 				

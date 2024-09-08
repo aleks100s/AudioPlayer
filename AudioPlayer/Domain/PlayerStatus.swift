@@ -10,7 +10,7 @@ import Foundation
 struct PlayerStatus: Equatable {
 	let currentTime: TimeInterval
 	let duration: TimeInterval
-	let isPlaying: Bool
+	var isPlaying: Bool
 	
 	init(
 		currentTime: TimeInterval,

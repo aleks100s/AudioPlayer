@@ -7,17 +7,16 @@
 
 import AVFoundation
 import Combine
+import Foundation
 import MediaPlayer
 
+@Observable
 final class PlayerService: NSObject, IPlayerService {
-	var playerStatus: AnyPublisher<PlayerStatus?, Never> {
-		playerStatusSubject.eraseToAnyPublisher()
-	}
-
-	private let playerStatusSubject = CurrentValueSubject<PlayerStatus?, Never>(nil)
+	var currentChapter: Chapter?
+	var currentBook: Book?
+	var playerStatus: PlayerStatus = .init(currentTime: 0, duration: 0, isPlaying: false)
 
 	private var audioPlayer: AVAudioPlayer?
-	private var currentFile: Chapter?
 	private var timer: Timer?
 	
 	override init() {
@@ -27,32 +26,33 @@ final class PlayerService: NSObject, IPlayerService {
 		setupRemoteCommandCenter()
 	}
 	
-	func setupAudio(file: Chapter, rate: PlaybackRate?) -> Result<Void, Error> {
+	func playAudio(chapter: Chapter, book: Book, rate: PlaybackRate?) throws {
+		guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+			Log.error("Can't find documents directory")
+			return
+		}
+		
+		let fileURL = documentsDirectory
+			.appendingPathComponent(book.id.uuidString, conformingTo: .directory)
+			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
+		
 		do {
-			currentFile = file
-			audioPlayer = try AVAudioPlayer(contentsOf: file.url)
+			currentChapter = chapter
+			currentBook = book
+			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
+			updatePlayerWithNewAudio()
 			audioPlayer?.delegate = self
-			audioPlayer?.prepareToPlay()
 			audioPlayer?.enableRate = true
 			if let rate {
 				audioPlayer?.rate = rate.rawValue
 			}
-			return .success(())
-		} catch {
-			Log.error("Error initializing the audio player: \(error)\nfor file \(file.url.absoluteString)")
-			return .failure(error)
-		}
-	}
-	
-	func playCurrentAudio() -> Result<Void, Error> {
-		do {
+			audioPlayer?.prepareToPlay()
+			try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
 			try AVAudioSession.sharedInstance().setActive(true)
 			audioPlayer?.play()
-			updatePlayerWithNewAudio()
-			return .success(())
 		} catch {
-			Log.error("Error playing the audio player: \(error)")
-			return .failure(error)
+			Log.error("Error initializing the audio player: \(error)\nfor file \(chapter.urlLastPathComponent)")
+			throw error
 		}
 	}
 	
@@ -70,7 +70,7 @@ final class PlayerService: NSObject, IPlayerService {
 extension PlayerService: AVAudioPlayerDelegate {
 	func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 		if player == audioPlayer, flag {
-			playerStatusSubject.send(nil)
+			playerStatus.isPlaying = false
 		}
 	}
 }
@@ -115,16 +115,9 @@ extension PlayerService {
 		audioPlayer?.currentTime += interval * (forward ? 1 : -1)
 		updatePlaybackTime()
 	}
-	
-	private func updatePlaybackTime() {
-		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
-		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
-		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-	}
-	
+		
 	private func finishCurrentAudioStream() {
-		playerStatusSubject.send(nil)
+		playerStatus.isPlaying = false
 		timer?.invalidate()
 	}
 }
@@ -237,13 +230,8 @@ private extension PlayerService {
 	func setupTimer() {
 		DispatchQueue.global().async { [weak self] in
 			let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] timer in
+				self?.updatePlaybackStatus()
 				self?.updatePlaybackTime()
-				guard let status = self?.getPlaybackStatus() else {
-					self?.finishCurrentAudioStream()
-					return
-				}
-				
-				self?.playerStatusSubject.send(status)
 			}
 			self?.timer = timer
 			RunLoop.current.add(timer, forMode: .common)
@@ -252,73 +240,28 @@ private extension PlayerService {
 	}
 	
 	func updatePlayerWithNewAudio() {
-		guard let url = currentFile?.url else {
-			Log.debug("Failed to update player for file \(currentFile?.name ?? "???")")
-			return
-		}
-		
-		Task {
-			do {
-				let asset = AVAsset(url: url)
-				let artwork = try await extractArtwork(from: asset)
-				let title = try await extractStringResource(by: .commonKeyTitle, from: asset) ?? currentFile?.name
-				let artist = try await extractStringResource(by: .commonKeyArtist, from: asset) ?? Bundle.main.infoDictionary?["CFBundleName"] as? String
-				let album = try await extractStringResource(by: .commonKeyAlbumName, from: asset)
-				var nowPlayingInfo = [String: Any]()
-				nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-				nowPlayingInfo[MPMediaItemPropertyTitle] = title
-				nowPlayingInfo[MPMediaItemPropertyArtist] = artist
-				nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album
-				nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
-				nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
-				MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-				MPNowPlayingInfoCenter.default().playbackState = .playing
-			} catch {
-				Log.debug("Failed to update MPNowPlayingInfoCenter: \(error.localizedDescription)")
-			}
-		}
+		var nowPlayingInfo = [String: Any]()
+		nowPlayingInfo[MPMediaItemPropertyArtwork] = currentChapter?.artwork
+		nowPlayingInfo[MPMediaItemPropertyTitle] = currentChapter?.name
+		nowPlayingInfo[MPMediaItemPropertyArtist] = currentBook?.title
+		nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
+		nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+		MPNowPlayingInfoCenter.default().playbackState = .playing
 	}
 	
-	func extractArtwork(from asset: AVAsset) async throws -> MPMediaItemArtwork? {
-		let metadata = try await asset.load(.commonMetadata)
-		for item in metadata {
-			if item.commonKey == .commonKeyArtwork {
-				if let data = try await item.load(.value) as? Data {
-					guard let artworkImage = UIImage(data: data) else {
-						Log.debug("Failed to extract artwork from metadata of \(currentFile?.name ?? "???")")
-						break
-					}
-					
-					let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
-						return artworkImage
-					}
-					return artwork
-				}
-			}
-		}
-		return nil
-	}
-	
-	func extractStringResource(
-		by key: AVMetadataKey,
-		from asset: AVAsset
-	) async throws -> String? {
-		let metadata = try await asset.load(.commonMetadata)
-		for item in metadata {
-			if item.commonKey == key {
-				if let title = try await item.load(.value) as? String {
-					return title
-				}
-			}
-		}
-		return nil
-	}
-	
-	func getPlaybackStatus() -> PlayerStatus {
-		PlayerStatus(
+	func updatePlaybackStatus() {
+		playerStatus = PlayerStatus(
 			currentTime: audioPlayer?.currentTime ?? 0,
 			duration: audioPlayer?.duration ?? 0,
 			isPlaying: audioPlayer?.isPlaying ?? false
 		)
+	}
+	
+	func updatePlaybackTime() {
+		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer?.duration ?? 0)
+		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer?.currentTime ?? 0)
+		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 	}
 }
