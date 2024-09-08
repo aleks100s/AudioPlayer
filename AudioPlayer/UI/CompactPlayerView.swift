@@ -16,22 +16,27 @@ struct CompactPlayerView: View {
 	
 	var body: some View {
 		VStack(alignment: .center, spacing: 12) {
-			Text(playerService.currentBook?.currentChapter?.name ?? "")
-				.font(.title3)
+			title
 			
-			seeker()
+			seeker
 			
-			controls()
+			controls
 			
-			playbackRate()
+			PlaybackRateView {
+				//
+			}
 		}
 		.padding()
 		.padding(.bottom, 16)
 		.background(.regularMaterial)
 	}
 	
-	@ViewBuilder
-	private func seeker() -> some View {
+	private var title: some View {
+		Text(playerService.currentBook?.currentChapter?.name ?? "")
+			.font(.title3)
+	}
+	
+	private var seeker: some View {
 		HStack {
 			Text(playerService.currentBook?.currentChapter?.currentTime.timeString ?? "")
 				.monospaced()
@@ -61,11 +66,52 @@ struct CompactPlayerView: View {
 		}
 	}
 	
-	@ViewBuilder
-	private func playbackRate() -> some View {
+	private var controls: some View {
+		HStack {
+			Spacer()
+			
+			ImageButton(systemName: "backward.end.fill") {
+				//
+			}
+			
+			Spacer()
+			
+			ImageButton(systemName: "gobackward.\(Constants.skipBackwardInterval)") {
+				//
+			}
+			
+			Spacer()
+			
+			ImageButton(systemName: playerService.isPlaying ? "pause.fill" : "play.fill") {
+				playerService.pauseOrResume()
+			}
+			.animation(.spring, value: playerService.isPlaying)
+			.sensoryFeedback(playerService.isPlaying ? .stop : .start, trigger: playerService.isPlaying)
+			
+			Spacer()
+			
+			ImageButton(systemName: "goforward.\(Constants.skipForwardInterval)") {
+				//
+			}
+			
+			Spacer()
+			
+			ImageButton(systemName: "forward.end.fill") {
+				//
+			}
+
+			Spacer()
+		}
+	}
+}
+
+private struct PlaybackRateView: View {
+	let onTap: () -> Void
+	
+	var body: some View {
 		HStack {
 			Button {
-				// viewStore.send(.changePlaybackRateButtonTapped)
+				onTap()
 			} label: {
 				Text("Скорость")
 			}
@@ -73,72 +119,17 @@ struct CompactPlayerView: View {
 			Spacer()
 		}
 	}
+}
+
+private struct ImageButton: View {
+	let systemName: String
+	let onTap: () -> Void
 	
-	@ViewBuilder
-	private func controls() -> some View {
-		HStack {
-			Spacer()
-			moveBackwardButton()
-			Spacer()
-			skipBackwardButton()
-			Spacer()
-			playButton()
-			Spacer()
-			skipForwardButton()
-			Spacer()
-			moveForwardButton()
-			Spacer()
-		}
-	}
-	
-	@ViewBuilder
-	private func moveBackwardButton() -> some View {
+	var body: some View {
 		Button {
-			// viewStore.send(.playPreviousTrackButtonTapped)
+			onTap()
 		} label: {
-			Image(systemName: "backward.end.fill")
-				.font(.title)
-		}
-	}
-		
-	@ViewBuilder
-	private func skipBackwardButton() -> some View {
-		Button {
-			// viewStore.send(.skipBackwardButtonTapped)
-		} label: {
-			Image(systemName: "gobackward.\(Constants.skipBackwardInterval)")
-				.font(.title)
-		}
-	}
-	
-	@ViewBuilder
-	private func playButton() -> some View {
-		Button {
-			playerService.pauseOrResume()
-		} label: {
-			Image(systemName: playerService.isPlaying ? "pause.fill" : "play.fill")
-				.font(.title)
-				.animation(.spring, value: playerService.isPlaying)
-		}
-		.sensoryFeedback(playerService.isPlaying ? .stop : .start, trigger: playerService.isPlaying)
-	}
-	
-	@ViewBuilder
-	private func skipForwardButton() -> some View {
-		Button {
-			// viewStore.send(.skipForwardButtonTapped)
-		} label: {
-			Image(systemName: "goforward.\(Constants.skipForwardInterval)")
-				.font(.title)
-		}
-	}
-	
-	@ViewBuilder
-	private func moveForwardButton() -> some View {
-		Button {
-			// viewStore.send(.playNextTrackButtonTapped)
-		} label: {
-			Image(systemName: "forward.end.fill")
+			Image(systemName: systemName)
 				.font(.title)
 		}
 	}

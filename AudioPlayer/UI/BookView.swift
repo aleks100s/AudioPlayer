@@ -79,7 +79,7 @@ struct BookView: View {
 	
 	private func handlePlayButtonTap() {
 		do {
-			try playerService.playAudio(book: book, rate: nil)
+			try playerService.setupAndPlayAudio(book: book, rate: nil)
 		} catch {
 			Log.error(error.localizedDescription)
 		}

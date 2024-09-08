@@ -29,7 +29,7 @@ final class PlayerService: NSObject, IPlayerService {
 		setupRemoteCommandCenter()
 	}
 	
-	func playAudio(book: Book, rate: PlaybackRate?) throws {
+	func setupAndPlayAudio(book: Book, rate: PlaybackRate?) throws {
 		guard currentBook != book else {
 			pauseOrResume()
 			return
