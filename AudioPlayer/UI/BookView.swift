@@ -10,6 +10,7 @@ import SwiftUI
 struct BookView: View {
 	let book: Book
 	
+	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	@Environment(\.playerService) private var playerService
 	
 	private var image: UIImage {
@@ -83,7 +84,7 @@ struct BookView: View {
 	
 	private func handlePlayButtonTap() {
 		do {
-			try playerService.setupAndPlayAudio(book: book, rate: nil)
+			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
 		} catch {
 			Log.error(error.localizedDescription)
 		}

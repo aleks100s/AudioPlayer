@@ -5,7 +5,7 @@
 //  Created by Alexander on 07.09.2024.
 //
 
-enum PlaybackRate: Float, CaseIterable {
+enum PlaybackRate: Double, CaseIterable, RawRepresentable {
 	case x100 = 1.0
 	case x125 = 1.25
 	case x150 = 1.5
@@ -24,6 +24,10 @@ enum PlaybackRate: Float, CaseIterable {
 			
 		case .x200: "2x"
 		}
+	}
+	
+	var float: Float {
+		Float(rawValue)
 	}
 }
 

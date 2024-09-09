@@ -9,6 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct BookshelfView: View {
+	@AppStorage(Constants.playbackRate) private var rate: Double = 1
+	
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.metaInfoService) private var metaInfoService
 	@Environment(\.fileService) private var fileService

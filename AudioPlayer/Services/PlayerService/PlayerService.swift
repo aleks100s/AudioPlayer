@@ -127,7 +127,7 @@ extension PlayerService {
 	}
 	
 	func changePlayback(rate: PlaybackRate) {
-		audioPlayer?.rate = rate.rawValue
+		audioPlayer?.rate = rate.float
 	}
 	
 	func setPlayback(time: TimeInterval) {
@@ -210,7 +210,7 @@ private extension PlayerService {
 				audioPlayer?.currentTime = chapter.currentTime
 			}
 			setupMediaPlayer()
-			if let rate = rate?.rawValue ?? oldRate {
+			if let rate = rate?.float ?? oldRate {
 				audioPlayer?.rate = rate
 			}
 			audioPlayer?.prepareToPlay()

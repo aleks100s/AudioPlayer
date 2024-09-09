@@ -21,9 +21,7 @@ struct CompactPlayerView: View {
 			
 			ControlsView()
 			
-			PlaybackRateView {
-				//
-			}
+			PlaybackRateView()
 		}
 		.padding()
 		.padding(.bottom, 16)
@@ -146,17 +144,26 @@ private struct ControlsView: View {
 }
 
 private struct PlaybackRateView: View {
-	let onTap: () -> Void
+	@AppStorage(Constants.playbackRate) private var rate: Double = 1
+	
+	@Environment(\.playerService) private var playerService
+	
+	private var playbackRate: PlaybackRate {
+		.init(rawValue: rate) ?? .x100
+	}
 	
 	var body: some View {
 		HStack {
 			Button {
-				onTap()
+				rate = PlaybackRate.nextRate(after: playbackRate).rawValue
 			} label: {
-				Text("Скорость")
+				Text("Скорость \(playbackRate.title)")
 			}
 
 			Spacer()
+		}
+		.onChange(of: rate) { oldValue, newValue in
+			playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)
 		}
 	}
 }
