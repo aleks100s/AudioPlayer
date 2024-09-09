@@ -25,6 +25,8 @@ final class Book {
 	}
 	
 	var progress: Double {
+		guard !isFinished else { return 1 }
+		
 		let allChapters = chapters.count
 		let readChapters = chapters.filter(\.isListened).count
 		return Double(readChapters) / Double(allChapters)
@@ -40,6 +42,7 @@ final class Book {
 	func resetBookProgress() {
 		for chapter in orderedChapters {
 			chapter.currentTime = .zero
+			chapter.isListened = false
 		}
 		currentChapter = nil
 		isFinished = true

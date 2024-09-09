@@ -49,7 +49,7 @@ struct BookView: View {
 						
 						Spacer()
 						
-						Button("", systemImage: isPlaying ? "pause.circle" : "play.circle") {
+						Button("", systemImage: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle") {
 							handlePlayButtonTap()
 						}
 						.font(.title)
@@ -60,16 +60,20 @@ struct BookView: View {
 			}
 			
 			ProgressView(value: book.progress, total: 1.0)
+				.animation(.bouncy, value: book.progress)
 			
 			HStack {
-//				if let chapter = book.currentChapterName {
-//					Text("\(isPlaying ? "сейчас играет:" : "продолжить прослушивание:") \(chapter)")
-//						.font(.footnote)
-//				}
+				if book.isFinished {
+					Text("Книга прослушана")
+						.font(.footnote)
+				} else if let chapter = book.currentChapter?.name {
+					Text("\(isPlaying ? "Сейчас играет:" : "Продолжить прослушивание:") \(chapter)")
+						.font(.footnote)
+				}
 				
 				Spacer()
 														
-				Text(String(format: "%.0f%%", book.progress * 100))
+				Text(String(format: "%.1f%%", book.progress * 100))
 			}
 			.padding()
 		}

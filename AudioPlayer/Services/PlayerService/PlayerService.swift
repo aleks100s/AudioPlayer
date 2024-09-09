@@ -110,6 +110,7 @@ extension PlayerService {
 			return
 		}
 				
+		currentChapter.isListened = true
 		if index + 1 < (currentBook?.orderedChapters.endIndex ?? 0), let nextChapter = currentBook?.orderedChapters[index + 1] {
 			try play(chapter: nextChapter, rate: nil)
 		} else {
