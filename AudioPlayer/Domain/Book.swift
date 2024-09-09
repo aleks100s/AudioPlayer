@@ -16,11 +16,12 @@ final class Book {
 	@Attribute(.spotlight)
 	let author: String
 	var currentChapter: Chapter?
+	var isFinished = false
 	@Relationship(deleteRule: .cascade)
 	private var chapters: [Chapter]
 	
 	var orderedChapters: [Chapter] {
-		chapters.sorted(by: { $0.order > $1.order })
+		chapters.sorted(by: { $0.order < $1.order })
 	}
 	
 	var progress: Double {
@@ -34,6 +35,13 @@ final class Book {
 		self.title = title
 		self.author = author
 		self.chapters = chapters
-		currentChapter = chapters.first
+	}
+	
+	func resetBookProgress() {
+		for chapter in orderedChapters {
+			chapter.currentTime = .zero
+		}
+		currentChapter = nil
+		isFinished = true
 	}
 }

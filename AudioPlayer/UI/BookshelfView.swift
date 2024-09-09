@@ -20,6 +20,7 @@ struct BookshelfView: View {
 	@State private var isFilePickerPresented = false
 	@State var isSliderBusy: Bool = false
 	@State var progress: Double = 0
+	@State var isFinishedBookShown = false
 	
 	var body: some View {
 		ZStack {
@@ -33,6 +34,13 @@ struct BookshelfView: View {
 							.contextMenu {
 								menuContent(for: book)
 							}
+							.sensoryFeedback(.success, trigger: book.isFinished)
+							.onChange(of: book.isFinished) { oldValue, newValue in
+								if newValue, !oldValue {
+									isFinishedBookShown = true
+								}
+							}
+
 					}
 				}
 				.padding()
@@ -76,6 +84,13 @@ struct BookshelfView: View {
 				Log.error(error.localizedDescription)
 			}
 		})
+		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
+			Button(role: .cancel) {
+				isFinishedBookShown = false
+			} label: {
+				Text("Понятно")
+			}
+		}
 		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
 			if !isSliderBusy {
 				progress = newValue ?? .zero

@@ -15,6 +15,8 @@ protocol IPlayerService {
 	func setupAndPlayAudio(book: Book, rate: PlaybackRate?) throws
 	func remove(book: Book)
 	func pauseOrResume()
+	func previousChapter() throws
+	func nextChapter() throws
 	func setPlayback(time: TimeInterval)
 	func skipForward(time: TimeInterval)
 	func skipBackward(time: TimeInterval)

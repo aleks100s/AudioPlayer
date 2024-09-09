@@ -105,7 +105,11 @@ private struct ControlsView: View {
 				switch control {
 				case .previousTrack:
 					ImageButton(systemName: "backward.end.fill") {
-						//
+						do {
+							try playerService.previousChapter()
+						} catch {
+							Log.error(error.localizedDescription)
+						}
 					}
 					
 				case .skipBack:
@@ -127,7 +131,11 @@ private struct ControlsView: View {
 					
 				case .nextTrack:
 					ImageButton(systemName: "forward.end.fill") {
-						//
+						do {
+							try playerService.nextChapter()
+						} catch {
+							Log.error(error.localizedDescription)
+						}
 					}
 				}
 				
