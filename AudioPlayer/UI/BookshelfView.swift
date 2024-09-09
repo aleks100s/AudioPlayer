@@ -18,42 +18,45 @@ struct BookshelfView: View {
 	@Query(animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
+	@State var isSliderBusy: Bool = false
+	@State var progress: Double = 0
 	
 	var body: some View {
-		ScrollView {
-			LazyVStack(spacing: 16) {
-				ForEach(books) { book in
-					BookView(book: book)
-						.onTapGesture {
-							// open the book
-						}
-						.contextMenu {
-							menuContent(for: book)
-						}
+		ZStack {
+			ScrollView {
+				LazyVStack(spacing: 16) {
+					ForEach(books) { book in
+						BookView(book: book)
+							.onTapGesture {
+								// open the book
+							}
+							.contextMenu {
+								menuContent(for: book)
+							}
+					}
+				}
+				.padding()
+			}
+			.scrollIndicators(.hidden)
+			.safeAreaInset(edge: .bottom) {
+				if playerService.currentBook != nil {
+					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress)
 				}
 			}
-			.padding()
-		}
-		.scrollIndicators(.hidden)
-		.safeAreaInset(edge: .bottom) {
-			if playerService.currentBook != nil {
-				CompactPlayerView()
+			
+			if isSliderBusy {
+				VStack {
+					Text(progress.timeString)
+						.font(.title2)
+						.monospaced()
+						.contentTransition(.numericText())
+						.padding(.horizontal, 16)
+						.padding(.vertical, 32)
+						.background(.regularMaterial)
+						.clipShape(RoundedRectangle(cornerRadius: 16))
+				}
 			}
 		}
-//			if let time = viewStore.sliderProgress {
-//				VStack {
-//					Text(time)
-//						.font(.title2)
-//						.monospaced()
-//						.padding(.horizontal, 16)
-//						.padding(.vertical, 32)
-//						.background(.regularMaterial)
-//						.clipShape(RoundedRectangle(cornerRadius: 16))
-//					
-//					Spacer()
-//						.frame(height: 50)
-//				}
-//			}
 		.navigationTitle("Мои книги")
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {

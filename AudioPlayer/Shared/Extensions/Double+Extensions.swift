@@ -7,7 +7,7 @@
 
 extension Double {
 	var timeString: String {
-		let time = Int(self)
+		let time = Int(rounded())
 		let minutes = String(format: "%02d", time / 60)
 		let seconds = String(format: "%02d", time % 60)
 		return "\(minutes):\(seconds)"

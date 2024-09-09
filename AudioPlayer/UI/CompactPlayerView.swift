@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CompactPlayerView: View {
-	@State private var progress: Double = 0
+	@Binding var isSliderBusy: Bool
+	@Binding var progress: Double
 	@State private var durationRange: ClosedRange<TimeInterval> = 0...0
-	@State private var isSliderBusy = false
 	
 	@Environment(\.playerService) private var playerService
 	
@@ -40,6 +40,7 @@ struct CompactPlayerView: View {
 		HStack {
 			Text(playerService.currentBook?.currentChapter?.currentTime.timeString ?? "")
 				.monospaced()
+				.contentTransition(.numericText())
 			
 			Slider(
 				value: $progress,
@@ -51,8 +52,9 @@ struct CompactPlayerView: View {
 				}
 			}
 			.onChange(of: progress) { _, newValue in
+				Log.debug("\(newValue)")
 				if isSliderBusy {
-					// viewStore.send(.playbackSliderPositionChangeInProgress(newValue))
+					playerService.setPlayback(time: newValue)
 				}
 			}
 			.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: false) { _, newValue in
@@ -63,6 +65,7 @@ struct CompactPlayerView: View {
 			
 			Text(playerService.currentBook?.currentChapter?.duration.timeString ?? "")
 				.monospaced()
+				.contentTransition(.numericText())
 		}
 	}
 	
@@ -77,7 +80,7 @@ struct CompactPlayerView: View {
 			Spacer()
 			
 			ImageButton(systemName: "gobackward.\(Constants.skipBackwardInterval)") {
-				//
+				playerService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
 			}
 			
 			Spacer()
@@ -91,7 +94,7 @@ struct CompactPlayerView: View {
 			Spacer()
 			
 			ImageButton(systemName: "goforward.\(Constants.skipForwardInterval)") {
-				//
+				playerService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
 			}
 			
 			Spacer()
