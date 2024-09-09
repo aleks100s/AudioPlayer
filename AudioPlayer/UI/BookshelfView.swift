@@ -76,6 +76,11 @@ struct BookshelfView: View {
 				Log.error(error.localizedDescription)
 			}
 		})
+		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
+			if !isSliderBusy {
+				progress = newValue ?? .zero
+			}
+		}
 	}
 	
 	@ViewBuilder
