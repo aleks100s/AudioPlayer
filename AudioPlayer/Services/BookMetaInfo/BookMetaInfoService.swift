@@ -41,16 +41,6 @@ private extension BookMetaInfoService {
 		return nil
 	}
 	
-//	guard let artworkImage = UIImage(data: data) else {
-//		Log.debug("Failed to extract artwork from metadata of \(asset.description)")
-//		break
-//	}
-//	
-//	let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
-//		return artworkImage
-//	}
-//	return artwork
-	
 	func extractStringResource(
 		by key: AVMetadataKey,
 		from asset: AVAsset

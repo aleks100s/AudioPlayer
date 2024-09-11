@@ -20,9 +20,10 @@ struct BookshelfView: View {
 	@Query(animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
-	@State var isSliderBusy: Bool = false
-	@State var progress: Double = 0
-	@State var isFinishedBookShown = false
+	@State private var isSliderBusy: Bool = false
+	@State private var progress: Double = 0
+	@State private var isFinishedBookShown = false
+	@State private var bookToShowDetail: Book?
 	
 	var body: some View {
 		ZStack {
@@ -31,7 +32,7 @@ struct BookshelfView: View {
 					ForEach(books) { book in
 						BookView(book: book)
 							.onTapGesture {
-								// open the book
+								bookToShowDetail = book
 							}
 							.contextMenu {
 								menuContent(for: book)
@@ -86,6 +87,9 @@ struct BookshelfView: View {
 				Log.error(error.localizedDescription)
 			}
 		})
+		.sheet(item: $bookToShowDetail) { book in
+			BookDetailView(book: book)
+		}
 		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
 			Button(role: .cancel) {
 				isFinishedBookShown = false

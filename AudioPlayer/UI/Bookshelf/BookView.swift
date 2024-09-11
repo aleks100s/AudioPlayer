@@ -13,52 +13,13 @@ struct BookView: View {
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	@Environment(\.playerService) private var playerService
 	
-	private var image: UIImage {
-		guard let data = book.orderedChapters.first?.artworkData else {
-			return UIImage(resource: .placeholder)
-		}
-		
-		return UIImage(data: data) ?? UIImage(resource: .placeholder)
-	}
-	
 	private var isPlaying: Bool {
 		playerService.currentBook == book && playerService.isPlaying
 	}
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: .zero) {
-			ZStack {
-				Image(uiImage: image)
-					.resizable()
-					.aspectRatio(1, contentMode: .fill)
-					.clipShape(RoundedRectangle(cornerRadius: 16))
-				
-				VStack {
-					Spacer()
-					
-					HStack {
-						VStack(alignment: .leading) {
-							Text(book.title)
-								.font(.headline)
-								.lineLimit(2)
-							
-							Text(book.author)
-								.font(.subheadline)
-								.lineLimit(1)
-								.foregroundStyle(.secondary)
-						}
-						
-						Spacer()
-						
-						Button("", systemImage: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle") {
-							handlePlayButtonTap()
-						}
-						.font(.title)
-					}
-					.padding()
-					.background(.ultraThinMaterial)
-				}
-			}
+			BookCoverView(book: book)
 			
 			ProgressView(value: book.progress, total: 1.0)
 				.animation(.bouncy, value: book.progress)
@@ -90,3 +51,58 @@ struct BookView: View {
 		}
 	}
 }
+
+private struct BookCoverView: View {
+	let book: Book
+	
+	@AppStorage(Constants.playbackRate) private var rate: Double = 1
+	@Environment(\.playerService) private var playerService
+	
+	private var isPlaying: Bool {
+		playerService.currentBook == book && playerService.isPlaying
+	}
+	
+	var body: some View {
+		ZStack {
+			Image(uiImage: book.image)
+				.resizable()
+				.aspectRatio(1, contentMode: .fill)
+				.clipShape(RoundedRectangle(cornerRadius: 16))
+			
+			VStack {
+				Spacer()
+				
+				HStack {
+					VStack(alignment: .leading) {
+						Text(book.title)
+							.font(.headline)
+							.lineLimit(2)
+						
+						Text(book.author)
+							.font(.subheadline)
+							.lineLimit(1)
+							.foregroundStyle(.secondary)
+					}
+					
+					Spacer()
+					
+					Button("", systemImage: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle") {
+						handlePlayButtonTap()
+					}
+					.font(.title)
+				}
+				.padding()
+				.background(.ultraThinMaterial)
+			}
+		}
+	}
+	
+	private func handlePlayButtonTap() {
+		do {
+			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
+		} catch {
+			Log.error(error.localizedDescription)
+		}
+	}
+}
+
