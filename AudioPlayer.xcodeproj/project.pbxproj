@@ -42,6 +42,9 @@
 		27A7B29E2C8DBD12002C4914 /* PlayerStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */; };
 		27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B29F2C8E082B002C4914 /* Double+Extensions.swift */; };
 		27B871E12C91E3B800E48C9A /* BookDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E02C91E3B800E48C9A /* BookDetailView.swift */; };
+		27B871E72C91EAE100E48C9A /* ChaptersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E62C91EAE100E48C9A /* ChaptersListView.swift */; };
+		27B871E92C91EBD600E48C9A /* PlaybackIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */; };
+		27B871EB2C91EC0300E48C9A /* ChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EA2C91EC0300E48C9A /* ChapterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +85,9 @@
 		27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStatus.swift; sourceTree = "<group>"; };
 		27A7B29F2C8E082B002C4914 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		27B871E02C91E3B800E48C9A /* BookDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailView.swift; sourceTree = "<group>"; };
+		27B871E62C91EAE100E48C9A /* ChaptersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersListView.swift; sourceTree = "<group>"; };
+		27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackIndicatorView.swift; sourceTree = "<group>"; };
+		27B871EA2C91EC0300E48C9A /* ChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +200,7 @@
 		2767D0212C8C943200F5F12D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				27B871E52C91EAD600E48C9A /* ChaptersList */,
 				27B871DF2C91E3AB00E48C9A /* BookDetail */,
 				27B871DD2C91E37000E48C9A /* Bookshelf */,
 			);
@@ -256,6 +263,16 @@
 				27B871E02C91E3B800E48C9A /* BookDetailView.swift */,
 			);
 			path = BookDetail;
+			sourceTree = "<group>";
+		};
+		27B871E52C91EAD600E48C9A /* ChaptersList */ = {
+			isa = PBXGroup;
+			children = (
+				27B871E62C91EAE100E48C9A /* ChaptersListView.swift */,
+				27B871EA2C91EC0300E48C9A /* ChapterView.swift */,
+				27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */,
+			);
+			path = ChaptersList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,6 +348,7 @@
 			files = (
 				2767D01A2C8C908E00F5F12D /* URL+Extensions.swift in Sources */,
 				27A7B2832C8CAEA1002C4914 /* FileService.swift in Sources */,
+				27B871EB2C91EC0300E48C9A /* ChapterView.swift in Sources */,
 				2767D0052C8C8A6100F5F12D /* AppDelegate.swift in Sources */,
 				2767D02A2C8C988500F5F12D /* CompactPlayerView.swift in Sources */,
 				2767D0182C8C907100F5F12D /* Logger+Extensions.swift in Sources */,
@@ -340,11 +358,13 @@
 				27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */,
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
 				27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */,
+				27B871E92C91EBD600E48C9A /* PlaybackIndicatorView.swift in Sources */,
 				27A7B28D2C8CB521002C4914 /* BookMetadata.swift in Sources */,
 				27A7B2892C8CB4E0002C4914 /* IFileService.swift in Sources */,
 				27A7B29B2C8DBC6D002C4914 /* IPlayerService.swift in Sources */,
 				2767D00D2C8C8F4900F5F12D /* PlaybackRate.swift in Sources */,
 				27A7B28B2C8CB518002C4914 /* ChapterMetadata.swift in Sources */,
+				27B871E72C91EAE100E48C9A /* ChaptersListView.swift in Sources */,
 				2767D0272C8C97D800F5F12D /* Constants.swift in Sources */,
 				27A7B2902C8CBA97002C4914 /* ISpotlightService.swift in Sources */,
 				2767CFF52C8C89B800F5F12D /* AudioPlayerApp.swift in Sources */,

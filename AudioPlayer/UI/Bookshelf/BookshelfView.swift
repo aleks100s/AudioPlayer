@@ -24,6 +24,7 @@ struct BookshelfView: View {
 	@State private var progress: Double = 0
 	@State private var isFinishedBookShown = false
 	@State private var bookToShowDetail: Book?
+	@State private var bookToShowChapters: Book?
 	
 	var body: some View {
 		ZStack {
@@ -90,6 +91,9 @@ struct BookshelfView: View {
 		.sheet(item: $bookToShowDetail) { book in
 			BookDetailView(book: book)
 		}
+		.sheet(item: $bookToShowChapters) { book in
+			ChaptersListView(book: book)
+		}
 		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
 			Button(role: .cancel) {
 				isFinishedBookShown = false
@@ -107,7 +111,7 @@ struct BookshelfView: View {
 	@ViewBuilder
 	private func menuContent(for book: Book) -> some View {
 		Button {
-			// store.send(.bookOpened(book))
+			bookToShowChapters = book
 		} label: {
 			Label("Показать главы", systemImage: "list.bullet")
 		}
