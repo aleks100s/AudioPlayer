@@ -11,6 +11,8 @@ struct CompactPlayerView: View {
 	@Binding var isSliderBusy: Bool
 	@Binding var progress: Double
 	
+	let onPlaylistTap: () -> Void
+	
 	@Environment(\.playerService) private var playerService
 	
 	var body: some View {
@@ -21,7 +23,7 @@ struct CompactPlayerView: View {
 			
 			ControlsView()
 			
-			PlaybackRateView()
+			PlaybackRateView(onPlaylistTap: onPlaylistTap)
 		}
 		.padding()
 		.padding(.bottom, 16)
@@ -144,6 +146,8 @@ private struct ControlsView: View {
 }
 
 private struct PlaybackRateView: View {
+	let onPlaylistTap: () -> Void
+	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	
 	@Environment(\.playerService) private var playerService
@@ -161,6 +165,12 @@ private struct PlaybackRateView: View {
 			}
 
 			Spacer()
+			
+			Button {
+				onPlaylistTap()
+			} label: {
+				Text("Список глав")
+			}
 		}
 		.onChange(of: rate) { oldValue, newValue in
 			playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)

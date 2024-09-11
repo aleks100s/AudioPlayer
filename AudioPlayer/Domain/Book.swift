@@ -48,12 +48,18 @@ final class Book {
 		self.chapters = chapters
 	}
 	
-	func resetBookProgress() {
+	func finishBook() {
 		for chapter in orderedChapters {
 			chapter.currentTime = .zero
-			chapter.isListened = false
 		}
 		currentChapter = nil
 		isFinished = true
+	}
+	
+	func resetProgress() {
+		for chapter in orderedChapters {
+			chapter.isListened = false
+		}
+		isFinished = false
 	}
 }

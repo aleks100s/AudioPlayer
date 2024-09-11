@@ -52,7 +52,9 @@ struct BookshelfView: View {
 			.scrollIndicators(.hidden)
 			.safeAreaInset(edge: .bottom) {
 				if playerService.currentBook != nil {
-					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress)
+					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
+						bookToShowChapters = playerService.currentBook
+					}
 				}
 			}
 			

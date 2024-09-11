@@ -29,11 +29,26 @@ struct ChaptersListView: View {
 						chapter: chapter,
 						hasCheckmark: chapter.isListened || book.isFinished,
 						isCurrentChapter: isCurrentChapter,
-						isCurrentlyPlaying: isCurrentChapter && isPlaying
+						isCurrentlyPlaying: isCurrentChapter && isPlaying,
+						onTap: { select(chapter: chapter) }
 					)
+					.swipeActions(edge: .leading) {
+						Button(chapter.isListened ? "Отметить непрослушанным" : "Отметить прослушанным") {
+							chapter.isListened.toggle()
+						}
+						.tint(.green)
+					}
 				}
 			}
 			.navigationTitle("Список глав")
+		}
+	}
+	
+	private func select(chapter: Chapter) {
+		do {
+			try playerService.setupAndPlayAudio(book: book, chapter: chapter)
+		} catch {
+			Log.error(error.localizedDescription)
 		}
 	}
 }

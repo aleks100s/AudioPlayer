@@ -52,14 +52,21 @@ extension PlayerService: AVAudioPlayerDelegate {
 // MARK: - Public In-App Controls
 
 extension PlayerService {
-	func setupAndPlayAudio(book: Book, rate: PlaybackRate?) throws {
-		guard currentBook != book else {
-			pauseOrResume()
+	func setupAndPlayAudio(book: Book, chapter: Chapter? = nil, rate: PlaybackRate? = nil) throws {
+		if book.isFinished {
+			book.resetProgress()
+		}
+		
+		guard book != currentBook else {
+			if let chapter, chapter != currentChapter {
+				try play(chapter: chapter, rate: rate, resetProgress: false)
+			} else {
+				pauseOrResume()
+			}
 			return
 		}
 		
 		currentBook = book
-		currentBook?.isFinished = false
 		guard let chapter = book.currentChapter ?? book.orderedChapters.first else {
 			Log.error("No current chapter")
 			return
@@ -190,6 +197,7 @@ private extension PlayerService {
 			return
 		}
 		
+		chapter.isListened = false
 		book.currentChapter = chapter
 		
 		guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
@@ -266,7 +274,7 @@ private extension PlayerService {
 	
 	func finishBook() {
 		stopPlayer()
-		currentBook?.resetBookProgress()
+		currentBook?.finishBook()
 		currentBook = nil
 	}
 	

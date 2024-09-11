@@ -12,12 +12,13 @@ struct ChapterView: View {
 	let hasCheckmark: Bool
 	let isCurrentChapter: Bool
 	let isCurrentlyPlaying: Bool
+	let onTap: () -> Void
 	
 	@Environment(\.playerService) private var playerService
 	
 	var body: some View {
 		Button {
-			
+			onTap()
 		} label: {
 			HStack {
 				VStack(alignment: .leading) {
