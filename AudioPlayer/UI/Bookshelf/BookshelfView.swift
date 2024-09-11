@@ -25,6 +25,7 @@ struct BookshelfView: View {
 	@State private var isFinishedBookShown = false
 	@State private var bookToShowDetail: Book?
 	@State private var bookToShowChapters: Book?
+	@State private var isStopWarningShown = false
 	
 	var body: some View {
 		ZStack {
@@ -103,9 +104,27 @@ struct BookshelfView: View {
 				Text("Понятно")
 			}
 		}
+		.alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
+			Button(role: .destructive) {
+				playerService.stopCurrentBook()
+			} label: {
+				Text("Закрыть")
+			}
+
+			Button(role: .cancel) {
+				isStopWarningShown = false
+			} label: {
+				Text("Отмена")
+			}
+		}
 		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
 			if !isSliderBusy {
 				progress = newValue ?? .zero
+			}
+		}
+		.onShake {
+			if playerService.currentBook != nil {
+				isStopWarningShown = true
 			}
 		}
 	}
@@ -123,7 +142,7 @@ struct BookshelfView: View {
 				do {
 					try fileService.deleteBookFiles(book)
 					spotlightService.deindex(book: book)
-					playerService.remove(book: book)
+					playerService.removeIfNeeded(book: book)
 					modelContext.delete(book)
 				} catch {
 					Log.error(error.localizedDescription)

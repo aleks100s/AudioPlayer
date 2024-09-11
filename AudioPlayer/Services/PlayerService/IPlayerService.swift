@@ -13,7 +13,8 @@ protocol IPlayerService {
 	var isPlaying: Bool { get }
 
 	func setupAndPlayAudio(book: Book, chapter: Chapter?, rate: PlaybackRate?) throws
-	func remove(book: Book)
+	func removeIfNeeded(book: Book)
+	func stopCurrentBook()
 	func pauseOrResume()
 	func previousChapter() throws
 	func nextChapter() throws

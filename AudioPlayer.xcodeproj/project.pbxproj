@@ -45,6 +45,7 @@
 		27B871E72C91EAE100E48C9A /* ChaptersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E62C91EAE100E48C9A /* ChaptersListView.swift */; };
 		27B871E92C91EBD600E48C9A /* PlaybackIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */; };
 		27B871EB2C91EC0300E48C9A /* ChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EA2C91EC0300E48C9A /* ChapterView.swift */; };
+		27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EC2C920DCB00E48C9A /* Shake.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 		27B871E62C91EAE100E48C9A /* ChaptersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChaptersListView.swift; sourceTree = "<group>"; };
 		27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackIndicatorView.swift; sourceTree = "<group>"; };
 		27B871EA2C91EC0300E48C9A /* ChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterView.swift; sourceTree = "<group>"; };
+		27B871EC2C920DCB00E48C9A /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 				2767D0102C8C8FE600F5F12D /* ErrorAlert.swift */,
 				2767D0142C8C900500F5F12D /* Log.swift */,
 				2767D0262C8C97D800F5F12D /* Constants.swift */,
+				27B871EC2C920DCB00E48C9A /* Shake.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				2767D0182C8C907100F5F12D /* Logger+Extensions.swift in Sources */,
 				2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */,
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
+				27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
 				27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */,
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
@@ -523,6 +527,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AudioPlayer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ну, плеер, ну и что";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -560,6 +565,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AudioPlayer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ну, плеер, ну и что";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

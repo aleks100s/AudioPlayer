@@ -152,11 +152,15 @@ extension PlayerService {
 		}
 	}
 	
-	func remove(book: Book) {
+	func removeIfNeeded(book: Book) {
 		guard book == currentBook else {
 			return
 		}
 		
+		stopCurrentBook()
+	}
+	
+	func stopCurrentBook() {
 		stopPlayer()
 		currentBook = nil
 	}
