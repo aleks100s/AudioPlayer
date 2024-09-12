@@ -8,15 +8,32 @@
 import SwiftUI
 
 struct CompactPlayerView: View {
+	private static var image: UIImage?
+	
 	@Binding var isSliderBusy: Bool
 	@Binding var progress: Double
-	
+
 	let onPlaylistTap: () -> Void
 	
+	@State private var isExpanded = false
+	@State private var dragOffset: CGFloat = .zero {
+		didSet {
+			withAnimation(.bouncy) {
+				isExpanded = dragOffset == .totalWidth
+			}
+		}
+	}
 	@Environment(\.playerService) private var playerService
 	
 	var body: some View {
 		VStack(alignment: .center, spacing: 12) {
+			HandlerView()
+						
+			Image(uiImage: Self.image ?? UIImage(resource: .placeholder))
+				.resizable()
+				.aspectRatio(1, contentMode: .fill)
+				.frame(width: dragOffset, height: dragOffset)
+
 			title
 			
 			SeekerView(isSliderBusy: $isSliderBusy, progress: $progress)
@@ -25,14 +42,54 @@ struct CompactPlayerView: View {
 			
 			PlaybackRateView(onPlaylistTap: onPlaylistTap)
 		}
-		.padding()
-		.padding(.bottom, 16)
+		.padding(.padding)
+		.padding(.bottom, .padding)
 		.background(.regularMaterial)
+		.gesture(
+			DragGesture()
+				.onChanged { gesture in
+					let height = gesture.translation.height
+					withAnimation(.linear) {
+						dragOffset = height < 0 ? height * (-1) : .zero
+					}
+				}
+				.onEnded { gesture in
+					withAnimation(.linear) {
+						dragOffset = dragOffset > 100 ? .totalWidth : .zero
+					}
+				}
+		)
+		.onAppear {
+			Self.image = playerService.currentBook?.image ?? UIImage(resource: .placeholder)
+		}
 	}
 	
 	private var title: some View {
-		Text(playerService.currentBook?.currentChapter?.name ?? "")
-			.font(.title3)
+		HStack {
+			VStack(alignment: .leading) {
+				let title = playerService.currentBook?.title ?? ""
+				let chapterName = playerService.currentBook?.currentChapter?.name ?? ""
+				Text("\(title) - \(chapterName)")
+					.font(isExpanded ? .title3 : .body)
+				
+				if isExpanded {
+					Text(playerService.currentBook?.author ?? "")
+						.foregroundStyle(.secondary)
+				}
+			}
+			
+			if isExpanded {
+				Spacer()
+			}
+		}
+	}
+}
+
+private struct HandlerView: View {
+	var body: some View {
+		RoundedRectangle(cornerRadius: 4)
+			.fill(.gray.opacity(0.4))
+			.frame(width: 60, height: 8)
 	}
 }
 
@@ -190,4 +247,9 @@ private struct ImageButton: View {
 				.font(.title)
 		}
 	}
+}
+
+private extension CGFloat {
+	static let padding: CGFloat = 16
+	static let totalWidth = UIScreen.main.bounds.width - .padding * 2
 }
