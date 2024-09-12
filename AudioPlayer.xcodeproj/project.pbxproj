@@ -46,6 +46,7 @@
 		27B871E92C91EBD600E48C9A /* PlaybackIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */; };
 		27B871EB2C91EC0300E48C9A /* ChapterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EA2C91EC0300E48C9A /* ChapterView.swift */; };
 		27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EC2C920DCB00E48C9A /* Shake.swift */; };
+		27B871EF2C92AF4000E48C9A /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		27B871E82C91EBD600E48C9A /* PlaybackIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackIndicatorView.swift; sourceTree = "<group>"; };
 		27B871EA2C91EC0300E48C9A /* ChapterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterView.swift; sourceTree = "<group>"; };
 		27B871EC2C920DCB00E48C9A /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
+		27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +154,7 @@
 				2767D00A2C8C8E7800F5F12D /* Book.swift */,
 				2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */,
 				27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */,
+				27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -380,6 +383,7 @@
 				2767D0092C8C8D9500F5F12D /* Chapter.swift in Sources */,
 				2767D01F2C8C924800F5F12D /* BookMetaInfoService.swift in Sources */,
 				279426D32C8CA24200461C4E /* Environment+BookMetaInfoService.swift in Sources */,
+				27B871EF2C92AF4000E48C9A /* UIImageTransformer.swift in Sources */,
 				27A7B2922C8CBAB5002C4914 /* SpotlightService.swift in Sources */,
 				2767D0112C8C8FE600F5F12D /* ErrorAlert.swift in Sources */,
 				2767D01D2C8C917E00F5F12D /* IBookMetaInfoService.swift in Sources */,

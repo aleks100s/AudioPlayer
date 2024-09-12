@@ -64,7 +64,7 @@ private struct BookCoverView: View {
 	
 	var body: some View {
 		ZStack {
-			Image(uiImage: book.image)
+			Image(uiImage: book.artworkImage)
 				.resizable()
 				.aspectRatio(1, contentMode: .fill)
 				.clipShape(RoundedRectangle(cornerRadius: 16))

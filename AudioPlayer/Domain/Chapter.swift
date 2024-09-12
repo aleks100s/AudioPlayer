@@ -16,18 +16,14 @@ final class Chapter {
 	let name: String
 	let duration: Double
 	let urlLastPathComponent: String
-	@Attribute(.externalStorage)
-	let artworkData: Data?
+	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
+	let artworkImage: UIImage
 	let order: Int
 	var isListened: Bool
 	var currentTime: Double = 0
 	
 	var artwork: MPMediaItemArtwork? {
-		guard let data = artworkData, let artworkImage = UIImage(data: data) else {
-			Log.debug("Failed to extract artwork from metadata of \(name)")
-			return nil
-		}
-		
+		let artworkImage = artworkImage
 		let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
 			return artworkImage
 		}
@@ -47,7 +43,7 @@ final class Chapter {
 		self.name = name
 		self.duration = duration
 		self.urlLastPathComponent = urlLastPathComponent
-		self.artworkData = artworkData
+		self.artworkImage = UIImage(data: artworkData ?? Data()) ?? .placeholder
 		self.order = order
 		self.isListened = isListened
 	}

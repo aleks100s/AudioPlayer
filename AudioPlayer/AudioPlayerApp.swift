@@ -14,6 +14,10 @@ struct AudioPlayerApp: App {
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 	
+	init() {
+		ValueTransformer.setValueTransformer(UIImageTransformer(), forName: NSValueTransformerName("UIImageTransformer"))
+	}
+	
     var body: some Scene {
         WindowGroup {
             ContentView()

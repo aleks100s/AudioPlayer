@@ -13,9 +13,7 @@ struct ChapterView: View {
 	let isCurrentChapter: Bool
 	let isCurrentlyPlaying: Bool
 	let onTap: () -> Void
-	
-	@Environment(\.playerService) private var playerService
-	
+		
 	var body: some View {
 		Button {
 			onTap()

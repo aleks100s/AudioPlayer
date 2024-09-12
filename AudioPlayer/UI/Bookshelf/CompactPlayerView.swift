@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct CompactPlayerView: View {
-	private static var image: UIImage?
-	
 	@Binding var isSliderBusy: Bool
 	@Binding var progress: Double
 
@@ -29,7 +27,7 @@ struct CompactPlayerView: View {
 		VStack(alignment: .center, spacing: 12) {
 			HandlerView()
 						
-			Image(uiImage: Self.image ?? UIImage(resource: .placeholder))
+			Image(uiImage: playerService.currentBook?.artworkImage ?? .placeholder)
 				.resizable()
 				.aspectRatio(1, contentMode: .fill)
 				.frame(width: dragOffset, height: dragOffset)
@@ -59,9 +57,6 @@ struct CompactPlayerView: View {
 					}
 				}
 		)
-		.onAppear {
-			Self.image = playerService.currentBook?.image ?? UIImage(resource: .placeholder)
-		}
 	}
 	
 	private var title: some View {

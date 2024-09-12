@@ -16,6 +16,8 @@ final class Book {
 	let title: String
 	@Attribute(.spotlight)
 	let author: String
+	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
+	let artworkImage: UIImage
 	var currentChapter: Chapter?
 	var isFinished = false
 	@Relationship(deleteRule: .cascade)
@@ -33,18 +35,11 @@ final class Book {
 		return Double(readChapters) / Double(allChapters)
 	}
 	
-	var image: UIImage {
-		guard let data = orderedChapters.first?.artworkData else {
-			return UIImage(resource: .placeholder)
-		}
-		
-		return UIImage(data: data) ?? UIImage(resource: .placeholder)
-	}
-	
-	init(id: UUID = UUID(), title: String, author: String, chapters: [Chapter]) {
+	init(id: UUID = UUID(), title: String, author: String, artworkData: Data?, chapters: [Chapter]) {
 		self.id = id
 		self.title = title
 		self.author = author
+		self.artworkImage = UIImage(data: artworkData ?? Data()) ?? .placeholder
 		self.chapters = chapters
 	}
 	

@@ -180,7 +180,7 @@ struct BookshelfView: View {
 				return
 				}
 				
-				let book = Book(id: id, title: bookMeta.albumName, author: bookMeta.artist, chapters: chapters)
+				let book = Book(id: id, title: bookMeta.albumName, author: bookMeta.artist, artworkData: bookMeta.artworkData, chapters: chapters)
 				modelContext.insert(book)
 				spotlightService.index(book: book)
 			} catch {
