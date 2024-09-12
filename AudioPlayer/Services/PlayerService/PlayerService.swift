@@ -24,7 +24,6 @@ final class PlayerService: NSObject, IPlayerService {
 	
 	override init() {
 		super.init()
-		setupTimer()
 		setupAudioInterruptionNotifications()
 		setupRemoteCommandCenter()
 	}
@@ -171,6 +170,7 @@ private extension PlayerService {
 	
 	func setupTimer() {
 		DispatchQueue.global().async { [weak self] in
+			self?.stopTimer()
 			let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] timer in
 				DispatchQueue.main.async {
 					self?.updatePlayback()
@@ -213,6 +213,7 @@ private extension PlayerService {
 			.appendingPathComponent(book.id.uuidString, conformingTo: .directory)
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
 		
+		stopAudioPlayer()
 		do {
 			let oldRate = audioPlayer?.rate
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
@@ -229,6 +230,7 @@ private extension PlayerService {
 			try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
 			try AVAudioSession.sharedInstance().setActive(true)
 			audioPlayer?.play()
+			setupTimer()
 		} catch {
 			Log.error("Error initializing the audio player: \(error)\nfor file \(chapter.urlLastPathComponent)")
 			throw error
@@ -238,11 +240,13 @@ private extension PlayerService {
 	func pauseCurrentAudio() {
 		audioPlayer?.pause()
 		updatePlayback()
+		stopTimer()
 	}
 	
 	func resumeCurrentAudio() {
 		audioPlayer?.play()
 		updatePlayback()
+		setupTimer()
 	}
 	
 	func skip(time interval: TimeInterval, forward: Bool) {
@@ -286,6 +290,7 @@ private extension PlayerService {
 		isPlaying = false
 		stopAudioPlayer()
 		stopMediaPlayer()
+		stopTimer()
 	}
 	
 	func stopAudioPlayer() {
@@ -296,6 +301,11 @@ private extension PlayerService {
 	func stopMediaPlayer() {
 		MPNowPlayingInfoCenter.default().playbackState = .stopped
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+	}
+	
+	func stopTimer() {
+		timer?.invalidate()
+		timer = nil
 	}
 }
 
