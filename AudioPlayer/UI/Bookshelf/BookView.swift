@@ -105,17 +105,15 @@ private struct BookProgressView: View {
 			HStack {
 				if book.isFinished {
 					Text("Книга прослушана")
-						.font(.footnote)
 				} else if let chapter = book.currentChapter?.name {
 					Text("\(isPlaying ? "Сейчас играет:" : "Продолжить прослушивание:") \(chapter)")
-						.font(.footnote)
 				} else {
 					Text("Начать прослушивание")
 				}
 				
 				Spacer()
 				
-				HStack {
+				HStack(spacing: 16) {
 					Text(String(format: "%.1f%%", book.progress * 100))
 						.opacity(book.progress == .zero ? .zero : 1)
 					
@@ -125,7 +123,8 @@ private struct BookProgressView: View {
 					.font(.title)
 				}
 			}
-			.lineLimit(1)
+			.font(.footnote)
+			.lineLimit(2)
 			.padding()
 		}
 	}
