@@ -154,7 +154,6 @@
 				2767D00A2C8C8E7800F5F12D /* Book.swift */,
 				2767D00C2C8C8F4900F5F12D /* PlaybackRate.swift */,
 				27A7B29D2C8DBD12002C4914 /* PlayerStatus.swift */,
-				27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -163,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				2767D0162C8C906500F5F12D /* Extensions */,
+				27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */,
 				2767D0102C8C8FE600F5F12D /* ErrorAlert.swift */,
 				2767D0142C8C900500F5F12D /* Log.swift */,
 				2767D0262C8C97D800F5F12D /* Constants.swift */,

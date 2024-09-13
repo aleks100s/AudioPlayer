@@ -9,35 +9,16 @@ import SwiftUI
 
 struct BookView: View {
 	let book: Book
+	let onChaptersListTap: () -> Void
 	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	@Environment(\.playerService) private var playerService
-	
-	private var isPlaying: Bool {
-		playerService.currentBook == book && playerService.isPlaying
-	}
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: .zero) {
 			BookCoverView(book: book)
 			
-			ProgressView(value: book.progress, total: 1.0)
-				.animation(.bouncy, value: book.progress)
-			
-			HStack {
-				if book.isFinished {
-					Text("Книга прослушана")
-						.font(.footnote)
-				} else if let chapter = book.currentChapter?.name {
-					Text("\(isPlaying ? "Сейчас играет:" : "Продолжить прослушивание:") \(chapter)")
-						.font(.footnote)
-				}
-				
-				Spacer()
-														
-				Text(String(format: "%.1f%%", book.progress * 100))
-			}
-			.padding()
+			BookProgressView(book: book, onChaptersListTap: onChaptersListTap)
 		}
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))
@@ -76,7 +57,7 @@ private struct BookCoverView: View {
 					VStack(alignment: .leading) {
 						Text(book.title)
 							.font(.headline)
-							.lineLimit(2)
+							.lineLimit(1)
 						
 						Text(book.author)
 							.font(.subheadline)
@@ -106,3 +87,46 @@ private struct BookCoverView: View {
 	}
 }
 
+private struct BookProgressView: View {
+	let book: Book
+	let onChaptersListTap: () -> Void
+	
+	@Environment(\.playerService) private var playerService
+	
+	private var isPlaying: Bool {
+		playerService.currentBook == book && playerService.isPlaying
+	}
+	
+	var body: some View {
+		VStack(alignment: .leading, spacing: .zero) {
+			ProgressView(value: book.progress, total: 1.0)
+				.animation(.bouncy, value: book.progress)
+			
+			HStack {
+				if book.isFinished {
+					Text("Книга прослушана")
+						.font(.footnote)
+				} else if let chapter = book.currentChapter?.name {
+					Text("\(isPlaying ? "Сейчас играет:" : "Продолжить прослушивание:") \(chapter)")
+						.font(.footnote)
+				} else {
+					Text("Начать прослушивание")
+				}
+				
+				Spacer()
+				
+				HStack {
+					Text(String(format: "%.1f%%", book.progress * 100))
+						.opacity(book.progress == .zero ? .zero : 1)
+					
+					Button("", systemImage: "list.bullet") {
+						onChaptersListTap()
+					}
+					.font(.title)
+				}
+			}
+			.lineLimit(1)
+			.padding()
+		}
+	}
+}

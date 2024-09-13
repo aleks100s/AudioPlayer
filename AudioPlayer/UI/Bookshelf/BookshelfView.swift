@@ -32,20 +32,21 @@ struct BookshelfView: View {
 			ScrollView {
 				LazyVStack(spacing: 16) {
 					ForEach(books) { book in
-						BookView(book: book)
-							.onTapGesture {
-								bookToShowDetail = book
+						BookView(book: book) {
+							bookToShowChapters = book
+						}
+						.onTapGesture {
+							bookToShowDetail = book
+						}
+						.contextMenu {
+							menuContent(for: book)
+						}
+						.sensoryFeedback(.success, trigger: book.isFinished)
+						.onChange(of: book.isFinished) { oldValue, newValue in
+							if newValue, !oldValue {
+								isFinishedBookShown = true
 							}
-							.contextMenu {
-								menuContent(for: book)
-							}
-							.sensoryFeedback(.success, trigger: book.isFinished)
-							.onChange(of: book.isFinished) { oldValue, newValue in
-								if newValue, !oldValue {
-									isFinishedBookShown = true
-								}
-							}
-
+						}
 					}
 				}
 				.padding()
