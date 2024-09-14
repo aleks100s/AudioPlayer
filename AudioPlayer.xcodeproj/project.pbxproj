@@ -48,6 +48,7 @@
 		27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EC2C920DCB00E48C9A /* Shake.swift */; };
 		27B871EF2C92AF4000E48C9A /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */; };
 		27B871F22C95671E00E48C9A /* HowToAddBookTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */; };
+		27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 27B871F32C9569A000E48C9A /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		27B871EC2C920DCB00E48C9A /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
 		27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
 		27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToAddBookTip.swift; sourceTree = "<group>"; };
+		27B871F32C9569A000E48C9A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				2767D0042C8C8A6100F5F12D /* AppDelegate.swift */,
 				2767D0032C8C8A3C00F5F12D /* Info.plist */,
 				2767CFF82C8C89B900F5F12D /* Assets.xcassets */,
+				27B871F32C9569A000E48C9A /* Localizable.xcstrings */,
 				2767CFFA2C8C89B900F5F12D /* Preview Content */,
 			);
 			path = AudioPlayer;
@@ -329,12 +332,12 @@
 			};
 			buildConfigurationList = 2767CFEC2C8C89B800F5F12D /* Build configuration list for PBXProject "AudioPlayer" */;
 			compatibilityVersion = "Xcode 15.3";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 				ru,
+				en,
 			);
 			mainGroup = 2767CFE82C8C89B800F5F12D;
 			productRefGroup = 2767CFF22C8C89B800F5F12D /* Products */;
@@ -353,6 +356,7 @@
 			files = (
 				2767CFFC2C8C89B900F5F12D /* Preview Assets.xcassets in Resources */,
 				2767CFF92C8C89B900F5F12D /* Assets.xcassets in Resources */,
+				27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

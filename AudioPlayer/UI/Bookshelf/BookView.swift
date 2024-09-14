@@ -106,7 +106,11 @@ private struct BookProgressView: View {
 				if book.isFinished {
 					Text("Книга прослушана")
 				} else if let chapter = book.currentChapter?.name {
-					Text("\(isPlaying ? "Сейчас играет:" : "Продолжить прослушивание:") \(chapter)")
+					if isPlaying {
+						Text("Сейчас играет: \(chapter)")
+					} else {
+						Text("Продолжить прослушивание: \(chapter)")
+					}
 				} else {
 					Text("Начать прослушивание")
 				}
