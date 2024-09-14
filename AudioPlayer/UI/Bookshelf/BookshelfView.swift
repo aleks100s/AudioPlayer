@@ -28,6 +28,79 @@ struct BookshelfView: View {
 	@State private var isStopWarningShown = false
 	
 	var body: some View {
+		Group {
+			if books.isEmpty {
+				noContentView
+			} else {
+				contentView
+			}
+		}
+		.navigationTitle("Мои книги")
+		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
+			switch results {
+			case .success(let files):
+				handle(files: files)
+				
+			case .failure(let error):
+				Log.error(error.localizedDescription)
+			}
+		})
+		.sheet(item: $bookToShowDetail) { book in
+			BookDetailView(book: book)
+		}
+		.sheet(item: $bookToShowChapters) { book in
+			ChaptersListView(book: book)
+		}
+		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
+			Button(role: .cancel) {
+				isFinishedBookShown = false
+			} label: {
+				Text("Понятно")
+			}
+		}
+		.alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
+			Button(role: .destructive) {
+				playerService.stopCurrentBook()
+			} label: {
+				Text("Закрыть")
+			}
+
+			Button(role: .cancel) {
+				isStopWarningShown = false
+			} label: {
+				Text("Отмена")
+			}
+		}
+		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
+			if !isSliderBusy {
+				progress = newValue ?? .zero
+			}
+		}
+		.onShake {
+			if playerService.currentBook != nil {
+				isStopWarningShown = true
+			}
+		}
+	}
+	
+	private var noContentView: some View {
+		ContentUnavailableView(
+			"Здесь пусто",
+			systemImage: "book.circle",
+			description: Text("Добавьте аудиокниги, выбрав их в Файлах")
+		)
+		.toolbar {
+			ToolbarItem(placement: .bottomBar) {
+				Button {
+					isFilePickerPresented = true
+				} label: {
+					Text("Добавить аудиокниги")
+				}
+			}
+		}
+	}
+	
+	private var contentView: some View {
 		ZStack {
 			ScrollView {
 				LazyVStack(spacing: 16) {
@@ -73,7 +146,6 @@ struct BookshelfView: View {
 				}
 			}
 		}
-		.navigationTitle("Мои книги")
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
 				Button {
@@ -81,51 +153,6 @@ struct BookshelfView: View {
 				} label: {
 					Image(systemName: "plus.circle")
 				}
-			}
-		}
-		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
-			switch results {
-			case .success(let files):
-				handle(files: files)
-				
-			case .failure(let error):
-				Log.error(error.localizedDescription)
-			}
-		})
-		.sheet(item: $bookToShowDetail) { book in
-			BookDetailView(book: book)
-		}
-		.sheet(item: $bookToShowChapters) { book in
-			ChaptersListView(book: book)
-		}
-		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
-			Button(role: .cancel) {
-				isFinishedBookShown = false
-			} label: {
-				Text("Понятно")
-			}
-		}
-		.alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
-			Button(role: .destructive) {
-				playerService.stopCurrentBook()
-			} label: {
-				Text("Закрыть")
-			}
-
-			Button(role: .cancel) {
-				isStopWarningShown = false
-			} label: {
-				Text("Отмена")
-			}
-		}
-		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
-			if !isSliderBusy {
-				progress = newValue ?? .zero
-			}
-		}
-		.onShake {
-			if playerService.currentBook != nil {
-				isStopWarningShown = true
 			}
 		}
 	}
