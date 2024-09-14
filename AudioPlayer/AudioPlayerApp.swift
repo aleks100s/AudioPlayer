@@ -7,6 +7,7 @@
 
 import SwiftData
 import SwiftUI
+import TipKit
 
 @main
 struct AudioPlayerApp: App {
@@ -21,6 +22,12 @@ struct AudioPlayerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+				.task {
+					try? Tips.configure([
+						.displayFrequency(.immediate),
+						.datastoreLocation(.applicationDefault)
+					])
+				}
         }
 		.modelContainer(Self.modelContainer)
     }

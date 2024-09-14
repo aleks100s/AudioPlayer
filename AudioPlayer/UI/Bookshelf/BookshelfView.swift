@@ -7,6 +7,7 @@
 
 import SwiftData
 import SwiftUI
+import TipKit
 
 struct BookshelfView: View {
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
@@ -153,6 +154,7 @@ struct BookshelfView: View {
 				} label: {
 					Image(systemName: "plus.circle")
 				}
+				.popoverTip(HowToAddBookTip(), arrowEdge: .top)
 			}
 		}
 	}
