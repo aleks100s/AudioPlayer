@@ -99,7 +99,7 @@ extension PlayerService {
 		}
 		
 		if index > .zero, let previousChapter = currentBook?.orderedChapters[index - 1] {
-			try play(chapter: previousChapter, rate: nil)
+			try play(chapter: previousChapter)
 		} else {
 			setPlayback(time: .zero)
 		}
@@ -118,7 +118,8 @@ extension PlayerService {
 				
 		currentChapter.isListened = true
 		if index + 1 < (currentBook?.orderedChapters.endIndex ?? 0), let nextChapter = currentBook?.orderedChapters[index + 1] {
-			try play(chapter: nextChapter, rate: nil)
+			
+			try play(chapter: nextChapter)
 		} else {
 			finishBook()
 		}
@@ -195,7 +196,7 @@ private extension PlayerService {
 	
 	// MARK: - Player Actions
 	
-	func play(chapter: Chapter, rate: PlaybackRate?, resetProgress: Bool = true) throws {
+	func play(chapter: Chapter, rate: PlaybackRate? = nil, resetProgress: Bool = true) throws {
 		guard let book = currentBook else {
 			Log.error("Unable to play chapter \(chapter.name) - current book is not set")
 			return
@@ -212,10 +213,9 @@ private extension PlayerService {
 		let fileURL = documentsDirectory
 			.appendingPathComponent(book.id.uuidString, conformingTo: .directory)
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
-		
+		let oldRate = audioPlayer?.rate
 		stopAudioPlayer()
 		do {
-			let oldRate = audioPlayer?.rate
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self
 			audioPlayer?.enableRate = true
