@@ -88,7 +88,12 @@ extension PlayerService {
 			return
 		}
 		
-		guard let index = currentBook?.orderedChapters.firstIndex(of: currentChapter) else {
+		guard let chapters = currentBook?.orderedChapters, !chapters.isEmpty else {
+			Log.error("Empty array of chapters")
+			return
+		}
+		
+		guard let index = chapters.firstIndex(of: currentChapter) else {
 			Log.error("Can't find current chapter in the current book")
 			return
 		}
@@ -98,7 +103,8 @@ extension PlayerService {
 			return
 		}
 		
-		if index > .zero, let previousChapter = currentBook?.orderedChapters[index - 1] {
+		if index > .zero {
+			let previousChapter = chapters[index - 1]
 			try play(chapter: previousChapter)
 		} else {
 			setPlayback(time: .zero)
@@ -111,14 +117,20 @@ extension PlayerService {
 			return
 		}
 		
-		guard let index = currentBook?.orderedChapters.firstIndex(of: currentChapter) else {
+		guard let chapters = currentBook?.orderedChapters, !chapters.isEmpty else {
+			Log.error("Empty array of chapters")
+			return
+		}
+		
+		guard let index = chapters.firstIndex(of: currentChapter) else {
 			Log.error("Can't find current chapter in the current book")
 			return
 		}
 				
 		currentChapter.isListened = true
-		if index + 1 < (currentBook?.orderedChapters.endIndex ?? 0), let nextChapter = currentBook?.orderedChapters[index + 1] {
-			
+	
+		if index + 1 < (chapters.endIndex) {
+			let nextChapter = chapters[index + 1]
 			try play(chapter: nextChapter)
 		} else {
 			finishBook()
@@ -202,9 +214,6 @@ private extension PlayerService {
 			return
 		}
 		
-		chapter.isListened = false
-		book.currentChapter = chapter
-		
 		guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
 			Log.error("Can't find documents directory")
 			return
@@ -213,8 +222,11 @@ private extension PlayerService {
 		let fileURL = documentsDirectory
 			.appendingPathComponent(book.id.uuidString, conformingTo: .directory)
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
-		let oldRate = audioPlayer?.rate
 		stopAudioPlayer()
+		chapter.isListened = false
+		book.currentChapter = chapter
+		book.trackProgress()
+		let oldRate = audioPlayer?.rate
 		do {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self
@@ -267,15 +279,16 @@ private extension PlayerService {
 	}
 	
 	func updateMediaPlayerPlaybackTime() {
-		if let audioPlayer {
-			MPNowPlayingInfoCenter.default().playbackState = audioPlayer.isPlaying ? .playing : .paused
-			var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
-			nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer.duration)
-			nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer.currentTime)
-			MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-		} else {
+		guard let audioPlayer else {
 			stopMediaPlayer()
+			return
 		}
+		
+		MPNowPlayingInfoCenter.default().playbackState = audioPlayer.isPlaying ? .playing : .paused
+		var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo
+		nowPlayingInfo?[MPMediaItemPropertyPlaybackDuration] = NSNumber(value: audioPlayer.duration)
+		nowPlayingInfo?[MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: audioPlayer.currentTime)
+		MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
 	}
 	
 	// MARK: - Stop Player
@@ -326,28 +339,28 @@ private extension PlayerService {
 	
 	func setupPlayCommand() {
 		commandCenter.playCommand.isEnabled = true
-		commandCenter.playCommand.addTarget { _ in
-			self.resumeCurrentAudio()
+		commandCenter.playCommand.addTarget { [weak self] _ in
+			self?.resumeCurrentAudio()
 			return .success
 		}
 	}
 	
 	func setupPauseCommand() {
 		commandCenter.pauseCommand.isEnabled = true
-		commandCenter.pauseCommand.addTarget { _ in
-			self.pauseCurrentAudio()
+		commandCenter.pauseCommand.addTarget { [weak self] _ in
+			self?.pauseCurrentAudio()
 			return .success
 		}
 	}
 	
 	func setupChangePlaybackPositionCommand() {
 		commandCenter.changePlaybackPositionCommand.isEnabled = true
-		commandCenter.changePlaybackPositionCommand.addTarget { event in
+		commandCenter.changePlaybackPositionCommand.addTarget { [weak self] event in
 			guard let event = event as? MPChangePlaybackPositionCommandEvent else {
 				return .commandFailed
 			}
 
-			self.setPlayback(time: event.positionTime)
+			self?.setPlayback(time: event.positionTime)
 			return .success
 		}
 	}
@@ -355,12 +368,12 @@ private extension PlayerService {
 	func setupSkipForwardCommand() {
 		commandCenter.skipForwardCommand.isEnabled = true
 		commandCenter.skipForwardCommand.preferredIntervals = [NSNumber(value: Constants.skipForwardInterval)]
-		commandCenter.skipForwardCommand.addTarget { event in
+		commandCenter.skipForwardCommand.addTarget { [weak self] event in
 			guard let event = event as? MPSkipIntervalCommandEvent else {
 				return .commandFailed
 			}
 			
-			self.skip(time: event.interval, forward: true)
+			self?.skip(time: event.interval, forward: true)
 			return .success
 		}
 	}
@@ -368,12 +381,12 @@ private extension PlayerService {
 	func setupSkipBackwardCommand() {
 		commandCenter.skipBackwardCommand.isEnabled = true
 		commandCenter.skipBackwardCommand.preferredIntervals = [NSNumber(value: Constants.skipBackwardInterval)]
-		commandCenter.skipBackwardCommand.addTarget { event in
+		commandCenter.skipBackwardCommand.addTarget { [weak self] event in
 			guard let event = event as? MPSkipIntervalCommandEvent else {
 				return .commandFailed
 			}
 			
-			self.skip(time: event.interval, forward: false)
+			self?.skip(time: event.interval, forward: false)
 			return .success
 		}
 	}

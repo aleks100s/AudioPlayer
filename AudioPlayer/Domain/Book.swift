@@ -11,6 +11,8 @@ import UIKit
 
 @Model
 final class Book {
+	static var cache = [UUID: [Chapter]]()
+	
 	let id: UUID
 	@Attribute(.spotlight)
 	let title: String
@@ -19,20 +21,17 @@ final class Book {
 	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
 	let artworkImage: UIImage
 	var currentChapter: Chapter?
+	var progress = Double.zero
 	var isFinished = false
 	@Relationship(deleteRule: .cascade)
 	private var chapters: [Chapter]
 	
 	var orderedChapters: [Chapter] {
-		chapters.sorted(by: { $0.order < $1.order })
-	}
-	
-	var progress: Double {
-		guard !isFinished else { return 1 }
+		if Self.cache[id] == nil {
+			Self.cache[id] = chapters.sorted(by: { $0.order < $1.order })
+		}
 		
-		let allChapters = chapters.count
-		let readChapters = chapters.filter(\.isListened).count
-		return Double(readChapters) / Double(allChapters)
+		return Self.cache[id] ?? []
 	}
 	
 	init(id: UUID = UUID(), title: String, author: String, artworkData: Data?, chapters: [Chapter]) {
@@ -49,6 +48,11 @@ final class Book {
 		}
 		currentChapter = nil
 		isFinished = true
+		progress = 1
+	}
+	
+	func trackProgress() {
+		progress = Double(chapters.filter(\.isListened).count) / Double(chapters.count)
 	}
 	
 	func resetProgress() {
