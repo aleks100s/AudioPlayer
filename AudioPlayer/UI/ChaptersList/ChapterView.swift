@@ -42,5 +42,6 @@ struct ChapterView: View {
 			}
 		}
 		.tint(.primary)
+		.sensoryFeedback(isCurrentlyPlaying ? .stop : .start, trigger: isCurrentlyPlaying)
 	}
 }

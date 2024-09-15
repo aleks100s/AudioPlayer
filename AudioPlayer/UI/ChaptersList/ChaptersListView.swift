@@ -37,6 +37,7 @@ struct ChaptersListView: View {
 							chapter.isListened.toggle()
 						}
 						.tint(.green)
+						.sensoryFeedback(.success, trigger: chapter.isListened)
 					}
 				}
 			}

@@ -71,6 +71,7 @@ private struct BookCoverView: View {
 						handlePlayButtonTap()
 					}
 					.font(.title)
+					.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
 				}
 				.padding()
 				.background(.ultraThinMaterial)
