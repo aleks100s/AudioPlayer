@@ -49,6 +49,8 @@
 		27B871EF2C92AF4000E48C9A /* UIImageTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */; };
 		27B871F22C95671E00E48C9A /* HowToAddBookTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */; };
 		27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 27B871F32C9569A000E48C9A /* Localizable.xcstrings */; };
+		27B871F62C9803F700E48C9A /* HowToMarkChapterTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */; };
+		27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +98,8 @@
 		27B871EE2C92AF4000E48C9A /* UIImageTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTransformer.swift; sourceTree = "<group>"; };
 		27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToAddBookTip.swift; sourceTree = "<group>"; };
 		27B871F32C9569A000E48C9A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToMarkChapterTip.swift; sourceTree = "<group>"; };
+		27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToDeleteBookTip.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +295,8 @@
 			isa = PBXGroup;
 			children = (
 				27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */,
+				27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */,
+				27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */,
 			);
 			path = Tips;
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */,
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */,
+				27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
 				27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */,
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
@@ -404,6 +411,7 @@
 				2767D0112C8C8FE600F5F12D /* ErrorAlert.swift in Sources */,
 				2767D01D2C8C917E00F5F12D /* IBookMetaInfoService.swift in Sources */,
 				27A7B2992C8DBBDC002C4914 /* Environment+PlayerService.swift in Sources */,
+				27B871F62C9803F700E48C9A /* HowToMarkChapterTip.swift in Sources */,
 				27A7B2942C8CBB9B002C4914 /* Environment+SpotlightService.swift in Sources */,
 				2767D0252C8C969100F5F12D /* BookshelfView.swift in Sources */,
 			);

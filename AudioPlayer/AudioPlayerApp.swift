@@ -24,7 +24,7 @@ struct AudioPlayerApp: App {
             ContentView()
 				.task {
 					try? Tips.configure([
-						.displayFrequency(.immediate),
+						.displayFrequency(.daily),
 						.datastoreLocation(.applicationDefault)
 					])
 				}

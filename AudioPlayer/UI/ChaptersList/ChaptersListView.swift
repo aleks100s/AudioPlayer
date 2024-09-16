@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ChaptersListView: View {
 	let book: Book
@@ -23,6 +24,8 @@ struct ChaptersListView: View {
 	var body: some View {
 		NavigationView {
 			List {
+				TipView(HowToMarkChapterTip())
+				
 				ForEach(book.orderedChapters) { chapter in
 					let isCurrentChapter = currentChapter == chapter
 					ChapterView(

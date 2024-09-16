@@ -222,11 +222,11 @@ private extension PlayerService {
 		let fileURL = documentsDirectory
 			.appendingPathComponent(book.id.uuidString, conformingTo: .directory)
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
+		let oldRate = audioPlayer?.rate
 		stopAudioPlayer()
 		chapter.isListened = false
 		book.currentChapter = chapter
 		book.trackProgress()
-		let oldRate = audioPlayer?.rate
 		do {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self

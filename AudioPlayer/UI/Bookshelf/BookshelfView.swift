@@ -105,6 +105,8 @@ struct BookshelfView: View {
 		ZStack {
 			ScrollView {
 				LazyVStack(spacing: 16) {
+					TipView(HowToDeleteBookTip())
+					
 					ForEach(books) { book in
 						BookView(book: book) {
 							bookToShowChapters = book

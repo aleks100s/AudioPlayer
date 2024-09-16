@@ -83,6 +83,22 @@
         }
       }
     },
+    "Зажмите книгу, чтобы увидеть дополнительные действия" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold the book to see additional actions"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зажмите книгу, чтобы увидеть дополнительные действия"
+          }
+        }
+      }
+    },
     "Закрыть" : {
       "localizations" : {
         "en" : {
@@ -319,6 +335,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Скорость %@"
+          }
+        }
+      }
+    },
+    "Смахните слева, чтобы отметить главу прочитанной или непрочитанной" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe right to mark the chapter as listened (not listened)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Смахните слева, чтобы отметить главу прочитанной или непрочитанной"
           }
         }
       }
