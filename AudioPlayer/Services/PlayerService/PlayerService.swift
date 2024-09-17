@@ -51,14 +51,14 @@ extension PlayerService: AVAudioPlayerDelegate {
 // MARK: - Public In-App Controls
 
 extension PlayerService {
-	func setupAndPlayAudio(book: Book, chapter: Chapter? = nil, rate: PlaybackRate? = nil) throws {
+	func setupAndPlayAudio(book: Book, chapter: Chapter? = nil, rate: PlaybackRate? = nil, resetProgress: Bool = false) throws {
 		if book.isFinished {
 			book.resetProgress()
 		}
 		
 		guard book != currentBook else {
 			if let chapter, chapter != currentChapter {
-				try play(chapter: chapter, rate: rate, resetProgress: false)
+				try play(chapter: chapter, rate: rate, resetProgress: resetProgress)
 			} else {
 				pauseOrResume()
 			}
@@ -71,7 +71,7 @@ extension PlayerService {
 			return
 		}
 		
-		try play(chapter: chapter, rate: rate, resetProgress: false)
+		try play(chapter: chapter, rate: rate, resetProgress: resetProgress)
 	}
 
 	func pauseOrResume() {
@@ -105,7 +105,7 @@ extension PlayerService {
 		
 		if index > .zero {
 			let previousChapter = chapters[index - 1]
-			try play(chapter: previousChapter)
+			try play(chapter: previousChapter, resetProgress: true)
 		} else {
 			setPlayback(time: .zero)
 		}
@@ -131,7 +131,7 @@ extension PlayerService {
 	
 		if index + 1 < (chapters.endIndex) {
 			let nextChapter = chapters[index + 1]
-			try play(chapter: nextChapter)
+			try play(chapter: nextChapter, resetProgress: true)
 		} else {
 			finishBook()
 		}
@@ -208,7 +208,7 @@ private extension PlayerService {
 	
 	// MARK: - Player Actions
 	
-	func play(chapter: Chapter, rate: PlaybackRate? = nil, resetProgress: Bool = true) throws {
+	func play(chapter: Chapter, rate: PlaybackRate? = nil, resetProgress: Bool) throws {
 		guard let book = currentBook else {
 			Log.error("Unable to play chapter \(chapter.name) - current book is not set")
 			return
@@ -224,6 +224,9 @@ private extension PlayerService {
 			.appendingPathComponent(chapter.urlLastPathComponent, conformingTo: .audio)
 		let oldRate = audioPlayer?.rate
 		stopAudioPlayer()
+		if chapter.isListened || resetProgress {
+			chapter.currentTime = .zero
+		}
 		chapter.isListened = false
 		book.currentChapter = chapter
 		book.trackProgress()
@@ -231,9 +234,7 @@ private extension PlayerService {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self
 			audioPlayer?.enableRate = true
-			if !resetProgress {
-				audioPlayer?.currentTime = chapter.currentTime
-			}
+			audioPlayer?.currentTime = chapter.currentTime
 			setupMediaPlayer()
 			if let rate = rate?.float ?? oldRate {
 				audioPlayer?.rate = rate
@@ -256,6 +257,7 @@ private extension PlayerService {
 	}
 	
 	func resumeCurrentAudio() {
+		currentChapter?.isListened = false
 		audioPlayer?.play()
 		updatePlayback()
 		setupTimer()

@@ -50,7 +50,7 @@ struct ChaptersListView: View {
 	
 	private func select(chapter: Chapter) {
 		do {
-			try playerService.setupAndPlayAudio(book: book, chapter: chapter)
+			try playerService.setupAndPlayAudio(book: book, chapter: chapter, resetProgress: chapter != currentChapter)
 		} catch {
 			Log.error(error.localizedDescription)
 		}
