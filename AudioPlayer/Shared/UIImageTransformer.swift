@@ -19,12 +19,14 @@ final class UIImageTransformer: ValueTransformer {
 	override func transformedValue(_ value: Any?) -> Any? {
 		guard let image = value as? UIImage else { return nil }
 		
+		print("transformedValue")
 		return image.pngData()
 	}
 	
 	override func reverseTransformedValue(_ value: Any?) -> Any? {
 		guard let data = value as? Data else { return nil }
 		
+		print("reverseTransformedValue")
 		return UIImage(data: data) ?? UIImage(resource: .placeholder)
 	}
 }

@@ -16,7 +16,7 @@ struct CompactPlayerView: View {
 	@State private var isExpanded = false
 	@State private var dragOffset: CGFloat = .zero {
 		didSet {
-			withAnimation(.bouncy) {
+			withAnimation(.linear) {
 				isExpanded = dragOffset == .totalWidth
 			}
 		}
@@ -27,7 +27,7 @@ struct CompactPlayerView: View {
 		VStack(alignment: .center, spacing: 12) {
 			HandlerView()
 						
-			Image(uiImage: playerService.currentBook?.artworkImage ?? .placeholder)
+			Image(uiImage: playerService.currentBook?.currentChapter?.image ?? .placeholder)
 				.resizable()
 				.aspectRatio(1, contentMode: .fill)
 				.frame(width: dragOffset, height: dragOffset)
@@ -132,9 +132,7 @@ private struct SliderView: View {
 		}
 		.onChange(of: progress) { _, newValue in
 			if isSliderBusy {
-				Task.detached(priority: .userInitiated) {
-					await playerService.setPlayback(time: newValue)
-				}
+				playerService.setPlayback(time: newValue)
 			}
 		}
 	}
@@ -159,46 +157,36 @@ private struct ControlsView: View {
 				switch control {
 				case .previousTrack:
 					ImageButton(systemName: "backward.end.fill") {
-						Task.detached(priority: .userInitiated) {
-							do {
-								try await playerService.previousChapter()
-							} catch {
-								Log.error(error.localizedDescription)
-							}
+						do {
+							try playerService.previousChapter()
+						} catch {
+							Log.error(error.localizedDescription)
 						}
 					}
 					
 				case .skipBack:
 					ImageButton(systemName: "gobackward.\(Constants.skipBackwardInterval)") {
-						Task.detached(priority: .userInitiated) {
-							await playerService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
-						}
+						playerService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
 					}
 					
 				case .play:
 					ImageButton(systemName: playerService.isPlaying ? "pause.fill" : "play.fill") {
-						Task.detached(priority: .userInitiated) {
-							await playerService.pauseOrResume()
-						}
+						playerService.pauseOrResume()
 					}
 					.animation(.spring, value: playerService.isPlaying)
 					.sensoryFeedback(playerService.isPlaying ? .stop : .start, trigger: playerService.isPlaying)
 					
 				case .skipForward:
 					ImageButton(systemName: "goforward.\(Constants.skipForwardInterval)") {
-						Task.detached(priority: .userInitiated) {
-							await playerService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
-						}
+						playerService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
 					}
 					
 				case .nextTrack:
 					ImageButton(systemName: "forward.end.fill") {
-						Task.detached(priority: .userInitiated) {
-							do {
-								try await playerService.nextChapter()
-							} catch {
-								Log.error(error.localizedDescription)
-							}
+						do {
+							try playerService.nextChapter()
+						} catch {
+							Log.error(error.localizedDescription)
 						}
 					}
 				}
@@ -237,9 +225,7 @@ private struct PlaybackRateView: View {
 			}
 		}
 		.onChange(of: rate) { oldValue, newValue in
-			Task.detached(priority: .userInitiated) {
-				await playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)
-			}
+			playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)
 		}
 	}
 }

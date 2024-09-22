@@ -160,7 +160,9 @@ extension PlayerService {
 			}
 		} else {
 			audioPlayer.currentTime = time
-			updatePlayback()
+			Task { @MainActor in
+				updatePlayback()
+			}
 		}
 	}
 	
@@ -251,16 +253,20 @@ private extension PlayerService {
 	}
 	
 	func pauseCurrentAudio() {
-		audioPlayer?.pause()
-		updatePlayback()
-		stopTimer()
+		Task { @MainActor in
+			audioPlayer?.pause()
+			updatePlayback()
+			stopTimer()
+		}
 	}
 	
 	func resumeCurrentAudio() {
-		currentChapter?.isListened = false
-		audioPlayer?.play()
-		updatePlayback()
-		setupTimer()
+		Task { @MainActor in
+			currentChapter?.isListened = false
+			audioPlayer?.play()
+			updatePlayback()
+			setupTimer()
+		}
 	}
 	
 	func skip(time interval: TimeInterval, forward: Bool) {
@@ -270,6 +276,7 @@ private extension PlayerService {
 	
 	// MARK: - Update Playback
 	
+	@MainActor
 	func updatePlayback() {
 		updatePlaybackStatus()
 		updateMediaPlayerPlaybackTime()
@@ -362,9 +369,7 @@ private extension PlayerService {
 				return .commandFailed
 			}
 
-			Task.detached(priority: .userInitiated) {
-				self?.setPlayback(time: event.positionTime)
-			}
+			self?.setPlayback(time: event.positionTime)
 			return .success
 		}
 	}
@@ -377,9 +382,7 @@ private extension PlayerService {
 				return .commandFailed
 			}
 			
-			Task.detached(priority: .userInitiated) {
-				self?.skip(time: event.interval, forward: true)
-			}
+			self?.skip(time: event.interval, forward: true)
 			return .success
 		}
 	}
@@ -392,9 +395,7 @@ private extension PlayerService {
 				return .commandFailed
 			}
 			
-			Task.detached(priority: .userInitiated) {
-				self?.skip(time: event.interval, forward: false)
-			}
+			self?.skip(time: event.interval, forward: false)
 			return .success
 		}
 	}

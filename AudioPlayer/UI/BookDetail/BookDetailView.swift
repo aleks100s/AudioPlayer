@@ -14,7 +14,7 @@ struct BookDetailView: View {
 		NavigationView {
 			ScrollView {
 				LazyVStack {
-					Image(uiImage: book.artworkImage)
+					Image(uiImage: book.image)
 						.resizable()
 						.aspectRatio(1, contentMode: .fill)
 						.overlay(alignment: .bottomLeading) {

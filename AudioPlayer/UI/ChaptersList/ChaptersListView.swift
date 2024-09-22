@@ -49,12 +49,10 @@ struct ChaptersListView: View {
 	}
 	
 	private func select(chapter: Chapter) {
-		Task.detached(priority: .userInitiated) {
-			do {
-				try await playerService.setupAndPlayAudio(book: book, chapter: chapter, resetProgress: chapter != currentChapter)
-			} catch {
-				Log.error(error.localizedDescription)
-			}
+		do {
+			try playerService.setupAndPlayAudio(book: book, chapter: chapter, resetProgress: chapter != currentChapter)
+		} catch {
+			Log.error(error.localizedDescription)
 		}
 	}
 }

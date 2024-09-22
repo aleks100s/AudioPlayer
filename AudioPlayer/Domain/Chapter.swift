@@ -11,16 +11,28 @@ import SwiftData
 
 @Model
 final class Chapter {
+	private static let imageCache = NSCache<NSUUID, UIImage>()
+	
 	var id: UUID
 	@Attribute(.spotlight)
 	var name: String
 	var duration: Double
 	var urlLastPathComponent: String
-	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
-	var artworkImage: UIImage
 	var order: Int
 	var isListened: Bool
 	var currentTime: Double = 0
+	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
+	private var artworkImage: UIImage
+	
+	var image: UIImage {
+		if Self.imageCache.object(forKey: id as NSUUID) == nil {
+			let image = artworkImage
+			Self.imageCache.setObject(image, forKey: id as NSUUID)
+			return image
+		} else {
+			return Self.imageCache.object(forKey: id as NSUUID) ?? .placeholder
+		}
+	}
 	
 	var artwork: MPMediaItemArtwork? {
 		let artworkImage = artworkImage

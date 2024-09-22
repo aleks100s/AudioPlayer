@@ -11,23 +11,28 @@ import UIKit
 
 @Model
 final class Book {
-	static var cache = [UUID: [Chapter]]()
+	private static let imageCache = NSCache<NSUUID, UIImage>()
+	private static var chapterCache = [UUID: [Chapter]]()
 	
 	var id: UUID
 	@Attribute(.spotlight)
 	var title: String
 	@Attribute(.spotlight)
 	var author: String
-	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
-	var artworkImage: UIImage
 	var currentChapter: Chapter?
 	var progress = Double.zero
 	var isFinished = false
+	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
+	private var artworkImage: UIImage
 	@Relationship(deleteRule: .cascade)
 	private var chapters: [Chapter]
 	
+	var image: UIImage {
+		Self.imageCache.object(forKey: id as NSUUID) ?? .placeholder
+	}
+	
 	var orderedChapters: [Chapter] {
-		Self.cache[id] ?? []
+		Self.chapterCache[id] ?? []
 	}
 	
 	init(id: UUID = UUID(), title: String, author: String, artworkData: Data?, chapters: [Chapter]) {
@@ -38,8 +43,9 @@ final class Book {
 		self.chapters = chapters
 	}
 	
-	func prepareOrderedChapters() {
-		Self.cache[id] = chapters.sorted(by: { $0.order < $1.order })
+	func prepareCache() {
+		Self.imageCache.setObject(artworkImage, forKey: id as NSUUID)
+		Self.chapterCache[id] = chapters.sorted(by: { $0.order < $1.order })
 	}
 	
 	func finishBook() {

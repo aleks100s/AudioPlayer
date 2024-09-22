@@ -25,12 +25,10 @@ struct BookView: View {
 	}
 	
 	private func handlePlayButtonTap() {
-		Task.detached {
-			do {
-				try await playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
-			} catch {
-				Log.error(error.localizedDescription)
-			}
+		do {
+			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
+		} catch {
+			Log.error(error.localizedDescription)
 		}
 	}
 }
@@ -47,7 +45,7 @@ private struct BookCoverView: View {
 	
 	var body: some View {
 		ZStack {
-			Image(uiImage: book.artworkImage)
+			Image(uiImage: book.image)
 				.resizable()
 				.aspectRatio(1, contentMode: .fill)
 				.clipShape(RoundedRectangle(cornerRadius: 16))
@@ -82,12 +80,10 @@ private struct BookCoverView: View {
 	}
 	
 	private func handlePlayButtonTap() {
-		Task.detached {
-			do {
-				try await playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
-			} catch {
-				Log.error(error.localizedDescription)
-			}
+		do {
+			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
+		} catch {
+			Log.error(error.localizedDescription)
 		}
 	}
 }
