@@ -22,8 +22,8 @@ final class Book {
 	var currentChapter: Chapter?
 	var progress = Double.zero
 	var isFinished = false
-	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
-	private var artworkImage: UIImage
+	@Attribute(.externalStorage)
+	private var artworkImage: Data
 	@Relationship(deleteRule: .cascade)
 	private var chapters: [Chapter]
 	
@@ -39,12 +39,12 @@ final class Book {
 		self.id = id
 		self.title = title
 		self.author = author
-		self.artworkImage = UIImage(data: artworkData ?? Data()) ?? .placeholder
+		self.artworkImage = artworkData ?? UIImage.placeholder.pngData() ?? Data()
 		self.chapters = chapters
 	}
 	
 	func prepareCache() {
-		Self.imageCache.setObject(artworkImage, forKey: id as NSUUID)
+		Self.imageCache.setObject(UIImage(data: artworkImage) ?? .placeholder, forKey: id as NSUUID)
 		Self.chapterCache[id] = chapters.sorted(by: { $0.order < $1.order })
 	}
 	

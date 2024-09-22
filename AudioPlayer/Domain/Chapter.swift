@@ -21,12 +21,12 @@ final class Chapter {
 	var order: Int
 	var isListened: Bool
 	var currentTime: Double = 0
-	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
-	private var artworkImage: UIImage
+	@Attribute(.externalStorage)
+	private var artworkImage: Data
 	
 	var image: UIImage {
 		if Self.imageCache.object(forKey: id as NSUUID) == nil {
-			let image = artworkImage
+			let image = UIImage(data: artworkImage) ?? .placeholder
 			Self.imageCache.setObject(image, forKey: id as NSUUID)
 			return image
 		} else {
@@ -35,8 +35,8 @@ final class Chapter {
 	}
 	
 	var artwork: MPMediaItemArtwork? {
-		let artworkImage = artworkImage
-		let artwork = MPMediaItemArtwork(boundsSize: artworkImage.size) { size in
+		let artworkImage = image
+		let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
 			return artworkImage
 		}
 		return artwork
@@ -55,7 +55,7 @@ final class Chapter {
 		self.name = name
 		self.duration = duration
 		self.urlLastPathComponent = urlLastPathComponent
-		self.artworkImage = UIImage(data: artworkData ?? Data()) ?? .placeholder
+		self.artworkImage = artworkData ?? UIImage.placeholder.pngData() ?? Data()
 		self.order = order
 		self.isListened = isListened
 	}

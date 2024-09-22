@@ -79,36 +79,6 @@
             endingLineNumber = "120"
             landmarkName = "nextChapter()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "9595B15A-4F20-4327-8971-DC49A4FE5E30 - 90e080d1bb150576"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AudioPlayer.PlayerService.nextChapter() throws -&gt; ()"
-                  moduleName = "AudioPlayer.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleks100s/Documents/AudioPlayer/AudioPlayer/Services/PlayerService/PlayerService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "120"
-                  endingLineNumber = "120">
-               </Location>
-               <Location
-                  uuid = "9595B15A-4F20-4327-8971-DC49A4FE5E30 - 90e080d1bb150576"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "AudioPlayer.PlayerService.nextChapter() throws -&gt; ()"
-                  moduleName = "AudioPlayer.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aleks100s/Documents/AudioPlayer/AudioPlayer/Services/PlayerService/PlayerService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "120"
-                  endingLineNumber = "120">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -140,6 +110,38 @@
             startingLineNumber = "30"
             endingLineNumber = "30"
             landmarkName = "reverseTransformedValue(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7B93D98F-379B-496D-B26F-6E70E12CF376"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioPlayer/Domain/Chapter.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "init(id:name:duration:urlLastPathComponent:artworkData:order:isListened:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "306E4595-D62D-42B3-AB6A-63796C7E910A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AudioPlayer/Domain/Book.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "init(id:title:author:artworkData:chapters:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

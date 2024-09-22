@@ -10,14 +10,8 @@ import SwiftUI
 import TipKit
 
 @main
-struct AudioPlayerApp: App {
-	private static let modelContainer = try! ModelContainer(for: Book.self, Chapter.self)
-	
+struct AudioPlayerApp: App {	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-	
-	init() {
-		ValueTransformer.setValueTransformer(UIImageTransformer(), forName: NSValueTransformerName("UIImageTransformer"))
-	}
 	
     var body: some Scene {
         WindowGroup {
@@ -29,6 +23,6 @@ struct AudioPlayerApp: App {
 					])
 				}
         }
-		.modelContainer(Self.modelContainer)
+		.modelContainer(for: [Book.self, Chapter.self], isAutosaveEnabled: true)
     }
 }
