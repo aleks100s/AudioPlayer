@@ -25,10 +25,12 @@ struct BookView: View {
 	}
 	
 	private func handlePlayButtonTap() {
-		do {
-			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
-		} catch {
-			Log.error(error.localizedDescription)
+		Task.detached {
+			do {
+				try await playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
+			} catch {
+				Log.error(error.localizedDescription)
+			}
 		}
 	}
 }
@@ -80,10 +82,12 @@ private struct BookCoverView: View {
 	}
 	
 	private func handlePlayButtonTap() {
-		do {
-			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
-		} catch {
-			Log.error(error.localizedDescription)
+		Task.detached {
+			do {
+				try await playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
+			} catch {
+				Log.error(error.localizedDescription)
+			}
 		}
 	}
 }

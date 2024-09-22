@@ -61,7 +61,9 @@ struct BookshelfView: View {
 		}
 		.alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
 			Button(role: .destructive) {
-				playerService.stopCurrentBook()
+				Task.detached {
+					await playerService.stopCurrentBook()
+				}
 			} label: {
 				Text("Закрыть")
 			}
@@ -110,6 +112,9 @@ struct BookshelfView: View {
 					ForEach(books) { book in
 						BookView(book: book) {
 							bookToShowChapters = book
+						}
+						.onAppear {
+							book.prepareOrderedChapters()
 						}
 						.onTapGesture {
 							bookToShowDetail = book
@@ -170,12 +175,12 @@ struct BookshelfView: View {
 		}
 		
 		Button(role: .destructive) {
-			Task {
+			Task.detached {
 				do {
-					try fileService.deleteBookFiles(book)
-					spotlightService.deindex(book: book)
-					playerService.removeIfNeeded(book: book)
-					modelContext.delete(book)
+					try await fileService.deleteBookFiles(book)
+					await spotlightService.deindex(book: book)
+					await playerService.removeIfNeeded(book: book)
+					await modelContext.delete(book)
 				} catch {
 					Log.error(error.localizedDescription)
 				}

@@ -11,14 +11,14 @@ import SwiftData
 
 @Model
 final class Chapter {
-	let id: UUID
+	var id: UUID
 	@Attribute(.spotlight)
-	let name: String
-	let duration: Double
-	let urlLastPathComponent: String
+	var name: String
+	var duration: Double
+	var urlLastPathComponent: String
 	@Attribute(.externalStorage, .transformable(by: UIImageTransformer.self))
-	let artworkImage: UIImage
-	let order: Int
+	var artworkImage: UIImage
+	var order: Int
 	var isListened: Bool
 	var currentTime: Double = 0
 	

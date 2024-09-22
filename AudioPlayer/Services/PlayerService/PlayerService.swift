@@ -362,7 +362,9 @@ private extension PlayerService {
 				return .commandFailed
 			}
 
-			self?.setPlayback(time: event.positionTime)
+			Task.detached(priority: .userInitiated) {
+				self?.setPlayback(time: event.positionTime)
+			}
 			return .success
 		}
 	}
@@ -375,7 +377,9 @@ private extension PlayerService {
 				return .commandFailed
 			}
 			
-			self?.skip(time: event.interval, forward: true)
+			Task.detached(priority: .userInitiated) {
+				self?.skip(time: event.interval, forward: true)
+			}
 			return .success
 		}
 	}
@@ -388,7 +392,9 @@ private extension PlayerService {
 				return .commandFailed
 			}
 			
-			self?.skip(time: event.interval, forward: false)
+			Task.detached(priority: .userInitiated) {
+				self?.skip(time: event.interval, forward: false)
+			}
 			return .success
 		}
 	}

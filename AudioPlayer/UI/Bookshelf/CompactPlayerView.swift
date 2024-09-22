@@ -132,7 +132,9 @@ private struct SliderView: View {
 		}
 		.onChange(of: progress) { _, newValue in
 			if isSliderBusy {
-				playerService.setPlayback(time: newValue)
+				Task.detached(priority: .userInitiated) {
+					await playerService.setPlayback(time: newValue)
+				}
 			}
 		}
 	}
@@ -157,36 +159,46 @@ private struct ControlsView: View {
 				switch control {
 				case .previousTrack:
 					ImageButton(systemName: "backward.end.fill") {
-						do {
-							try playerService.previousChapter()
-						} catch {
-							Log.error(error.localizedDescription)
+						Task.detached(priority: .userInitiated) {
+							do {
+								try await playerService.previousChapter()
+							} catch {
+								Log.error(error.localizedDescription)
+							}
 						}
 					}
 					
 				case .skipBack:
 					ImageButton(systemName: "gobackward.\(Constants.skipBackwardInterval)") {
-						playerService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
+						Task.detached(priority: .userInitiated) {
+							await playerService.skipBackward(time: TimeInterval(Constants.skipBackwardInterval))
+						}
 					}
 					
 				case .play:
 					ImageButton(systemName: playerService.isPlaying ? "pause.fill" : "play.fill") {
-						playerService.pauseOrResume()
+						Task.detached(priority: .userInitiated) {
+							await playerService.pauseOrResume()
+						}
 					}
 					.animation(.spring, value: playerService.isPlaying)
 					.sensoryFeedback(playerService.isPlaying ? .stop : .start, trigger: playerService.isPlaying)
 					
 				case .skipForward:
 					ImageButton(systemName: "goforward.\(Constants.skipForwardInterval)") {
-						playerService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
+						Task.detached(priority: .userInitiated) {
+							await playerService.skipForward(time: TimeInterval(Constants.skipForwardInterval))
+						}
 					}
 					
 				case .nextTrack:
 					ImageButton(systemName: "forward.end.fill") {
-						do {
-							try playerService.nextChapter()
-						} catch {
-							Log.error(error.localizedDescription)
+						Task.detached(priority: .userInitiated) {
+							do {
+								try await playerService.nextChapter()
+							} catch {
+								Log.error(error.localizedDescription)
+							}
 						}
 					}
 				}
@@ -225,7 +237,9 @@ private struct PlaybackRateView: View {
 			}
 		}
 		.onChange(of: rate) { oldValue, newValue in
-			playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)
+			Task.detached(priority: .userInitiated) {
+				await playerService.changePlayback(rate: .init(rawValue: newValue) ?? .x100)
+			}
 		}
 	}
 }
