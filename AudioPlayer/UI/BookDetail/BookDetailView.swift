@@ -13,7 +13,7 @@ struct BookDetailView: View {
 	var body: some View {
 		NavigationView {
 			ScrollView {
-				LazyVStack {
+				LazyVStack(spacing: .zero) {
 					Image(uiImage: book.image)
 						.resizable()
 						.aspectRatio(1, contentMode: .fill)
@@ -32,6 +32,25 @@ struct BookDetailView: View {
 							}
 							.background(.thinMaterial)
 						}
+					
+					VStack {
+						HStack {
+							Text("Количество глав")
+							
+							Spacer()
+							
+							Text("\(book.orderedChapters.count)")
+						}
+						
+						HStack {
+							Text("Длительность книги")
+							
+							Spacer()
+							
+							Text(book.totalDuration)
+						}
+					}
+					.padding()
 				}
 			}
 			.navigationTitle("О книге")

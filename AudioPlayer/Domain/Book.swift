@@ -22,6 +22,7 @@ final class Book {
 	var currentChapter: Chapter?
 	var progress = Double.zero
 	var isFinished = false
+	var totalDuration: String = ""
 	@Attribute(.externalStorage)
 	private var artworkImage: Data
 	@Relationship(deleteRule: .cascade)
@@ -46,6 +47,7 @@ final class Book {
 	func prepareCache() {
 		Self.imageCache.setObject(UIImage(data: artworkImage) ?? .placeholder, forKey: id as NSUUID)
 		Self.chapterCache[id] = chapters.sorted(by: { $0.order < $1.order })
+		calculateDuration()
 	}
 	
 	func finishBook() {
@@ -66,5 +68,32 @@ final class Book {
 			chapter.isListened = false
 		}
 		isFinished = false
+	}
+	
+	private func calculateDuration() {
+		let secondsTotal = Int(chapters.map(\.duration).reduce(0, +))
+		totalDuration = makeDurationString(using: secondsTotal)
+	}
+	
+	private func makeDurationString(using seconds: Int) -> String {
+		let secondsPart = seconds % 60
+		guard seconds > 60 else {
+			return "\(seconds) сек"
+		}
+	
+		let minutes = seconds / 60
+		let minutesPart = minutes % 60
+		guard minutes > 60 else {
+			return "\(minutes) мин \(secondsPart) сек"
+		}
+		
+		let hours = minutes / 3600
+		let hoursPart = hours % 24
+		guard hours > 24 else {
+			return "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек"
+		}
+		
+		let daysTotal = hours / 24
+		return "\(daysTotal)д \(hours)ч \(minutesPart)м \(secondsPart)с"
 	}
 }

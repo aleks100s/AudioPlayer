@@ -34,19 +34,34 @@
         }
       }
     },
-    "%@ %@" : {
-      "extractionState" : "stale",
+    "%lld" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ %2$@"
+            "value" : "%lld"
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ %2$@"
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "Длительность книги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book duration"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длительность книги"
           }
         }
       }
@@ -159,6 +174,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Книга прослушана"
+          }
+        }
+      }
+    },
+    "Количество глав" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapters"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество глав"
           }
         }
       }
