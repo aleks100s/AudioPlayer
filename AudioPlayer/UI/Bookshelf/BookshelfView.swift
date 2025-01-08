@@ -196,6 +196,10 @@ struct BookshelfView: View {
 			do {
 				let id = UUID()
 				let files = try fileService.saveBookFiles(files, id: id)
+				guard !files.isEmpty else {
+					Log.error("Массив файлов пуст")
+					return
+				}
 				
 				var chapters = [Chapter]()
 				for (index, file) in files.enumerated() {

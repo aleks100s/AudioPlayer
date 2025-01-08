@@ -70,6 +70,10 @@ final class Book {
 		isFinished = false
 	}
 	
+	func append(chapters: [Chapter]) {
+		self.chapters.append(contentsOf: chapters)
+	}
+	
 	private func calculateDuration() {
 		let secondsTotal = Int(chapters.map(\.duration).reduce(0, +))
 		totalDuration = makeDurationString(using: secondsTotal)

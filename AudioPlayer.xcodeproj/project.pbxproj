@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		272133542D2E90F900A904D8 /* HowToAddChaptersTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 272133532D2E90F900A904D8 /* HowToAddChaptersTip.swift */; };
 		2767CFF52C8C89B800F5F12D /* AudioPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767CFF42C8C89B800F5F12D /* AudioPlayerApp.swift */; };
 		2767CFF72C8C89B800F5F12D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767CFF62C8C89B800F5F12D /* ContentView.swift */; };
 		2767CFF92C8C89B900F5F12D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2767CFF82C8C89B900F5F12D /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		272133532D2E90F900A904D8 /* HowToAddChaptersTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToAddChaptersTip.swift; sourceTree = "<group>"; };
 		2767CFF12C8C89B800F5F12D /* AudioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2767CFF42C8C89B800F5F12D /* AudioPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerApp.swift; sourceTree = "<group>"; };
 		2767CFF62C8C89B800F5F12D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				27B871F12C95671E00E48C9A /* HowToAddBookTip.swift */,
 				27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */,
 				27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */,
+				272133532D2E90F900A904D8 /* HowToAddChaptersTip.swift */,
 			);
 			path = Tips;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
 				27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */,
 				27B871E92C91EBD600E48C9A /* PlaybackIndicatorView.swift in Sources */,
+				272133542D2E90F900A904D8 /* HowToAddChaptersTip.swift in Sources */,
 				27A7B28D2C8CB521002C4914 /* BookMetadata.swift in Sources */,
 				27A7B2892C8CB4E0002C4914 /* IFileService.swift in Sources */,
 				27A7B29B2C8DBC6D002C4914 /* IPlayerService.swift in Sources */,

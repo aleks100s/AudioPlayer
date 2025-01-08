@@ -433,6 +433,22 @@
           }
         }
       }
+    },
+    "Чтобы добавить главы, нажмите на кнопку \"Добавить\"" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Press “Add” button to add more chapters"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы добавить главы, нажмите кнопку “Добавить”"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
