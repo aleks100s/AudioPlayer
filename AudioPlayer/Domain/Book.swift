@@ -91,13 +91,13 @@ final class Book {
 			return "\(minutes) мин \(secondsPart) сек"
 		}
 		
-		let hours = minutes / 3600
+		let hours = minutes / 60
 		let hoursPart = hours % 24
 		guard hours > 24 else {
 			return "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек"
 		}
 		
 		let daysTotal = hours / 24
-		return "\(daysTotal)д \(hours)ч \(minutesPart)м \(secondsPart)с"
+		return "\(daysTotal)д \(hoursPart)ч \(minutesPart)м \(secondsPart)с"
 	}
 }
