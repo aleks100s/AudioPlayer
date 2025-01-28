@@ -34,6 +34,54 @@
         }
       }
     },
+    "%d мин %d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min %d sec"
+          }
+        }
+      }
+    },
+    "%d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d sec"
+          }
+        }
+      }
+    },
+    "%d час %d мин %d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d hrs %d min %d sec"
+          }
+        }
+      }
+    },
+    "%dд %dч %dм %dс" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dd %dh %dm %ds"
+          }
+        }
+      }
+    },
     "%lld" : {
       "localizations" : {
         "en" : {
@@ -438,7 +486,7 @@
       "localizations" : {
         "en" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Press “Add” button to add more chapters"
           }
         },

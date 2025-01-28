@@ -23,6 +23,7 @@ struct BookshelfView: View {
 	@State private var isFilePickerPresented = false
 	@State private var isSliderBusy: Bool = false
 	@State private var progress: Double = 0
+	@State private var isExpanded = false
 	@State private var isFinishedBookShown = false
 	@State private var bookToShowDetail: Book?
 	@State private var bookToShowChapters: Book?
@@ -37,6 +38,7 @@ struct BookshelfView: View {
 			}
 		}
 		.navigationTitle("Мои книги")
+		.toolbar(isExpanded ? .hidden : .visible, for: .navigationBar)
 		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
 			switch results {
 			case .success(let files):
@@ -103,40 +105,45 @@ struct BookshelfView: View {
 	
 	private var contentView: some View {
 		ZStack {
-			ScrollView {
-				LazyVStack(spacing: 16) {
-					TipView(HowToDeleteBookTip())
-					
-					ForEach(books) { book in
-						BookView(book: book) {
-							bookToShowChapters = book
-						}
-						.onAppear {
-							book.prepareCache()
-						}
-						.onTapGesture {
-							bookToShowDetail = book
-						}
-						.contextMenu {
-							menuContent(for: book)
-						}
-						.sensoryFeedback(.success, trigger: book.isFinished)
-						.onChange(of: book.isFinished) { oldValue, newValue in
-							if newValue, !oldValue {
-								isFinishedBookShown = true
+			VStack(spacing: .zero) {
+				ScrollView {
+					LazyVStack(spacing: 16) {
+						TipView(HowToDeleteBookTip())
+						
+						ForEach(books) { book in
+							BookView(book: book) {
+								bookToShowChapters = book
+							}
+							.onAppear {
+								book.prepareCache()
+							}
+							.onTapGesture {
+								bookToShowDetail = book
+							}
+							.contextMenu {
+								menuContent(for: book)
+							}
+							.sensoryFeedback(.success, trigger: book.isFinished)
+							.onChange(of: book.isFinished) { oldValue, newValue in
+								if newValue, !oldValue {
+									isFinishedBookShown = true
+								}
 							}
 						}
 					}
+					.padding()
 				}
-				.padding()
-			}
-			.scrollIndicators(.hidden)
-			.safeAreaInset(edge: .bottom) {
+				.scrollIndicators(.hidden)
+				
 				if playerService.currentBook != nil {
-					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
+					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress, isExpanded: $isExpanded) {
 						bookToShowChapters = playerService.currentBook
 					}
 				}
+				
+				AdBannerView(bannerId: bannerId)
+					.fixedSize()
+					.padding(.top, 100)
 			}
 			
 			if isSliderBusy {
@@ -226,3 +233,9 @@ struct BookshelfView: View {
 		}
 	}
 }
+
+#if DEBUG
+private let bannerId = "demo-banner-yandex"
+#else
+private let bannerId = "R-M-13884287-1"
+#endif

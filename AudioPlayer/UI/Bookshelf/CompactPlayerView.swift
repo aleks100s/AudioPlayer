@@ -10,13 +10,13 @@ import SwiftUI
 struct CompactPlayerView: View {
 	@Binding var isSliderBusy: Bool
 	@Binding var progress: Double
+	@Binding var isExpanded: Bool
 
 	let onPlaylistTap: () -> Void
 	
-	@State private var isExpanded = false
 	@State private var dragOffset: CGFloat = .zero {
 		didSet {
-			withAnimation(.linear) {
+			withAnimation(.easeInOut) {
 				isExpanded = dragOffset == .totalWidth
 			}
 		}
@@ -24,7 +24,7 @@ struct CompactPlayerView: View {
 	@Environment(\.playerService) private var playerService
 	
 	var body: some View {
-		VStack(alignment: .center, spacing: 12) {
+		VStack(alignment: .center, spacing: 8) {
 			HandlerView()
 						
 			Image(uiImage: playerService.currentBook?.currentChapter?.image ?? .placeholder)
@@ -32,7 +32,9 @@ struct CompactPlayerView: View {
 				.aspectRatio(1, contentMode: .fill)
 				.frame(width: dragOffset, height: dragOffset)
 
-			title
+			if isExpanded {
+				title
+			}
 			
 			SeekerView(isSliderBusy: $isSliderBusy, progress: $progress)
 			
@@ -41,7 +43,6 @@ struct CompactPlayerView: View {
 			PlaybackRateView(onPlaylistTap: onPlaylistTap)
 		}
 		.padding(.padding)
-		.padding(.bottom, .padding)
 		.background(.regularMaterial)
 		.gesture(
 			DragGesture()
@@ -67,24 +68,20 @@ struct CompactPlayerView: View {
 				Text("\(title) - \(chapterName)")
 					.font(isExpanded ? .title3 : .body)
 				
-				if isExpanded {
-					Text(playerService.currentBook?.author ?? "")
-						.foregroundStyle(.secondary)
-				}
+				Text(playerService.currentBook?.author ?? "")
+					.foregroundStyle(.secondary)
 			}
 			
-			if isExpanded {
-				Spacer()
-			}
+			Spacer()
 		}
 	}
 }
 
 private struct HandlerView: View {
 	var body: some View {
-		RoundedRectangle(cornerRadius: 4)
+		RoundedRectangle(cornerRadius: 3)
 			.fill(.gray.opacity(0.4))
-			.frame(width: 60, height: 8)
+			.frame(width: 50, height: 6)
 	}
 }
 

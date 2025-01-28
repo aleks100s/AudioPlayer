@@ -28,6 +28,11 @@
 		2767D0272C8C97D800F5F12D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0262C8C97D800F5F12D /* Constants.swift */; };
 		2767D02A2C8C988500F5F12D /* CompactPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2767D0292C8C988500F5F12D /* CompactPlayerView.swift */; };
 		279426D32C8CA24200461C4E /* Environment+BookMetaInfoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */; };
+		27A466DD2D493DD3000B6B35 /* YandexMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 27A466DC2D493DD3000B6B35 /* YandexMobileAds */; };
+		27A466DF2D493DD3000B6B35 /* YandexMobileAdsInstream in Frameworks */ = {isa = PBXBuildFile; productRef = 27A466DE2D493DD3000B6B35 /* YandexMobileAdsInstream */; };
+		27A466E12D493DF2000B6B35 /* MobileAdsBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 27A466E02D493DF2000B6B35 /* MobileAdsBundle.bundle */; };
+		27A466E52D493E39000B6B35 /* AdBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A466E32D493E39000B6B35 /* AdBannerView.swift */; };
+		27A466E62D493E39000B6B35 /* AdBannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A466E22D493E39000B6B35 /* AdBannerViewController.swift */; };
 		27A7B2832C8CAEA1002C4914 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2822C8CAEA1002C4914 /* FileService.swift */; };
 		27A7B2852C8CAF84002C4914 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2842C8CAF84002C4914 /* FileError.swift */; };
 		27A7B2872C8CB051002C4914 /* Environment+FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A7B2862C8CB051002C4914 /* Environment+FileService.swift */; };
@@ -77,6 +82,9 @@
 		2767D0262C8C97D800F5F12D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2767D0292C8C988500F5F12D /* CompactPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactPlayerView.swift; sourceTree = "<group>"; };
 		279426D22C8CA24200461C4E /* Environment+BookMetaInfoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+BookMetaInfoService.swift"; sourceTree = "<group>"; };
+		27A466E02D493DF2000B6B35 /* MobileAdsBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MobileAdsBundle.bundle; sourceTree = "<group>"; };
+		27A466E22D493E39000B6B35 /* AdBannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerViewController.swift; sourceTree = "<group>"; };
+		27A466E32D493E39000B6B35 /* AdBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdBannerView.swift; sourceTree = "<group>"; };
 		27A7B2822C8CAEA1002C4914 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
 		27A7B2842C8CAF84002C4914 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
 		27A7B2862C8CB051002C4914 /* Environment+FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Environment+FileService.swift"; sourceTree = "<group>"; };
@@ -107,6 +115,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A466DD2D493DD3000B6B35 /* YandexMobileAds in Frameworks */,
+				27A466DF2D493DD3000B6B35 /* YandexMobileAdsInstream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +151,7 @@
 				2767D0042C8C8A6100F5F12D /* AppDelegate.swift */,
 				2767D0032C8C8A3C00F5F12D /* Info.plist */,
 				2767CFF82C8C89B900F5F12D /* Assets.xcassets */,
+				27A466E02D493DF2000B6B35 /* MobileAdsBundle.bundle */,
 				27B871F32C9569A000E48C9A /* Localizable.xcstrings */,
 				2767CFFA2C8C89B900F5F12D /* Preview Content */,
 			);
@@ -171,6 +182,7 @@
 		2767D00F2C8C8FCB00F5F12D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				27A466E42D493E39000B6B35 /* Ads */,
 				2767D0162C8C906500F5F12D /* Extensions */,
 				2767D0102C8C8FE600F5F12D /* ErrorAlert.swift */,
 				2767D0142C8C900500F5F12D /* Log.swift */,
@@ -220,6 +232,15 @@
 				27B871DD2C91E37000E48C9A /* Bookshelf */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		27A466E42D493E39000B6B35 /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				27A466E22D493E39000B6B35 /* AdBannerViewController.swift */,
+				27A466E32D493E39000B6B35 /* AdBannerView.swift */,
+			);
+			path = Ads;
 			sourceTree = "<group>";
 		};
 		27A7B2812C8CAE89002C4914 /* FileService */ = {
@@ -346,6 +367,9 @@
 				en,
 			);
 			mainGroup = 2767CFE82C8C89B800F5F12D;
+			packageReferences = (
+				27A466DB2D493DD3000B6B35 /* XCRemoteSwiftPackageReference "yandex-ads-sdk-ios" */,
+			);
 			productRefGroup = 2767CFF22C8C89B800F5F12D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -360,6 +384,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A466E12D493DF2000B6B35 /* MobileAdsBundle.bundle in Resources */,
 				2767CFFC2C8C89B900F5F12D /* Preview Assets.xcassets in Resources */,
 				2767CFF92C8C89B900F5F12D /* Assets.xcassets in Resources */,
 				27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */,
@@ -383,6 +408,8 @@
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */,
 				27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */,
+				27A466E52D493E39000B6B35 /* AdBannerView.swift in Sources */,
+				27A466E62D493E39000B6B35 /* AdBannerViewController.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
 				27A7B2A02C8E082B002C4914 /* Double+Extensions.swift in Sources */,
 				27A7B2972C8DBBD2002C4914 /* PlayerService.swift in Sources */,
@@ -559,14 +586,15 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alextos.audioplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -597,14 +625,15 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alextos.audioplayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -638,6 +667,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		27A466DB2D493DD3000B6B35 /* XCRemoteSwiftPackageReference "yandex-ads-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yandexmobile/yandex-ads-sdk-ios";
+			requirement = {
+				kind = exactVersion;
+				version = 7.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27A466DC2D493DD3000B6B35 /* YandexMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27A466DB2D493DD3000B6B35 /* XCRemoteSwiftPackageReference "yandex-ads-sdk-ios" */;
+			productName = YandexMobileAds;
+		};
+		27A466DE2D493DD3000B6B35 /* YandexMobileAdsInstream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27A466DB2D493DD3000B6B35 /* XCRemoteSwiftPackageReference "yandex-ads-sdk-ios" */;
+			productName = YandexMobileAdsInstream;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2767CFE92C8C89B800F5F12D /* Project object */;
 }

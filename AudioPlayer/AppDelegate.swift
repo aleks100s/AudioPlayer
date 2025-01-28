@@ -7,6 +7,7 @@
 
 import AVFoundation
 import UIKit
+import YandexMobileAds
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
 	func application(
@@ -14,6 +15,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
 	) -> Bool {
 		configureAudioSession()
+		MobileAds.initializeSDK()
 		return true
 	}
 	

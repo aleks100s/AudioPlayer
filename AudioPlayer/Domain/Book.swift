@@ -80,24 +80,25 @@ final class Book {
 	}
 	
 	private func makeDurationString(using seconds: Int) -> String {
+		let isRULocale = Locale.current.identifier == "ru_RU"
 		let secondsPart = seconds % 60
 		guard seconds > 60 else {
-			return "\(seconds) сек"
+			return isRULocale ? "\(secondsPart) сек" : "\(seconds) sec"
 		}
 	
 		let minutes = seconds / 60
 		let minutesPart = minutes % 60
 		guard minutes > 60 else {
-			return "\(minutes) мин \(secondsPart) сек"
+			return  isRULocale ? "\(minutesPart) мин \(secondsPart) сек" : "\(minutes) min \(secondsPart) sec"
 		}
 		
 		let hours = minutes / 60
 		let hoursPart = hours % 24
 		guard hours > 24 else {
-			return "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек"
+			return isRULocale ? "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек" : "\(hoursPart) hrs \(minutesPart) min \(secondsPart) sec"
 		}
 		
 		let daysTotal = hours / 24
-		return "\(daysTotal)д \(hoursPart)ч \(minutesPart)м \(secondsPart)с"
+		return  isRULocale ? "\(daysTotal)д \(hoursPart)ч \(minutesPart)м \(secondsPart)с" :"\(daysTotal)d \(hoursPart)h \(minutesPart)m \(secondsPart)s"
 	}
 }
