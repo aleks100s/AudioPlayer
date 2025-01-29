@@ -10,31 +10,14 @@ import SwiftUI
 struct CompactPlayerView: View {
 	@Binding var isSliderBusy: Bool
 	@Binding var progress: Double
-	@Binding var isExpanded: Bool
 
 	let onPlaylistTap: () -> Void
-	
-	@State private var dragOffset: CGFloat = .zero {
-		didSet {
-			withAnimation(.easeInOut) {
-				isExpanded = dragOffset == .totalWidth
-			}
-		}
-	}
+
 	@Environment(\.playerService) private var playerService
 	
 	var body: some View {
 		VStack(alignment: .center, spacing: 8) {
-			HandlerView()
-						
-			Image(uiImage: playerService.currentBook?.currentChapter?.image ?? .placeholder)
-				.resizable()
-				.aspectRatio(1, contentMode: .fill)
-				.frame(width: dragOffset, height: dragOffset)
-
-			if isExpanded {
-				title
-			}
+			title
 			
 			SeekerView(isSliderBusy: $isSliderBusy, progress: $progress)
 			
@@ -44,29 +27,13 @@ struct CompactPlayerView: View {
 		}
 		.padding(.padding)
 		.background(.regularMaterial)
-		.gesture(
-			DragGesture()
-				.onChanged { gesture in
-					let height = gesture.translation.height
-					withAnimation(.linear) {
-						dragOffset = height < 0 ? height * (-1) : .zero
-					}
-				}
-				.onEnded { gesture in
-					withAnimation(.linear) {
-						dragOffset = dragOffset > 100 ? .totalWidth : .zero
-					}
-				}
-		)
 	}
 	
 	private var title: some View {
 		HStack {
 			VStack(alignment: .leading) {
-				let title = playerService.currentBook?.title ?? ""
-				let chapterName = playerService.currentBook?.currentChapter?.name ?? ""
-				Text("\(title) - \(chapterName)")
-					.font(isExpanded ? .title3 : .body)
+				Text(playerService.currentBook?.currentChapter?.name ?? "")
+					.lineLimit(2)
 				
 				Text(playerService.currentBook?.author ?? "")
 					.foregroundStyle(.secondary)

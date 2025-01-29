@@ -23,7 +23,6 @@ struct BookshelfView: View {
 	@State private var isFilePickerPresented = false
 	@State private var isSliderBusy: Bool = false
 	@State private var progress: Double = 0
-	@State private var isExpanded = false
 	@State private var isFinishedBookShown = false
 	@State private var bookToShowDetail: Book?
 	@State private var bookToShowChapters: Book?
@@ -38,7 +37,6 @@ struct BookshelfView: View {
 			}
 		}
 		.navigationTitle("Мои книги")
-		.toolbar(isExpanded ? .hidden : .visible, for: .navigationBar)
 		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
 			switch results {
 			case .success(let files):
@@ -136,14 +134,13 @@ struct BookshelfView: View {
 				.scrollIndicators(.hidden)
 				
 				if playerService.currentBook != nil {
-					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress, isExpanded: $isExpanded) {
+					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
 						bookToShowChapters = playerService.currentBook
 					}
 				}
 				
 				AdBannerView(bannerId: bannerId)
-					.fixedSize()
-					.padding(.top, 100)
+					.frame(height: 100)
 			}
 			
 			if isSliderBusy {

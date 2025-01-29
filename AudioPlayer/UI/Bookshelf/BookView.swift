@@ -57,7 +57,7 @@ private struct BookCoverView: View {
 					VStack(alignment: .leading) {
 						Text(book.title)
 							.font(.headline)
-							.lineLimit(1)
+							.lineLimit(2)
 						
 						Text(book.author)
 							.font(.subheadline)
