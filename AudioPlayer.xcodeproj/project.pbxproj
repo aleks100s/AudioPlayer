@@ -56,6 +56,7 @@
 		27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 27B871F32C9569A000E48C9A /* Localizable.xcstrings */; };
 		27B871F62C9803F700E48C9A /* HowToMarkChapterTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */; };
 		27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */; };
+		27E0A6342DD09B4F009AB905 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27E0A6322DD09B4F009AB905 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,8 @@
 		27B871F32C9569A000E48C9A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToMarkChapterTip.swift; sourceTree = "<group>"; };
 		27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToDeleteBookTip.swift; sourceTree = "<group>"; };
+		27E0A6332DD09B4F009AB905 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27E0A6352DD09B67009AB905 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,7 @@
 				2767CFF42C8C89B800F5F12D /* AudioPlayerApp.swift */,
 				2767D0042C8C8A6100F5F12D /* AppDelegate.swift */,
 				2767D0032C8C8A3C00F5F12D /* Info.plist */,
+				27E0A6322DD09B4F009AB905 /* InfoPlist.strings */,
 				2767CFF82C8C89B900F5F12D /* Assets.xcassets */,
 				27A466E02D493DF2000B6B35 /* MobileAdsBundle.bundle */,
 				27B871F32C9569A000E48C9A /* Localizable.xcstrings */,
@@ -388,6 +392,7 @@
 				2767CFFC2C8C89B900F5F12D /* Preview Assets.xcassets in Resources */,
 				2767CFF92C8C89B900F5F12D /* Assets.xcassets in Resources */,
 				27B871F42C9569A000E48C9A /* Localizable.xcstrings in Resources */,
+				27E0A6342DD09B4F009AB905 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +450,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		27E0A6322DD09B4F009AB905 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27E0A6332DD09B4F009AB905 /* ru */,
+				27E0A6352DD09B67009AB905 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		2767CFFE2C8C89B900F5F12D /* Debug */ = {
@@ -582,7 +599,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AudioPlayer/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Ну, плеер";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -621,7 +637,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AudioPlayer/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Ну, плеер";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
