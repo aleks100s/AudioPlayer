@@ -27,6 +27,9 @@ struct BookshelfView: View {
 	@State private var bookToShowDetail: Book?
 	@State private var bookToShowChapters: Book?
 	@State private var isStopWarningShown = false
+	@State private var isEditFieldShown = false
+	@State private var bookToEdit: Book?
+	@State private var bookName = ""
 	
 	var body: some View {
 		Group {
@@ -68,6 +71,24 @@ struct BookshelfView: View {
 
 			Button(role: .cancel) {
 				isStopWarningShown = false
+			} label: {
+				Text("Отмена")
+			}
+		}
+		.alert("Название книги", isPresented: $isEditFieldShown, presenting: bookToEdit) { book in
+			TextField("Название", text: $bookName)
+			
+			Button("Готово") {
+				isEditFieldShown = false
+				book.title = bookName
+				spotlightService.deindex(book: book)
+				spotlightService.index(book: book)
+				modelContext.insert(book)
+			}
+			.disabled(bookName.isEmpty)
+			
+			Button(role: .cancel) {
+				isEditFieldShown = false
 			} label: {
 				Text("Отмена")
 			}
@@ -170,6 +191,14 @@ struct BookshelfView: View {
 	
 	@ViewBuilder
 	private func menuContent(for book: Book) -> some View {
+		Button {
+			bookName = book.title
+			bookToEdit = book
+			isEditFieldShown = true
+		} label: {
+			Label("Переименовать книгу", systemImage: "pencil")
+		}
+
 		Button {
 			bookToShowChapters = book
 		} label: {

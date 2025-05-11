@@ -99,6 +99,16 @@
         }
       }
     },
+    "Готово" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
     "Длительность книги" : {
       "localizations" : {
         "en" : {
@@ -259,6 +269,26 @@
         }
       }
     },
+    "Название" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "Название книги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book title"
+          }
+        }
+      }
+    },
     "Начать прослушивание" : {
       "localizations" : {
         "en" : {
@@ -335,6 +365,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отметить прослушанным"
+          }
+        }
+      }
+    },
+    "Переименовать книгу" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename the book"
           }
         }
       }
