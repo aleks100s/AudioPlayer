@@ -13,6 +13,9 @@ struct ChaptersListView: View {
 	
 	@State private var isFilePickerPresented = false
 	@State private var refreshId = UUID()
+	@State private var isEditChapterAlertShown = false
+	@State private var chapterToEdit: Chapter?
+	@State private var chapterName = ""
 
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.playerService) private var playerService
@@ -42,6 +45,15 @@ struct ChaptersListView: View {
 						isCurrentlyPlaying: isCurrentChapter && isPlaying,
 						onTap: { select(chapter: chapter) }
 					)
+					.contextMenu {
+						Button {
+							isEditChapterAlertShown = true
+							chapterToEdit = chapter
+							chapterName = chapter.name
+						} label: {
+							Label("Переименовать главу", systemImage: "pencil")
+						}
+					}
 					.swipeActions(edge: .leading) {
 						Button(chapter.isListened ? "Отметить непрослушанным" : "Отметить прослушанным") {
 							chapter.isListened.toggle()
@@ -73,6 +85,22 @@ struct ChaptersListView: View {
 					Log.error(error.localizedDescription)
 				}
 			})
+			.alert("Название главы", isPresented: $isEditChapterAlertShown, presenting: chapterToEdit) { chapter in
+				TextField("Название", text: $chapterName)
+				
+				Button("Готово") {
+					isEditChapterAlertShown = false
+					chapter.name = chapterName
+					modelContext.insert(chapter)
+				}
+				.disabled(chapter.name.isEmpty)
+				
+				Button(role: .cancel) {
+					isEditChapterAlertShown = false
+				} label: {
+					Text("Отмена")
+				}
+			}
 		}
 	}
 	

@@ -290,6 +290,16 @@
         }
       }
     },
+    "Название главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapter title"
+          }
+        }
+      }
+    },
     "Название книги" : {
       "localizations" : {
         "en" : {
@@ -360,6 +370,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Отметить прослушанным"
+          }
+        }
+      }
+    },
+    "Переименовать главу" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename the chapter"
           }
         }
       }
