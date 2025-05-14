@@ -59,7 +59,7 @@ struct ChaptersListView: View {
 					Button {
 						isFilePickerPresented = true
 					} label: {
-						Image(systemName: "plus.circle")
+						Image(systemName: "plus")
 					}
 					.popoverTip(HowToAddChaptersTip(), arrowEdge: .top)
 				}

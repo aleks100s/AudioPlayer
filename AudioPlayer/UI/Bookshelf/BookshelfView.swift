@@ -205,7 +205,7 @@ struct BookshelfView: View {
 				Button {
 					isFilePickerPresented = true
 				} label: {
-					Image(systemName: "plus.circle")
+					Image(systemName: "plus")
 				}
 				.popoverTip(HowToAddBookTip(), arrowEdge: .top)
 			}

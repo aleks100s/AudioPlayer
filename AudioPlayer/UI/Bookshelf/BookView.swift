@@ -70,8 +70,8 @@ private struct BookCoverView: View {
 			Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
 				.resizable()
 				.renderingMode(.template)
+				.foregroundStyle(.white)
 				.aspectRatio(contentMode: .fit)
-				.tint(.primary)
 				.frame(width: 120)
 				.opacity(0.8)
 		}

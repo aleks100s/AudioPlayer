@@ -300,23 +300,6 @@
         }
       }
     },
-    "Начать прослушивание" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Start listening"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Начать прослушивание"
-          }
-        }
-      }
-    },
     "О книге" : {
       "localizations" : {
         "en" : {
@@ -419,40 +402,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Понятно"
-          }
-        }
-      }
-    },
-    "Продолжить прослушивание: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue listening: %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Продолжить прослушивание: %@"
-          }
-        }
-      }
-    },
-    "Сейчас играет: %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Now listening: %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сейчас играет: %@"
           }
         }
       }
