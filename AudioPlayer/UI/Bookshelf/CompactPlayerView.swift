@@ -35,7 +35,7 @@ struct CompactPlayerView: View {
 				Text(playerService.currentBook?.currentChapter?.name ?? "")
 					.lineLimit(2)
 				
-				Text(playerService.currentBook?.author ?? "")
+				Text(playerService.currentBook?.title ?? "")
 					.foregroundStyle(.secondary)
 			}
 			
