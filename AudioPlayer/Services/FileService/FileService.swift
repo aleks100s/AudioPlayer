@@ -29,6 +29,7 @@ struct FileService: IFileService {
 		}
 		
 		var resultUrls = [URL]()
+		let files = files.sorted(by: { $0.absoluteString.localizedStandardContains($1.absoluteString) })
 		for file in files {
 			guard file.startAccessingSecurityScopedResource() else {
 				Log.error("No permission to open file \(file)")
