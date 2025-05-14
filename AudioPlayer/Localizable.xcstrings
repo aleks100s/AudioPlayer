@@ -99,6 +99,16 @@
         }
       }
     },
+    "Вы действительно хотите удалить книгу?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you want to delete the book?"
+          }
+        }
+      }
+    },
     "Готово" : {
       "localizations" : {
         "en" : {
@@ -503,6 +513,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Теперь добавить книгу можно тут"
+          }
+        }
+      }
+    },
+    "Удалить" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
           }
         }
       }

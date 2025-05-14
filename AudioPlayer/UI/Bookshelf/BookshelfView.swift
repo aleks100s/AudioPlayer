@@ -30,6 +30,8 @@ struct BookshelfView: View {
 	@State private var isEditFieldShown = false
 	@State private var bookToEdit: Book?
 	@State private var bookName = ""
+	@State private var isDeleteWarningShown: Bool = false
+	@State private var bookToDelete: Book?
 	
 	var body: some View {
 		Group {
@@ -89,6 +91,28 @@ struct BookshelfView: View {
 			
 			Button(role: .cancel) {
 				isEditFieldShown = false
+			} label: {
+				Text("Отмена")
+			}
+		}
+		.alert("Вы действительно хотите удалить книгу?", isPresented: $isDeleteWarningShown) {
+			Button(role: .destructive) {
+				do {
+					if let book = bookToDelete {
+						try fileService.deleteBookFiles(book)
+						spotlightService.deindex(book: book)
+						playerService.removeIfNeeded(book: book)
+						modelContext.delete(book)
+					}
+				} catch {
+					Log.error(error.localizedDescription)
+				}
+			} label: {
+				Text("Удалить")
+			}
+
+			Button(role: .cancel) {
+				isDeleteWarningShown = false
 			} label: {
 				Text("Отмена")
 			}
@@ -206,14 +230,8 @@ struct BookshelfView: View {
 		}
 		
 		Button(role: .destructive) {
-			do {
-				try fileService.deleteBookFiles(book)
-				spotlightService.deindex(book: book)
-				playerService.removeIfNeeded(book: book)
-				modelContext.delete(book)
-			} catch {
-				Log.error(error.localizedDescription)
-			}
+			bookToDelete = book
+			isDeleteWarningShown = true
 		} label: {
 			Label("Удалить книгу", systemImage: "trash")
 		}
