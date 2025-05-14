@@ -43,7 +43,7 @@ private struct BookCoverView: View {
 				.aspectRatio(1, contentMode: .fill)
 				.clipShape(RoundedRectangle(cornerRadius: 16))
 				.overlay {
-					Color.gray.opacity(0.2)
+					Color.black.opacity(0.1)
 				}
 			
 			VStack {

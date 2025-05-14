@@ -30,7 +30,7 @@ struct BookDetailView: View {
 								
 								Spacer()
 							}
-							.background(.thinMaterial)
+							.background(.regularMaterial)
 						}
 					
 					VStack {

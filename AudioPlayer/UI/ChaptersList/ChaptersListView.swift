@@ -141,7 +141,6 @@ struct ChaptersListView: View {
 				
 				book.append(chapters: chapters)
 				modelContext.insert(book)
-				spotlightService.index(book: book)
 				book.prepareCache()
 				await MainActor.run {
 					refreshId = UUID()
