@@ -10,6 +10,7 @@ import SwiftUI
 struct BookView: View {
 	let book: Book
 	let onChaptersListTap: () -> Void
+	let onTapInfoButton: () -> Void
 	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	@Environment(\.playerService) private var playerService
@@ -18,7 +19,7 @@ struct BookView: View {
 		VStack(alignment: .leading, spacing: .zero) {
 			BookCoverView(book: book)
 			
-			BookProgressView(book: book, onChaptersListTap: onChaptersListTap)
+			BookProgressView(book: book, onChaptersListTap: onChaptersListTap, onTapInfoButton: onTapInfoButton)
 		}
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))
@@ -92,6 +93,7 @@ private struct BookCoverView: View {
 private struct BookProgressView: View {
 	let book: Book
 	let onChaptersListTap: () -> Void
+	let onTapInfoButton: () -> Void
 	
 	@Environment(\.playerService) private var playerService
 	
@@ -105,28 +107,14 @@ private struct BookProgressView: View {
 				.animation(.bouncy, value: book.progress)
 			
 			HStack {
-				if book.isFinished {
-					Text("Книга прослушана")
-				} else if let chapter = book.currentChapter?.name {
-					if isPlaying {
-						Text("Сейчас играет: \(chapter)")
-					} else {
-						Text("Продолжить прослушивание: \(chapter)")
-					}
-				} else {
-					Text("Начать прослушивание")
+				Button("О книге") {
+					onTapInfoButton()
 				}
 				
 				Spacer()
 				
-				HStack(spacing: 16) {
-					Text(String(format: "%.1f%%", book.progress * 100))
-						.opacity(book.progress == .zero ? .zero : 1)
-					
-					Button("", systemImage: "list.bullet") {
-						onChaptersListTap()
-					}
-					.font(.title)
+				Button("Показать главы") {
+					onChaptersListTap()
 				}
 			}
 			.font(.footnote)

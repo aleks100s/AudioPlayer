@@ -2,6 +2,7 @@
   "sourceLanguage" : "ru",
   "strings" : {
     "" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -300,6 +301,7 @@
       }
     },
     "Начать прослушивание" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -422,6 +424,7 @@
       }
     },
     "Продолжить прослушивание: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -438,6 +441,7 @@
       }
     },
     "Сейчас играет: %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

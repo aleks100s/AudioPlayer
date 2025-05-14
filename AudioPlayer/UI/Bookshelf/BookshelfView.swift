@@ -156,12 +156,11 @@ struct BookshelfView: View {
 						ForEach(books) { book in
 							BookView(book: book) {
 								bookToShowChapters = book
+							} onTapInfoButton: {
+								bookToShowDetail = book
 							}
 							.onAppear {
 								book.prepareCache()
-							}
-							.onTapGesture {
-								bookToShowDetail = book
 							}
 							.contextMenu {
 								menuContent(for: book)
