@@ -23,14 +23,6 @@ struct BookView: View {
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))
 	}
-	
-	private func handlePlayButtonTap() {
-		do {
-			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
-		} catch {
-			Log.error(error.localizedDescription)
-		}
-	}
 }
 
 private struct BookCoverView: View {
@@ -49,6 +41,9 @@ private struct BookCoverView: View {
 				.resizable()
 				.aspectRatio(1, contentMode: .fill)
 				.clipShape(RoundedRectangle(cornerRadius: 16))
+				.overlay {
+					Color.gray.opacity(0.2)
+				}
 			
 			VStack {
 				Spacer()
@@ -66,17 +61,23 @@ private struct BookCoverView: View {
 					}
 					
 					Spacer()
-					
-					Button("", systemImage: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle") {
-						handlePlayButtonTap()
-					}
-					.font(.title)
-					.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
 				}
 				.padding()
 				.background(.ultraThinMaterial)
 			}
+			
+			Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
+				.resizable()
+				.renderingMode(.template)
+				.aspectRatio(contentMode: .fit)
+				.tint(.primary)
+				.frame(width: 120)
+				.opacity(0.8)
 		}
+		.onTapGesture {
+			handlePlayButtonTap()
+		}
+		.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
 	}
 	
 	private func handlePlayButtonTap() {
