@@ -74,6 +74,7 @@ private struct BookCoverView: View {
 				.aspectRatio(contentMode: .fit)
 				.frame(width: 120)
 				.opacity(0.8)
+				.shrinkOnTap()
 		}
 		.onTapGesture {
 			handlePlayButtonTap()
