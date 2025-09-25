@@ -116,6 +116,16 @@
         }
       }
     },
+    "%lld минут" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
+          }
+        }
+      }
+    },
     "%lld сек" : {
       "localizations" : {
         "en" : {
@@ -174,6 +184,16 @@
         }
       }
     },
+    "Временной интервал" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time interval"
+          }
+        }
+      }
+    },
     "Вы действительно хотите удалить книгу?" : {
       "localizations" : {
         "en" : {
@@ -186,6 +206,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы действительно хотите удалить книгу?"
+          }
+        }
+      }
+    },
+    "Выберите, через какое время автоматически остановить воспроизведение" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the time after which to stop playback automatically."
           }
         }
       }
@@ -346,6 +376,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Количество глав"
+          }
+        }
+      }
+    },
+    "конец главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "end of chapter"
+          }
+        }
+      }
+    },
+    "Конец главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End of the chapter"
           }
         }
       }
@@ -534,6 +584,16 @@
         }
       }
     },
+    "Сбросить таймер" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset the timer"
+          }
+        }
+      }
+    },
     "Скорость %@" : {
       "localizations" : {
         "en" : {
@@ -582,6 +642,26 @@
         }
       }
     },
+    "Таймер сна" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep timer"
+          }
+        }
+      }
+    },
+    "Таймер сна •" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep timer •"
+          }
+        }
+      }
+    },
     "Теперь добавить книгу можно тут" : {
       "localizations" : {
         "en" : {
@@ -594,6 +674,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Теперь добавить книгу можно тут"
+          }
+        }
+      }
+    },
+    "У вас установлен таймер на %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have set the %@ timer"
           }
         }
       }
@@ -626,6 +716,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить книгу"
+          }
+        }
+      }
+    },
+    "Установить таймер" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set the timer"
           }
         }
       }

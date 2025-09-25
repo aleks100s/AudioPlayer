@@ -23,7 +23,7 @@ struct CompactPlayerView: View {
 			
 			ControlsView()
 			
-			PlaybackRateView(onPlaylistTap: onPlaylistTap)
+			PlaybackRateView(onTimerTap: onPlaylistTap)
 		}
 		.padding(.padding)
 		.background(.regularMaterial)
@@ -162,7 +162,7 @@ private struct ControlsView: View {
 }
 
 private struct PlaybackRateView: View {
-	let onPlaylistTap: () -> Void
+	let onTimerTap: () -> Void
 	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	
@@ -177,15 +177,27 @@ private struct PlaybackRateView: View {
 			Button {
 				rate = PlaybackRate.nextRate(after: playbackRate).rawValue
 			} label: {
-				Text("Скорость \(playbackRate.title)")
+                switch playbackRate.rawValue {
+                case 0..<1:
+                    Label("Скорость \(playbackRate.title)", systemImage: "tortoise")
+                case 1:
+                    Text("Скорость \(playbackRate.title)")
+                default:
+                    Label("Скорость \(playbackRate.title)", systemImage: "hare")
+                }
 			}
 
 			Spacer()
 			
 			Button {
-				onPlaylistTap()
+				onTimerTap()
 			} label: {
-				Text("Список глав")
+                if playerService.currentTimer != nil {
+                    Label("Таймер сна •", systemImage: "timer")
+                        .bold()
+                } else {
+                    Label("Таймер сна", systemImage: "timer")
+                }
 			}
 		}
 		.onChange(of: rate) { oldValue, newValue in

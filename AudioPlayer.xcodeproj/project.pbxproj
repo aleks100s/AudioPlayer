@@ -58,6 +58,8 @@
 		27B871F62C9803F700E48C9A /* HowToMarkChapterTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F52C9803F700E48C9A /* HowToMarkChapterTip.swift */; };
 		27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */; };
 		27E0A6342DD09B4F009AB905 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27E0A6322DD09B4F009AB905 /* InfoPlist.strings */; };
+		27EEAA5F2E85D9200080FD4D /* TimerSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EEAA5E2E85D9200080FD4D /* TimerSheetView.swift */; };
+		27EEAA622E85DA810080FD4D /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27EEAA612E85DA810080FD4D /* TimerMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +115,8 @@
 		27B871F72C98049300E48C9A /* HowToDeleteBookTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToDeleteBookTip.swift; sourceTree = "<group>"; };
 		27E0A6332DD09B4F009AB905 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27E0A6352DD09B67009AB905 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27EEAA5E2E85D9200080FD4D /* TimerSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSheetView.swift; sourceTree = "<group>"; };
+		27EEAA612E85DA810080FD4D /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +179,7 @@
 		2767D0072C8C8D4500F5F12D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				27EEAA602E85DA7C0080FD4D /* Timer */,
 				27B871F02C95671200E48C9A /* Tips */,
 				27A7B29C2C8DBCFF002C4914 /* Meta */,
 				2767D0082C8C8D9500F5F12D /* Chapter.swift */,
@@ -296,6 +301,7 @@
 				2767D0292C8C988500F5F12D /* CompactPlayerView.swift */,
 				2767D0222C8C944700F5F12D /* BookView.swift */,
 				2767D0242C8C969100F5F12D /* BookshelfView.swift */,
+				27EEAA5E2E85D9200080FD4D /* TimerSheetView.swift */,
 			);
 			path = Bookshelf;
 			sourceTree = "<group>";
@@ -327,6 +333,14 @@
 				272133532D2E90F900A904D8 /* HowToAddChaptersTip.swift */,
 			);
 			path = Tips;
+			sourceTree = "<group>";
+		};
+		27EEAA602E85DA7C0080FD4D /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				27EEAA612E85DA810080FD4D /* TimerMode.swift */,
+			);
+			path = Timer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,6 +430,7 @@
 				2767D0152C8C900500F5F12D /* Log.swift in Sources */,
 				27B871ED2C920DCB00E48C9A /* Shake.swift in Sources */,
 				27B871F82C98049300E48C9A /* HowToDeleteBookTip.swift in Sources */,
+				27EEAA622E85DA810080FD4D /* TimerMode.swift in Sources */,
 				27A466E52D493E39000B6B35 /* AdBannerView.swift in Sources */,
 				27A466E62D493E39000B6B35 /* AdBannerViewController.swift in Sources */,
 				2767D0232C8C944700F5F12D /* BookView.swift in Sources */,
@@ -449,6 +464,7 @@
 				27A7B2992C8DBBDC002C4914 /* Environment+PlayerService.swift in Sources */,
 				27B871F62C9803F700E48C9A /* HowToMarkChapterTip.swift in Sources */,
 				27A7B2942C8CBB9B002C4914 /* Environment+SpotlightService.swift in Sources */,
+				27EEAA5F2E85D9200080FD4D /* TimerSheetView.swift in Sources */,
 				2767D0252C8C969100F5F12D /* BookshelfView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

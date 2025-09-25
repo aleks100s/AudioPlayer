@@ -14,6 +14,7 @@ import MediaPlayer
 final class PlayerService: NSObject, IPlayerService {
 	var currentBook: Book?
 	var isPlaying = false
+    var currentTimer: TimerMode?
 
 	private var audioPlayer: AVAudioPlayer?
 	private var timer: Timer?
@@ -178,6 +179,16 @@ extension PlayerService {
 		stopPlayer()
 		currentBook = nil
 	}
+}
+
+extension PlayerService {
+    func setSleepTimer(mode: TimerMode) {
+        currentTimer = mode
+    }
+    
+    func resetTimer() {
+        currentTimer = nil
+    }
 }
 
 private extension PlayerService {

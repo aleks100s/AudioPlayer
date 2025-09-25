@@ -32,6 +32,7 @@ struct BookshelfView: View {
 	@State private var bookName = ""
 	@State private var isDeleteWarningShown: Bool = false
 	@State private var bookToDelete: Book?
+    @State private var isTimerShown = false
 	
 	var body: some View {
 		Group {
@@ -57,6 +58,19 @@ struct BookshelfView: View {
 		.sheet(item: $bookToShowChapters) { book in
 			ChaptersListView(book: book)
 		}
+        .sheet(isPresented: $isTimerShown) {
+            TimerSheetView(
+                currentTimer: playerService.currentTimer,
+                onSetTimer: { mode in
+                    playerService.setSleepTimer(mode: mode)
+                    isTimerShown = false
+                }, onResetTimer: {
+                    playerService.resetTimer()
+                    isTimerShown = false
+                }
+            )
+            .presentationDetents([.medium])
+        }
 		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
 			Button(role: .cancel) {
 				isFinishedBookShown = false
@@ -179,7 +193,7 @@ struct BookshelfView: View {
 				
 				if playerService.currentBook != nil {
 					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
-						bookToShowChapters = playerService.currentBook
+						isTimerShown = true
 					}
 				}
 				

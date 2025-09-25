@@ -11,6 +11,7 @@ import Foundation
 protocol IPlayerService {	
 	var currentBook: Book? { get }
 	var isPlaying: Bool { get }
+    var currentTimer: TimerMode? { get }
 
 	func setupAndPlayAudio(book: Book, chapter: Chapter?, rate: PlaybackRate?, resetProgress: Bool) throws
 	func removeIfNeeded(book: Book)
@@ -22,4 +23,6 @@ protocol IPlayerService {
 	func skipForward(time: TimeInterval)
 	func skipBackward(time: TimeInterval)
 	func changePlayback(rate: PlaybackRate)
+    func setSleepTimer(mode: TimerMode)
+    func resetTimer()
 }
