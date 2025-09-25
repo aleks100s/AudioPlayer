@@ -100,8 +100,63 @@
         }
       }
     },
+    "%lld мин %lld сек" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld min %2$lld sec"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld мин %2$lld сек"
+          }
+        }
+      }
+    },
     "%lld сек" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld sec"
+          }
+        }
+      }
+    },
+    "%lld час %lld мин %lld сек" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld hrs %2$lld min %3$lld sec"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld час %2$lld мин %3$lld сек"
+          }
+        }
+      }
+    },
+    "%lldд %lldч %lldм %lldс" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldd %2$lldh %3$lldm %4$llds"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldд %2$lldч %3$lldм %4$lldс"
+          }
+        }
+      }
     },
     "Без названия" : {
       "localizations" : {

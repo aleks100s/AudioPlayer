@@ -83,22 +83,22 @@ final class Book {
 		let isRULocale = Locale.current.identifier == "ru_RU"
 		let secondsPart = seconds % 60
 		guard seconds > 60 else {
-			return isRULocale ? "\(secondsPart) сек" : "\(seconds) sec"
+            return String(localized: "\(secondsPart) сек")
 		}
 	
 		let minutes = seconds / 60
 		let minutesPart = minutes % 60
 		guard minutes > 60 else {
-			return  isRULocale ? "\(minutesPart) мин \(secondsPart) сек" : "\(minutes) min \(secondsPart) sec"
+			return  String(localized: "\(minutesPart) мин \(secondsPart) сек")
 		}
 		
 		let hours = minutes / 60
 		let hoursPart = hours % 24
 		guard hours > 24 else {
-			return isRULocale ? "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек" : "\(hoursPart) hrs \(minutesPart) min \(secondsPart) sec"
+			return String(localized: "\(hoursPart) час \(minutesPart) мин \(secondsPart) сек")
 		}
 		
 		let daysTotal = hours / 24
-		return  isRULocale ? "\(daysTotal)д \(hoursPart)ч \(minutesPart)м \(secondsPart)с" :"\(daysTotal)d \(hoursPart)h \(minutesPart)m \(secondsPart)s"
+		return String(localized: "\(daysTotal)д \(hoursPart)ч \(minutesPart)м \(secondsPart)с")
 	}
 }
