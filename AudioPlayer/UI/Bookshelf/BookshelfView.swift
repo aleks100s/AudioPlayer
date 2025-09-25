@@ -184,7 +184,6 @@ struct BookshelfView: View {
 				}
 				
 				AdBannerView(bannerId: bannerId)
-					.frame(height: 100)
 			}
 			
 			if isSliderBusy {

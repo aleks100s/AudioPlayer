@@ -67,17 +67,18 @@ private struct BookCoverView: View {
 				.background(.ultraThinMaterial)
 			}
 			
-			Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
-				.resizable()
-				.renderingMode(.template)
-				.foregroundStyle(.white)
-				.aspectRatio(contentMode: .fit)
-				.frame(width: 120)
-				.opacity(0.8)
-				.shrinkOnTap()
-		}
-		.onTapGesture {
-			handlePlayButtonTap()
+            Button {
+                handlePlayButtonTap()
+            } label: {
+                Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(.white)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 120)
+                    .opacity(0.8)
+            }
+            .buttonStyle(PlayButtonStyle())
 		}
 		.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
 	}

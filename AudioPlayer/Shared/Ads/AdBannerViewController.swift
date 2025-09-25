@@ -10,6 +10,7 @@ import YandexMobileAds
 
 final class AdBannerViewController: UIViewController {
 	private let bannerId: String
+    private let onError: () -> Void
 
 	private lazy var adView: AdView = {
 		let width = view.safeAreaLayoutGuide.layoutFrame.width
@@ -20,8 +21,9 @@ final class AdBannerViewController: UIViewController {
 		return adView
 	}()
 	
-	init(bannerId: String) {
+    init(bannerId: String, onError: @escaping () -> Void) {
 		self.bannerId = bannerId
+        self.onError = onError
 		super.init(nibName: nil, bundle: nil)
 	}
 	
@@ -48,5 +50,7 @@ extension AdBannerViewController: AdViewDelegate {
 		showAd()
 	}
 	
-	func adViewDidFailLoading(_ adView: AdView, error: any Error) {}
+	func adViewDidFailLoading(_ adView: AdView, error: any Error) {
+        onError()
+    }
 }
