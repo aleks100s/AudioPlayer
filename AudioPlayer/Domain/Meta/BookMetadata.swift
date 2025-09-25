@@ -8,7 +8,7 @@
 import Foundation
 
 struct BookMetadata {
-	let albumName: String
-	let artist: String
+	let albumName: String?
+	let artist: String?
 	let artworkData: Data?
 }
