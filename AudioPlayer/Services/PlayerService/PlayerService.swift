@@ -249,21 +249,22 @@ private extension PlayerService {
 		chapter.isListened = false
 		book.currentChapter = chapter
 		book.trackProgress()
-        guard !sleepAfterChapterEnds else {
-            resetSleepTimer()
-            return
-        }
 
 		do {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self
 			audioPlayer?.enableRate = true
 			audioPlayer?.currentTime = chapter.currentTime
-			setupMediaPlayer()
 			if let rate = rate?.float ?? oldRate {
 				audioPlayer?.rate = rate
 			}
 			audioPlayer?.prepareToPlay()
+            setupMediaPlayer()
+            guard !sleepAfterChapterEnds else {
+                resetSleepTimer()
+                return
+            }
+
 			try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
 			try AVAudioSession.sharedInstance().setActive(true)
 			audioPlayer?.play()

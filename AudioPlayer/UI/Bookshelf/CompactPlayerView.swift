@@ -161,7 +161,11 @@ private struct ControlsView: View {
 	}
 }
 
-private struct PlaybackRateView: View {
+private struct PlaybackRateView: View, Equatable {
+    static func == (lhs: PlaybackRateView, rhs: PlaybackRateView) -> Bool {
+        lhs.playbackRate == rhs.playbackRate
+    }
+
 	let onTimerTap: () -> Void
 	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
@@ -174,18 +178,17 @@ private struct PlaybackRateView: View {
 	
 	var body: some View {
 		HStack {
-			Button {
-				rate = PlaybackRate.nextRate(after: playbackRate).rawValue
-			} label: {
-                switch playbackRate.rawValue {
-                case 0..<1:
-                    Label("Скорость \(playbackRate.title)", systemImage: "tortoise")
-                case 1:
-                    Text("Скорость \(playbackRate.title)")
-                default:
-                    Label("Скорость \(playbackRate.title)", systemImage: "hare")
+            Picker(
+                playbackRate.title,
+                selection: .init(get: { playbackRate }, set: { rate = $0.rawValue }),
+                content: {
+                    ForEach(PlaybackRate.allCases, id: \.rawValue) { rate in
+                        Text(rate.title)
+                            .tag(rate)
+                    }
                 }
-			}
+            )
+            .pickerStyle(.menu)
 
 			Spacer()
 			
