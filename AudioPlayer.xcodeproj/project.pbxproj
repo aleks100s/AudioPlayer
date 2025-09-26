@@ -117,6 +117,8 @@
 		27E0A6352DD09B67009AB905 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		27EEAA5E2E85D9200080FD4D /* TimerSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSheetView.swift; sourceTree = "<group>"; };
 		27EEAA612E85DA810080FD4D /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
+		27EEAA632E8718B30080FD4D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		27EEAA642E8718BF0080FD4D /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -386,6 +388,8 @@
 				Base,
 				ru,
 				en,
+				fr,
+				es,
 			);
 			mainGroup = 2767CFE82C8C89B800F5F12D;
 			packageReferences = (
@@ -477,6 +481,8 @@
 			children = (
 				27E0A6332DD09B4F009AB905 /* ru */,
 				27E0A6352DD09B67009AB905 /* en */,
+				27EEAA632E8718B30080FD4D /* fr */,
+				27EEAA642E8718BF0080FD4D /* es */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
