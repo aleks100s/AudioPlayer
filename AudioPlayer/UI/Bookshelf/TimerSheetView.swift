@@ -13,20 +13,6 @@ struct TimerSheetView: View {
     let onResetTimer: () -> Void
     @State private var selection: TimerMode.Minutes = .five
     @State private var isEndOfChapter: Bool = false
-    
-    init(currentTimer: TimerMode?, onSetTimer: @escaping (TimerMode) -> Void, onResetTimer: @escaping () -> Void) {
-        self.currentTimer = currentTimer
-        self.onSetTimer = onSetTimer
-        self.onResetTimer = onResetTimer
-        switch currentTimer {
-        case .nextChapter:
-            isEndOfChapter = true
-        case .time(let minutes):
-            selection = minutes
-        default:
-            selection = .five
-        }
-    }
 
     var body: some View {
         NavigationView {

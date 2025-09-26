@@ -192,7 +192,7 @@ private struct PlaybackRateView: View {
 			Button {
 				onTimerTap()
 			} label: {
-                if playerService.currentTimer != nil {
+                if playerService.sleepTimer != nil {
                     Label("Таймер сна •", systemImage: "timer")
                         .bold()
                 } else {

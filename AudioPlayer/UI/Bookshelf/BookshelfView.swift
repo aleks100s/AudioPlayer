@@ -60,12 +60,12 @@ struct BookshelfView: View {
 		}
         .sheet(isPresented: $isTimerShown) {
             TimerSheetView(
-                currentTimer: playerService.currentTimer,
+                currentTimer: playerService.sleepTimer,
                 onSetTimer: { mode in
                     playerService.setSleepTimer(mode: mode)
                     isTimerShown = false
                 }, onResetTimer: {
-                    playerService.resetTimer()
+                    playerService.resetSleepTimer()
                     isTimerShown = false
                 }
             )

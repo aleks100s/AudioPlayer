@@ -14,10 +14,12 @@ import MediaPlayer
 final class PlayerService: NSObject, IPlayerService {
 	var currentBook: Book?
 	var isPlaying = false
-    var currentTimer: TimerMode?
+    var sleepTimer: TimerMode?
 
 	private var audioPlayer: AVAudioPlayer?
-	private var timer: Timer?
+	private var playbackTimer: Timer?
+    private var internalSleepTimer: Timer?
+    private var sleepAfterChapterEnds = false
 
 	private var currentChapter: Chapter? {
 		currentBook?.currentChapter
@@ -112,7 +114,7 @@ extension PlayerService {
 		}
 	}
 	
-	func nextChapter() throws {
+    func nextChapter() throws {
 		guard let currentChapter = currentBook?.currentChapter else {
 			Log.error("Can't switch to next chapter")
 			return
@@ -183,26 +185,30 @@ extension PlayerService {
 
 extension PlayerService {
     func setSleepTimer(mode: TimerMode) {
-        currentTimer = mode
+        sleepTimer = mode
+        setupSleepTimer(mode: mode)
     }
     
-    func resetTimer() {
-        currentTimer = nil
+    func resetSleepTimer() {
+        sleepTimer = nil
+        internalSleepTimer?.invalidate()
+        internalSleepTimer = nil
+        sleepAfterChapterEnds = false
     }
 }
 
 private extension PlayerService {
 	// MARK: - Setup PLayer
 	
-	func setupTimer() {
+	func setupPlaybackTimer() {
 		DispatchQueue.global().async { [weak self] in
-			self?.stopTimer()
+			self?.stopPlaybackTimer()
 			let timer = Timer(timeInterval: 0.5, repeats: true) { [weak self] timer in
 				DispatchQueue.main.async {
 					self?.updatePlayback()
 				}
 			}
-			self?.timer = timer
+			self?.playbackTimer = timer
 			RunLoop.current.add(timer, forMode: .common)
 			RunLoop.current.run()
 		}
@@ -243,6 +249,11 @@ private extension PlayerService {
 		chapter.isListened = false
 		book.currentChapter = chapter
 		book.trackProgress()
+        guard !sleepAfterChapterEnds else {
+            resetSleepTimer()
+            return
+        }
+
 		do {
 			audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
 			audioPlayer?.delegate = self
@@ -256,7 +267,7 @@ private extension PlayerService {
 			try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
 			try AVAudioSession.sharedInstance().setActive(true)
 			audioPlayer?.play()
-			setupTimer()
+			setupPlaybackTimer()
 		} catch {
 			Log.error("Error initializing the audio player: \(error)\nfor file \(chapter.urlLastPathComponent)")
 			throw error
@@ -267,7 +278,7 @@ private extension PlayerService {
 		Task { @MainActor in
 			audioPlayer?.pause()
 			updatePlayback()
-			stopTimer()
+			stopPlaybackTimer()
 		}
 	}
 	
@@ -276,7 +287,7 @@ private extension PlayerService {
 			currentChapter?.isListened = false
 			audioPlayer?.play()
 			updatePlayback()
-			setupTimer()
+			setupPlaybackTimer()
 		}
 	}
 	
@@ -323,7 +334,7 @@ private extension PlayerService {
 		isPlaying = false
 		stopAudioPlayer()
 		stopMediaPlayer()
-		stopTimer()
+		stopPlaybackTimer()
 	}
 	
 	func stopAudioPlayer() {
@@ -336,9 +347,9 @@ private extension PlayerService {
 		MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
 	}
 	
-	func stopTimer() {
-		timer?.invalidate()
-		timer = nil
+	func stopPlaybackTimer() {
+		playbackTimer?.invalidate()
+		playbackTimer = nil
 	}
 }
 
@@ -444,4 +455,29 @@ private extension PlayerService {
 			}
 		}
 	}
+}
+
+private extension PlayerService {
+    func setupSleepTimer(mode: TimerMode) {
+        switch mode {
+        case .nextChapter:
+            sleepAfterChapterEnds = true
+        case .time(let minutes):
+            setupSleepMinutesTimer(minutes: minutes.rawValue)
+        }
+    }
+    
+    func setupSleepMinutesTimer(minutes: Int) {
+        DispatchQueue.global().async { [weak self] in
+            let timer = Timer(timeInterval: TimeInterval(minutes * 60), repeats: false) { [weak self] timer in
+                DispatchQueue.main.async {
+                    self?.stopPlayer()
+                    self?.resetSleepTimer()
+                }
+            }
+            self?.internalSleepTimer = timer
+            RunLoop.current.add(timer, forMode: .common)
+            RunLoop.current.run()
+        }
+    }
 }
