@@ -35,4 +35,3 @@ private struct _AdBannerView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
-
