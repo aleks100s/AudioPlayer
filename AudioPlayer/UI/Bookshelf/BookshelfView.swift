@@ -22,7 +22,7 @@ struct BookshelfView: View {
 	@Environment(\.spotlightService) private var spotlightService
 	@Environment(\.playerService) private var playerService
 	
-	@Query(animation: .default) private var books: [Book]
+	@Query(sort: \Book.title, animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
 	@ScaledMetric(relativeTo: .body) private var expandedPlayerMargin: CGFloat = 90

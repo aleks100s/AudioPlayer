@@ -73,22 +73,10 @@ struct BookDetailView: View {
 
 	private var bookOverview: some View {
 		VStack(alignment: .leading, spacing: 20) {
-			ViewThatFits(in: .horizontal) {
-				HStack(alignment: .top, spacing: 20) {
-					cover.frame(width: 160)
-					bookInformation.frame(width: 280, alignment: .leading)
-				}
-				HStack(alignment: .top, spacing: 20) {
-					cover.frame(width: 140)
-					bookInformation.frame(width: 200, alignment: .leading)
-				}
-				VStack(alignment: .leading, spacing: 20) {
-					cover
-						.frame(maxWidth: 220)
-						.frame(maxWidth: .infinity)
-					bookInformation
-				}
-			}
+			cover
+				.frame(maxWidth: 220)
+				.frame(maxWidth: .infinity)
+			bookInformation
 			playbackButton
 		}
 		.frame(maxWidth: 850, alignment: .leading)

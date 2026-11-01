@@ -88,7 +88,7 @@ struct ExpandedPlayerView: View {
     
     var body: some View {
         GlassEffectContainer(spacing: 4) {
-            VStack(spacing: 8) {
+            VStack(spacing: 16) {
                 HStack {
                     Image(uiImage: chapter?.image ?? playerService.currentBook?.image ?? .placeholder)
                         .resizable()
@@ -101,7 +101,8 @@ struct ExpandedPlayerView: View {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(playerService.currentBook?.title ?? "")
                             .font(.title2.bold())
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(2)
                         if let chapterPosition, let book = playerService.currentBook {
                             Text("Глава \(chapterPosition) из \(book.orderedChapters.count)")
