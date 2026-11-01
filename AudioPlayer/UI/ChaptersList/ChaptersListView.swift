@@ -11,8 +11,7 @@ import TipKit
 
 struct ChaptersListView: View {
 	let book: Book
-	
-	@State private var isFilePickerPresented = false
+	@Binding var isFilePickerPresented: Bool
 	@State private var refreshId = UUID()
 	@State private var isEditChapterAlertShown = false
 	@State private var chapterToEdit: Chapter?
@@ -22,7 +21,6 @@ struct ChaptersListView: View {
 	@Environment(\.playerService) private var playerService
 	@Environment(\.fileService) private var fileService
 	@Environment(\.metaInfoService) private var metaInfoService
-	@Environment(\.spotlightService) private var spotlightService
 	
 	private var isPlaying: Bool {
 		playerService.isPlaying
@@ -33,78 +31,59 @@ struct ChaptersListView: View {
 	}
 	
 	var body: some View {
-		NavigationView {
-			List {
-				TipView(HowToMarkChapterTip())
-				
-				ForEach(book.orderedChapters) { chapter in
-					let isCurrentChapter = currentChapter == chapter
-					ChapterView(
-						chapter: chapter,
-						hasCheckmark: chapter.isListened || book.isFinished,
-						isCurrentChapter: isCurrentChapter,
-						isCurrentlyPlaying: isCurrentChapter && isPlaying,
-						onTap: { select(chapter: chapter) }
-					)
-					.contextMenu {
-						Button {
-							isEditChapterAlertShown = true
-							chapterToEdit = chapter
-							chapterName = chapter.name
-						} label: {
-							Label("Переименовать главу", systemImage: "pencil")
-						}
-					}
-					.swipeActions(edge: .leading) {
-						Button(chapter.isListened ? "Отметить непрослушанным" : "Отметить прослушанным") {
-							chapter.isListened.toggle()
-							book.trackProgress()
-						}
-						.tint(.green)
-						.sensoryFeedback(.success, trigger: chapter.isListened)
-					}
-				}
-			}
-			.id(refreshId)
-			.navigationTitle("Список глав")
-			.toolbar {
-				ToolbarItem(placement: .topBarTrailing) {
+		Section {
+			TipView(HowToMarkChapterTip())
+
+			ForEach(book.orderedChapters) { chapter in
+				let isCurrentChapter = currentChapter == chapter
+				ChapterView(
+					chapter: chapter,
+					hasCheckmark: chapter.isListened || book.isFinished,
+					isCurrentChapter: isCurrentChapter,
+					isCurrentlyPlaying: isCurrentChapter && isPlaying,
+					onTap: { select(chapter: chapter) }
+				)
+				.contextMenu {
 					Button {
-						isFilePickerPresented = true
+						chapterToEdit = chapter
+						chapterName = chapter.name
+						isEditChapterAlertShown = true
 					} label: {
-						Image(systemName: "plus")
+						Label("Переименовать главу", systemImage: "pencil")
 					}
-					.popoverTip(HowToAddChaptersTip(), arrowEdge: .top)
+				}
+				.swipeActions(edge: .leading) {
+					Button(chapter.isListened ? "Отметить непрослушанным" : "Отметить прослушанным") {
+						chapter.isListened.toggle()
+						book.trackProgress()
+					}
+					.tint(.green)
+					.sensoryFeedback(.success, trigger: chapter.isListened)
 				}
 			}
-			.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true, onCompletion: { results in
-				switch results {
-				case .success(let files):
-					handle(files: files)
-					
-				case .failure(let error):
-					Log.error(error.localizedDescription)
-				}
-			})
-			.alert("Название главы", isPresented: $isEditChapterAlertShown, presenting: chapterToEdit) { chapter in
-				TextField("Название", text: $chapterName)
-				
-				Button("Готово") {
-					isEditChapterAlertShown = false
-					chapter.name = chapterName
-					modelContext.insert(chapter)
-				}
-				.disabled(chapter.name.isEmpty)
-				
-				Button(role: .cancel) {
-					isEditChapterAlertShown = false
-				} label: {
-					Text("Отмена")
-				}
+		} header: {
+			Text("Главы")
+		}
+		.id(refreshId)
+		.fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.audio], allowsMultipleSelection: true) { results in
+			switch results {
+			case .success(let files):
+				handle(files: files)
+			case .failure(let error):
+				Log.error(error.localizedDescription)
 			}
 		}
+		.alert("Название главы", isPresented: $isEditChapterAlertShown, presenting: chapterToEdit) { chapter in
+			TextField("Название", text: $chapterName)
+			Button("Готово") {
+				chapter.name = chapterName
+				modelContext.insert(chapter)
+			}
+			.disabled(chapterName.isEmpty)
+			Button("Отмена", role: .cancel) { }
+		}
 	}
-	
+
 	private func select(chapter: Chapter) {
 		do {
 			try playerService.setupAndPlayAudio(book: book, chapter: chapter, resetProgress: chapter != currentChapter)
@@ -119,9 +98,10 @@ struct ChaptersListView: View {
 			return
 		}
 		
+		let targetBook = book
 		Task {
 			do {
-				let id = book.id
+				let id = targetBook.id
 				let files = try fileService.saveBookFiles(files, id: id)
 				guard !files.isEmpty else {
 					Log.error("Массив файлов пуст")
@@ -129,7 +109,7 @@ struct ChaptersListView: View {
 				}
 				
 				var chapters = [Chapter]()
-				let initialChaptersCount = book.orderedChapters.count
+				let initialChaptersCount = targetBook.orderedChapters.count
 				for (index, file) in files.enumerated() {
 					guard let chapterMeta = try await metaInfoService.extractChapterMetadata(from: file) else {
 						Log.error("Проблема с обработкой файла \(file.absoluteString)")
@@ -140,9 +120,9 @@ struct ChaptersListView: View {
 					chapters.append(chapter)
 				}
 				
-				book.append(chapters: chapters)
-				modelContext.insert(book)
-				book.prepareCache()
+				targetBook.append(chapters: chapters)
+				modelContext.insert(targetBook)
+				targetBook.prepareCache()
 				await MainActor.run {
 					refreshId = UUID()
 				}

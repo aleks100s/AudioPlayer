@@ -9,17 +9,21 @@ import SwiftUI
 
 struct BookView: View {
 	let book: Book
-	let onChaptersListTap: () -> Void
-	let onTapInfoButton: () -> Void
-	
-	@AppStorage(Constants.playbackRate) private var rate: Double = 1
-	@Environment(\.playerService) private var playerService
+	let onSelect: () -> Void
 	
 	var body: some View {
 		VStack(alignment: .leading, spacing: .zero) {
-			BookCoverView(book: book)
-			
-			BookProgressView(book: book, onChaptersListTap: onChaptersListTap, onTapInfoButton: onTapInfoButton)
+			BookCoverView(book: book, onSelect: onSelect)
+
+			Button(action: onSelect) {
+				ProgressView(value: book.progress, total: 1.0)
+					.animation(.bouncy, value: book.progress)
+					.padding(.vertical, 12)
+					.padding(.horizontal)
+					.contentShape(Rectangle())
+			}
+			.buttonStyle(.plain)
+			.accessibilityHidden(true)
 		}
 		.background(.regularMaterial.opacity(0.6))
 		.clipShape(RoundedRectangle(cornerRadius: 16))
@@ -28,6 +32,7 @@ struct BookView: View {
 
 private struct BookCoverView: View {
 	let book: Book
+	let onSelect: () -> Void
 	
 	@AppStorage(Constants.playbackRate) private var rate: Double = 1
 	@Environment(\.playerService) private var playerService
@@ -37,6 +42,32 @@ private struct BookCoverView: View {
 	}
 	
 	var body: some View {
+		ZStack {
+			Button(action: onSelect) {
+				cover
+			}
+			.buttonStyle(.plain)
+			.accessibilityLabel("\(book.title), \(book.author)")
+			.accessibilityHint("Открыть книгу")
+
+            Button {
+                handlePlayButtonTap()
+            } label: {
+                Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundStyle(.white)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 120)
+                    .opacity(0.8)
+            }
+            .buttonStyle(PlayButtonStyle())
+			.accessibilityLabel(book.isFinished ? "Слушать заново" : isPlaying ? "Пауза" : "Воспроизвести")
+		}
+		.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
+	}
+
+	private var cover: some View {
 		ZStack {
 			Image(uiImage: book.image)
 				.resizable()
@@ -66,21 +97,7 @@ private struct BookCoverView: View {
 				.padding()
 				.background(.ultraThinMaterial)
 			}
-			
-            Button {
-                handlePlayButtonTap()
-            } label: {
-                Image(systemName: book.isFinished ? "arrow.counterclockwise.circle" : isPlaying ? "pause.circle" : "play.circle")
-                    .resizable()
-                    .renderingMode(.template)
-                    .foregroundStyle(.white)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120)
-                    .opacity(0.8)
-            }
-            .buttonStyle(PlayButtonStyle())
 		}
-		.sensoryFeedback(isPlaying ? .stop : .start, trigger: isPlaying)
 	}
 	
 	private func handlePlayButtonTap() {
@@ -88,40 +105,6 @@ private struct BookCoverView: View {
 			try playerService.setupAndPlayAudio(book: book, rate: .init(rawValue: rate))
 		} catch {
 			Log.error(error.localizedDescription)
-		}
-	}
-}
-
-private struct BookProgressView: View {
-	let book: Book
-	let onChaptersListTap: () -> Void
-	let onTapInfoButton: () -> Void
-	
-	@Environment(\.playerService) private var playerService
-	
-	private var isPlaying: Bool {
-		playerService.currentBook == book && playerService.isPlaying
-	}
-	
-	var body: some View {
-		VStack(alignment: .leading, spacing: .zero) {
-			ProgressView(value: book.progress, total: 1.0)
-				.animation(.bouncy, value: book.progress)
-			
-			HStack {
-				Button("О книге") {
-					onTapInfoButton()
-				}
-				
-				Spacer()
-				
-				Button("Показать главы") {
-					onChaptersListTap()
-				}
-			}
-			.font(.footnote)
-			.lineLimit(2)
-			.padding()
 		}
 	}
 }

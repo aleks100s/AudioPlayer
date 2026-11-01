@@ -1,1501 +1,1529 @@
 {
-  "sourceLanguage": "ru",
-  "strings": {
-    "": {
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
+  "sourceLanguage" : "ru",
+  "strings" : {
+    "" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": ""
-          }
-        }
-      }
-    },
-    "%@ - %@": {
-      "comment": "Название книги + глава",
-      "extractionState": "stale",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ - %2$@"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ - %2$@"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ - %2$@"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$@ - %2$@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : ""
           }
         }
       }
     },
-    "%d мин %d сек": {
-      "comment": "Длительность",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d min %d sec"
+    "%@ - %@" : {
+      "comment" : "Название книги + глава",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ - %2$@"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d мин %d сек"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ - %2$@"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d min %d s"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ - %2$@"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d min %d s"
-          }
-        }
-      }
-    },
-    "%d сек": {
-      "comment": "Длительность",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d sec"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d сек"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d s"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d s"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ - %2$@"
           }
         }
       }
     },
-    "%d час %d мин %d сек": {
-      "comment": "Длительность",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d hrs %d min %d sec"
+    "%d мин %d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min %d sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d час %d мин %d сек"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min %d s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d h %d min %d s"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d min %d s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%d h %d min %d s"
-          }
-        }
-      }
-    },
-    "%dд %dч %dм %dс": {
-      "comment": "Длительность",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%dd %dh %dm %ds"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%dд %dч %dм %dс"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%dd %dh %dmin %ds"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%dd %dh %dmin %ds"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d мин %d сек"
           }
         }
       }
     },
-    "%lld": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+    "%d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld"
-          }
-        }
-      }
-    },
-    "%lld мин %lld сек": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld min %2$lld sec"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$lld мин %2$lld сек"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld min %2$lld s"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld min %2$lld s"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d сек"
           }
         }
       }
     },
-    "%lld минут": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes"
+    "%d час %d мин %d сек" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d hrs %d min %d sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld минут"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d h %d min %d s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutes"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d h %d min %d s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld minutos"
-          }
-        }
-      }
-    },
-    "%lld сек": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld sec"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld сек"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld s"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld s"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d час %d мин %d сек"
           }
         }
       }
     },
-    "%lld час %lld мин %lld сек": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld hrs %2$lld min %3$lld sec"
+    "%dд %dч %dм %dс" : {
+      "comment" : "Длительность",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dd %dh %dm %ds"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$lld час %2$lld мин %3$lld сек"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dd %dh %dmin %ds"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld h %2$lld min %3$lld s"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dd %dh %dmin %ds"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lld h %2$lld min %3$lld s"
-          }
-        }
-      }
-    },
-    "%lldд %lldч %lldм %lldс": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lldd %2$lldh %3$lldm %4$llds"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$lldд %2$lldч %3$lldм %4$lldс"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lldd %2$lldh %3$lldmin %4$llds"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%1$lldd %2$lldh %3$lldmin %4$llds"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dд %dч %dм %dс"
           }
         }
       }
     },
-    "Без названия": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Untitled"
+    "%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Без названия"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sans titre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sin título"
-          }
-        }
-      }
-    },
-    "Временной интервал": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Time interval"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Временной интервал"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Intervalle de temps"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Intervalo de tiempo"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
           }
         }
       }
     },
-    "Вы действительно хотите удалить книгу?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Do you want to delete the book?"
+    "%lld мин %lld сек" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld min %2$lld sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы действительно хотите удалить книгу?"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld min %2$lld s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Voulez-vous supprimer le livre ?"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld min %2$lld s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Desea eliminar el libro?"
-          }
-        }
-      }
-    },
-    "Выберите, через какое время автоматически остановить воспроизведение": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select the time after which to stop playback automatically."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Выберите, через какое время автоматически остановить воспроизведение"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sélectionnez le délai après lequel arrêter la lecture automatiquement."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seleccione el tiempo tras el cual detener la reproducción automáticamente."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld мин %2$lld сек"
           }
         }
       }
     },
-    "Готово": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
+    "%lld минут" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Готово"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Terminé"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld minutes"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hecho"
-          }
-        }
-      }
-    },
-    "Длительность книги": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Book duration"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Длительность книги"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Durée du livre"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Duración del libro"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld минут"
           }
         }
       }
     },
-    "Добавить аудиокниги": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add audiobooks"
+    "%lld сек" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Добавить аудиокниги"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajouter des livres audio"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añadir audiolibros"
-          }
-        }
-      }
-    },
-    "Добавьте аудиокниги, выбрав их в Файлах": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add audiobooks by choosing them in Files"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Добавьте аудиокниги, выбрав их в Файлах"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajoutez des livres audio en les sélectionnant dans Fichiers"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Añada audiolibros eligiéndolos en Archivos"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld сек"
           }
         }
       }
     },
-    "Зажмите книгу, чтобы увидеть дополнительные действия": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hold the book to see additional actions"
+    "%lld час %lld мин %lld сек" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld hrs %2$lld min %3$lld sec"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Зажмите книгу, чтобы увидеть дополнительные действия"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld h %2$lld min %3$lld s"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maintenez le livre pour voir des actions supplémentaires"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld h %2$lld min %3$lld s"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mantenga presionado el libro para ver acciones adicionales"
-          }
-        }
-      }
-    },
-    "Закрыть": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Закрыть"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fermer"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld час %2$lld мин %3$lld сек"
           }
         }
       }
     },
-    "Закрыть плеер?": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close player?"
+    "%lldд %lldч %lldм %lldс" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldd %2$lldh %3$lldm %4$llds"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Закрыть плеер?"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldd %2$lldh %3$lldmin %4$llds"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fermer le lecteur ?"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lldd %2$lldh %3$lldmin %4$llds"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¿Cerrar el reproductor?"
-          }
-        }
-      }
-    },
-    "Здесь пусто": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Empty"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Здесь пусто"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vide"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vacío"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lldд %2$lldч %3$lldм %4$lldс"
           }
         }
       }
     },
-    "Книга прослушана": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Book is listened"
+    "Без названия" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Untitled"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Книга прослушана"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin título"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le livre est marqué comme écouté"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans titre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El libro está marcado como escuchado"
-          }
-        }
-      }
-    },
-    "Количество глав": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chapters"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Количество глав"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chapitres"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Capítulos"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без названия"
           }
         }
       }
     },
-    "конец главы": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "end of chapter"
+    "Воспроизвести" : {
+
+    },
+    "Временной интервал" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time interval"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "конец главы"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intervalo de tiempo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "fin du chapitre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intervalle de temps"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "fin del capítulo"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Временной интервал"
           }
         }
       }
     },
-    "Конец главы": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "End of the chapter"
+    "Вы действительно хотите удалить книгу?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do you want to delete the book?"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Конец главы"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Desea eliminar el libro?"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fin du chapitre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voulez-vous supprimer le livre ?"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fin del capítulo"
-          }
-        }
-      }
-    },
-    "Мои книги": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "My books"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Мои книги"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mes livres"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mis libros"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы действительно хотите удалить книгу?"
           }
         }
       }
     },
-    "Название": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Title"
+    "Выберите книгу" : {
+
+    },
+    "Выберите книгу в библиотеке, чтобы увидеть сведения о ней" : {
+
+    },
+    "Выберите, через какое время автоматически остановить воспроизведение" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select the time after which to stop playback automatically."
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Название"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccione el tiempo tras el cual detener la reproducción automáticamente."
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez le délai après lequel arrêter la lecture automatiquement."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Título"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, через какое время автоматически остановить воспроизведение"
           }
         }
       }
     },
-    "Название главы": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chapter title"
+    "Главы" : {
+
+    },
+    "Готово" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Название главы"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titre du chapitre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminé"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Título del capítulo"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
           }
         }
       }
     },
-    "Название книги": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Book title"
+    "Действия с книгой" : {
+
+    },
+    "Длительность книги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book duration"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Название книги"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duración del libro"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Titre du livre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durée du livre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Título del libro"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Длительность книги"
           }
         }
       }
     },
-    "Неизвестно": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Unknown"
+    "Добавить аудиокниги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add audiobooks"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Неизвестно"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir audiolibros"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inconnu"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter des livres audio"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desconocido"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить аудиокниги"
           }
         }
       }
     },
-    "О книге": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "About the book"
+    "Добавить главы" : {
+
+    },
+    "Добавьте аудиокниги, выбрав их в Файлах" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add audiobooks by choosing them in Files"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "О книге"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añada audiolibros eligiéndolos en Archivos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "À propos du livre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez des livres audio en les sélectionnant dans Fichiers"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acerca del libro"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте аудиокниги, выбрав их в Файлах"
           }
         }
       }
     },
-    "Отмена": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
+    "Зажмите книгу, чтобы увидеть дополнительные действия" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold the book to see additional actions"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отмена"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenga presionado el libro para ver acciones adicionales"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Annuler"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenez le livre pour voir des actions supplémentaires"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancelar"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зажмите книгу, чтобы увидеть дополнительные действия"
           }
         }
       }
     },
-    "Отметить непрослушанным": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mark not listened"
+    "Закрыть" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отметить непрослушанным"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marquer comme non écouté"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marcar como no escuchado"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
           }
         }
       }
     },
-    "Отметить прослушанным": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mark listened"
+    "Закрыть плеер?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close player?"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Отметить прослушанным"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cerrar el reproductor?"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marquer comme écouté"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer le lecteur ?"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marcar como escuchado"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть плеер?"
           }
         }
       }
     },
-    "Переименовать главу": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rename the chapter"
+    "Здесь пусто" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empty"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Переименовать главу"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vacío"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renommer le chapitre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vide"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renombrar el capítulo"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Здесь пусто"
           }
         }
       }
     },
-    "Переименовать книгу": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rename the book"
+    "Книга прослушана" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book is listened"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Переименовать книгу"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El libro está marcado como escuchado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renommer le livre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le livre est marqué comme écouté"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Renombrar el libro"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Книга прослушана"
           }
         }
       }
     },
-    "Показать главы": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show chapters"
+    "Количество глав" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapters"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Показать главы"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capítulos"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Afficher les chapitres"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapitres"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostrar capítulos"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество глав"
           }
         }
       }
     },
-    "Понятно": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ok"
+    "конец главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "end of chapter"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Понятно"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fin del capítulo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "fin du chapitre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "конец главы"
           }
         }
       }
     },
-    "Сбросить таймер": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset the timer"
+    "Конец главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End of the chapter"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Сбросить таймер"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin del capítulo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Réinitialiser le minuteur"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin du chapitre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restablecer el temporizador"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Конец главы"
           }
         }
       }
     },
-    "Скорость %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Speed %@"
+    "Мои книги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My books"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Скорость %@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mis libros"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vitesse %@"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mes livres"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Velocidad %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои книги"
           }
         }
       }
     },
-    "Смахните слева, чтобы отметить главу прочитанной или непрочитанной": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Swipe right to mark the chapter as listened (not listened)"
+    "Название" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Смахните слева, чтобы отметить главу прочитанной или непрочитанной"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Título"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Balayez vers la droite pour marquer le chapitre comme écouté (ou non écouté)"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Deslice a la derecha para marcar el capítulo como escuchado (o no escuchado)"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название"
           }
         }
       }
     },
-    "Список глав": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chapters list"
+    "Название главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapter title"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Список глав"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Título del capítulo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Liste des chapitres"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titre du chapitre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lista de capítulos"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название главы"
           }
         }
       }
     },
-    "Таймер сна": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sleep timer"
+    "Название книги" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Book title"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Таймер сна"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Título del libro"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minuteur de mise en veille"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Titre du livre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temporizador de reposo"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название книги"
           }
         }
       }
     },
-    "Таймер сна •": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sleep timer •"
+    "Неизвестно" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Таймер сна •"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconocido"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Minuteur de mise en veille •"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inconnu"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Temporizador de reposo •"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неизвестно"
           }
         }
       }
     },
-    "Теперь добавить книгу можно тут": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Now you can add new book here"
+    "О книге" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About the book"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Теперь добавить книгу можно тут"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca del libro"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vous pouvez désormais ajouter un livre ici"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À propos du livre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ahora puede añadir un libro aquí"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О книге"
           }
         }
       }
     },
-    "У вас установлен таймер на %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You have set the %@ timer"
+    "Открыть книгу" : {
+
+    },
+    "Отмена" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "У вас установлен таймер на %@"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vous avez réglé le minuteur sur %@"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ha establecido el temporizador en %@"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
           }
         }
       }
     },
-    "Удалить": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
+    "Отметить непрослушанным" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark not listened"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Удалить"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar como no escuchado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supprimer"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme non écouté"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отметить непрослушанным"
           }
         }
       }
     },
-    "Удалить книгу": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete the book"
+    "Отметить прослушанным" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark listened"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Удалить книгу"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar como escuchado"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Supprimer le livre"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquer comme écouté"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Eliminar el libro"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отметить прослушанным"
           }
         }
       }
     },
-    "Установить таймер": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Set the timer"
+    "Пауза" : {
+
+    },
+    "Переименовать главу" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename the chapter"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Установить таймер"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renombrar el capítulo"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Régler le minuteur"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renommer le chapitre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configurar el temporizador"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать главу"
           }
         }
       }
     },
-    "Чтобы добавить главы, нажмите на кнопку \"Добавить\"": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Press “Add” button to add more chapters"
+    "Переименовать книгу" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rename the book"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Чтобы добавить главы, нажмите кнопку “Добавить”"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renombrar el libro"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Appuyez sur le bouton « Ajouter » pour ajouter des chapitres"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renommer le livre"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pulse el botón «Añadir» para añadir más capítulos"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать книгу"
+          }
+        }
+      }
+    },
+    "Показать главы" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show chapters"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar capítulos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher les chapitres"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать главы"
+          }
+        }
+      }
+    },
+    "Понятно" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Понятно"
+          }
+        }
+      }
+    },
+    "Сбросить таймер" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset the timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restablecer el temporizador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réinitialiser le minuteur"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сбросить таймер"
+          }
+        }
+      }
+    },
+    "Скорость %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speed %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vitesse %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорость %@"
+          }
+        }
+      }
+    },
+    "Слушать заново" : {
+
+    },
+    "Смахните слева, чтобы отметить главу прочитанной или непрочитанной" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe right to mark the chapter as listened (not listened)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deslice a la derecha para marcar el capítulo como escuchado (o no escuchado)"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Balayez vers la droite pour marquer le chapitre comme écouté (ou non écouté)"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Смахните слева, чтобы отметить главу прочитанной или непрочитанной"
+          }
+        }
+      }
+    },
+    "Список глав" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chapters list"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lista de capítulos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste des chapitres"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Список глав"
+          }
+        }
+      }
+    },
+    "Таймер сна" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador de reposo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuteur de mise en veille"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер сна"
+          }
+        }
+      }
+    },
+    "Таймер сна •" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleep timer •"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador de reposo •"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minuteur de mise en veille •"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Таймер сна •"
+          }
+        }
+      }
+    },
+    "Теперь добавить книгу можно тут" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now you can add new book here"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora puede añadir un libro aquí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez désormais ajouter un livre ici"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теперь добавить книгу можно тут"
+          }
+        }
+      }
+    },
+    "У вас установлен таймер на %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have set the %@ timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ha establecido el temporizador en %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous avez réglé le minuteur sur %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У вас установлен таймер на %@"
+          }
+        }
+      }
+    },
+    "Удалить" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Удалить книгу" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete the book"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar el libro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer le livre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить книгу"
+          }
+        }
+      }
+    },
+    "Установить таймер" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set the timer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurar el temporizador"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Régler le minuteur"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Установить таймер"
+          }
+        }
+      }
+    },
+    "Чтобы добавить главы, нажмите на кнопку \"Добавить\"" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press “Add” button to add more chapters"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pulse el botón «Añadir» para añadir más capítulos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez sur le bouton « Ajouter » pour ajouter des chapitres"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чтобы добавить главы, нажмите кнопку “Добавить”"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

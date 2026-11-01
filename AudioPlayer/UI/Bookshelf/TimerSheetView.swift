@@ -15,25 +15,29 @@ struct TimerSheetView: View {
     @State private var isEndOfChapter: Bool = false
 
     var body: some View {
-        NavigationView {
-            VStack {
-                if let currentTimer {
-                    Text("У вас установлен таймер на \(currentTimer.title)")
-                } else {
-                    Text("Выберите, через какое время автоматически остановить воспроизведение")
-                    
-                    Picker("Временной интервал", selection: $selection) {
-                        ForEach(TimerMode.Minutes.allCases, id: \.rawValue) { option in
-                            Text(option.title)
-                                .tag(option)
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    if let currentTimer {
+                        Text("У вас установлен таймер на \(currentTimer.title)")
+                    } else {
+                        Text("Выберите, через какое время автоматически остановить воспроизведение")
+
+                        Picker("Временной интервал", selection: $selection) {
+                            ForEach(TimerMode.Minutes.allCases, id: \.rawValue) { option in
+                                Text(option.title)
+                                    .tag(option)
+                            }
                         }
+                        .pickerStyle(.wheel)
+
+                        Toggle("Конец главы", isOn: $isEndOfChapter)
                     }
-                    .pickerStyle(.wheel)
-                    
-                    Toggle("Конец главы", isOn: $isEndOfChapter)
                 }
+                .frame(maxWidth: 500)
+                .frame(maxWidth: .infinity)
+                .padding()
             }
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .bottomBar) {
                     Button(currentTimer == nil ? "Установить таймер" : "Сбросить таймер") {

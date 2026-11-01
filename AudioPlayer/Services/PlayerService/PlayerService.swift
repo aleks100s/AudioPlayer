@@ -69,7 +69,7 @@ extension PlayerService {
 		}
 		
 		currentBook = book
-		guard let chapter = book.currentChapter ?? book.orderedChapters.first else {
+		guard let chapter = chapter ?? book.currentChapter ?? book.orderedChapters.first else {
 			Log.error("No current chapter")
 			return
 		}
@@ -170,6 +170,10 @@ extension PlayerService {
 	}
 	
 	func removeIfNeeded(book: Book) {
+		if UserDefaults.standard.string(forKey: Constants.lastPlayedBookID) == book.id.uuidString {
+			UserDefaults.standard.removeObject(forKey: Constants.lastPlayedBookID)
+		}
+
 		guard book == currentBook else {
 			return
 		}
@@ -267,7 +271,9 @@ private extension PlayerService {
 
 			try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
 			try AVAudioSession.sharedInstance().setActive(true)
-			audioPlayer?.play()
+			if audioPlayer?.play() == true {
+				UserDefaults.standard.set(book.id.uuidString, forKey: Constants.lastPlayedBookID)
+			}
 			setupPlaybackTimer()
 		} catch {
 			Log.error("Error initializing the audio player: \(error)\nfor file \(chapter.urlLastPathComponent)")
@@ -286,7 +292,9 @@ private extension PlayerService {
 	func resumeCurrentAudio() {
 		Task { @MainActor in
 			currentChapter?.isListened = false
-			audioPlayer?.play()
+			if audioPlayer?.play() == true, let book = currentBook {
+				UserDefaults.standard.set(book.id.uuidString, forKey: Constants.lastPlayedBookID)
+			}
 			updatePlayback()
 			setupPlaybackTimer()
 		}

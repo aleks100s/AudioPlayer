@@ -225,5 +225,4 @@ private struct ImageButton: View {
 
 private extension CGFloat {
 	static let padding: CGFloat = 16
-	static let totalWidth = UIScreen.main.bounds.width - .padding * 2
 }

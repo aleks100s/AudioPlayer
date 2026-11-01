@@ -10,29 +10,20 @@ import SwiftUI
 import TipKit
 
 struct BookshelfView: View {
-	@AppStorage(Constants.playbackRate) private var rate: Double = 1
+	@Binding var selectedBook: Book?
+	@Binding var compactColumn: NavigationSplitViewColumn
+	let showChapters: (Book) -> Void
+	let editBook: (Book) -> Void
+	let deleteBook: (Book) -> Void
 	
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.metaInfoService) private var metaInfoService
 	@Environment(\.fileService) private var fileService
 	@Environment(\.spotlightService) private var spotlightService
-	@Environment(\.playerService) private var playerService
 	
 	@Query(animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
-	@State private var isSliderBusy: Bool = false
-	@State private var progress: Double = 0
-	@State private var isFinishedBookShown = false
-	@State private var bookToShowDetail: Book?
-	@State private var bookToShowChapters: Book?
-	@State private var isStopWarningShown = false
-	@State private var isEditFieldShown = false
-	@State private var bookToEdit: Book?
-	@State private var bookName = ""
-	@State private var isDeleteWarningShown: Bool = false
-	@State private var bookToDelete: Book?
-    @State private var isTimerShown = false
 	
 	var body: some View {
 		Group {
@@ -52,95 +43,6 @@ struct BookshelfView: View {
 				Log.error(error.localizedDescription)
 			}
 		})
-		.sheet(item: $bookToShowDetail) { book in
-			BookDetailView(book: book)
-		}
-		.sheet(item: $bookToShowChapters) { book in
-			ChaptersListView(book: book)
-		}
-        .sheet(isPresented: $isTimerShown) {
-            TimerSheetView(
-                currentTimer: playerService.sleepTimer,
-                onSetTimer: { mode in
-                    playerService.setSleepTimer(mode: mode)
-                    isTimerShown = false
-                }, onResetTimer: {
-                    playerService.resetSleepTimer()
-                    isTimerShown = false
-                }
-            )
-            .presentationDetents([.medium])
-        }
-		.alert("Книга прослушана", isPresented: $isFinishedBookShown) {
-			Button(role: .cancel) {
-				isFinishedBookShown = false
-			} label: {
-				Text("Понятно")
-			}
-		}
-		.alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
-			Button(role: .destructive) {
-				playerService.stopCurrentBook()
-			} label: {
-				Text("Закрыть")
-			}
-
-			Button(role: .cancel) {
-				isStopWarningShown = false
-			} label: {
-				Text("Отмена")
-			}
-		}
-		.alert("Название книги", isPresented: $isEditFieldShown, presenting: bookToEdit) { book in
-			TextField("Название", text: $bookName)
-			
-			Button("Готово") {
-				isEditFieldShown = false
-				book.title = bookName
-				spotlightService.deindex(book: book)
-				spotlightService.index(book: book)
-				modelContext.insert(book)
-			}
-			.disabled(bookName.isEmpty)
-			
-			Button(role: .cancel) {
-				isEditFieldShown = false
-			} label: {
-				Text("Отмена")
-			}
-		}
-		.alert("Вы действительно хотите удалить книгу?", isPresented: $isDeleteWarningShown) {
-			Button(role: .destructive) {
-				do {
-					if let book = bookToDelete {
-						try fileService.deleteBookFiles(book)
-						spotlightService.deindex(book: book)
-						playerService.removeIfNeeded(book: book)
-						modelContext.delete(book)
-					}
-				} catch {
-					Log.error(error.localizedDescription)
-				}
-			} label: {
-				Text("Удалить")
-			}
-
-			Button(role: .cancel) {
-				isDeleteWarningShown = false
-			} label: {
-				Text("Отмена")
-			}
-		}
-		.onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { oldValue, newValue in
-			if !isSliderBusy {
-				progress = newValue ?? .zero
-			}
-		}
-		.onShake {
-			if playerService.currentBook != nil {
-				isStopWarningShown = true
-			}
-		}
 	}
 	
 	private var noContentView: some View {
@@ -161,56 +63,34 @@ struct BookshelfView: View {
 	}
 	
 	private var contentView: some View {
-		ZStack {
-			VStack(spacing: .zero) {
-				ScrollView {
-					LazyVStack(spacing: 16) {
-						TipView(HowToDeleteBookTip())
-						
-						ForEach(books) { book in
-							BookView(book: book) {
-								bookToShowChapters = book
-							} onTapInfoButton: {
-								bookToShowDetail = book
-							}
-							.onAppear {
-								book.prepareCache()
-							}
-							.contextMenu {
-								menuContent(for: book)
-							}
-							.sensoryFeedback(.success, trigger: book.isFinished)
-							.onChange(of: book.isFinished) { oldValue, newValue in
-								if newValue, !oldValue {
-									isFinishedBookShown = true
-								}
-							}
+		ScrollView {
+			LazyVStack(spacing: 16) {
+				TipView(HowToDeleteBookTip())
+
+				ForEach(books) { book in
+					BookView(book: book) {
+						book.prepareCache()
+						selectedBook = book
+						compactColumn = .detail
+					}
+					.overlay {
+						if selectedBook?.id == book.id {
+							RoundedRectangle(cornerRadius: 16)
+								.strokeBorder(.tint, lineWidth: 2)
+								.allowsHitTesting(false)
 						}
 					}
-					.padding()
-				}
-				.scrollIndicators(.hidden)
-				
-				if playerService.currentBook != nil {
-					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
-						isTimerShown = true
+					.onAppear {
+						book.prepareCache()
 					}
-				}				
-			}
-			
-			if isSliderBusy {
-				VStack {
-					Text(progress.timeString)
-						.font(.title2)
-						.monospaced()
-						.contentTransition(.numericText())
-						.padding(.horizontal, 16)
-						.padding(.vertical, 32)
-						.background(.regularMaterial)
-						.clipShape(RoundedRectangle(cornerRadius: 16))
+					.contextMenu {
+						menuContent(for: book)
+					}
 				}
 			}
+			.padding()
 		}
+		.scrollIndicators(.hidden)
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
 				Button {
@@ -226,22 +106,19 @@ struct BookshelfView: View {
 	@ViewBuilder
 	private func menuContent(for book: Book) -> some View {
 		Button {
-			bookName = book.title
-			bookToEdit = book
-			isEditFieldShown = true
+			editBook(book)
 		} label: {
 			Label("Переименовать книгу", systemImage: "pencil")
 		}
 
 		Button {
-			bookToShowChapters = book
+			showChapters(book)
 		} label: {
 			Label("Показать главы", systemImage: "list.bullet")
 		}
 		
 		Button(role: .destructive) {
-			bookToDelete = book
-			isDeleteWarningShown = true
+			deleteBook(book)
 		} label: {
 			Label("Удалить книгу", systemImage: "trash")
 		}

@@ -10,4 +10,5 @@ enum Constants {
 	static let skipBackwardInterval = 15
 	static let appIdentifier = "com.alextos.audioplayer"
 	static let playbackRate = "playbackRate"
+	static let lastPlayedBookID = "lastPlayedBookID"
 }

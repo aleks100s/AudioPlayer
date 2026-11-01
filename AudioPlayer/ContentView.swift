@@ -5,12 +5,30 @@
 //  Created by Alexander on 07.09.2024.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.fileService) private var fileService
+    @Environment(\.spotlightService) private var spotlightService
+    @Environment(\.playerService) private var playerService
+    @Query private var books: [Book]
+    @AppStorage(Constants.lastPlayedBookID) private var lastPlayedBookID = ""
+    @State private var selectedBook: Book?
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var compactColumn: NavigationSplitViewColumn = .sidebar
+    @State private var bookToEdit: Book?
+    @State private var bookName = ""
+    @State private var isEditFieldShown = false
+    @State private var bookToDelete: Book?
+    @State private var isDeleteWarningShown = false
+
     var body: some View {
-		NavigationView {
-			BookshelfView()
+		NavigationSplitView(columnVisibility: $columnVisibility, preferredCompactColumn: $compactColumn) {
+			BookshelfView(selectedBook: $selectedBook, compactColumn: $compactColumn,
+                          showChapters: showChapters, editBook: editBook, deleteBook: deleteBook)
+				.navigationSplitViewColumnWidth(min: 280, ideal: 340)
 				.background(.linearGradient(
 					colors: [
 						.cyan.opacity(0.2),
@@ -19,6 +37,159 @@ struct ContentView: View {
 					startPoint: .topLeading,
 					endPoint: .bottomTrailing
 				))
+		} detail: {
+			NavigationStack {
+				if let selectedBook {
+					BookDetailView(book: selectedBook,
+                                   editBook: { editBook(selectedBook) },
+                                   deleteBook: { deleteBook(selectedBook) })
+					.id(selectedBook.id)
+				} else {
+					ContentUnavailableView(
+						"Выберите книгу",
+						systemImage: "book",
+						description: Text("Выберите книгу в библиотеке, чтобы увидеть сведения о ней")
+					)
+				}
+			}
 		}
+		.navigationSplitViewStyle(.balanced)
+		.modifier(PersistentPlayer())
+		.onChange(of: lastPlayedBookID, initial: true) { _, _ in
+			selectLastPlayedBook()
+		}
+		.onChange(of: books.map(\.id), initial: true) { _, _ in
+			if selectedBook == nil {
+				selectLastPlayedBook()
+			}
+		}
+		.alert("Название книги", isPresented: $isEditFieldShown, presenting: bookToEdit) { book in
+			TextField("Название", text: $bookName)
+			Button("Готово") {
+				book.title = bookName
+				spotlightService.deindex(book: book)
+				spotlightService.index(book: book)
+				modelContext.insert(book)
+			}
+			.disabled(bookName.isEmpty)
+			Button("Отмена", role: .cancel) { }
+		}
+		.alert("Вы действительно хотите удалить книгу?", isPresented: $isDeleteWarningShown, presenting: bookToDelete) { book in
+			Button("Удалить", role: .destructive) {
+				do {
+					try fileService.deleteBookFiles(book)
+					spotlightService.deindex(book: book)
+					playerService.removeIfNeeded(book: book)
+					if selectedBook?.id == book.id {
+						selectedBook = nil
+						compactColumn = .sidebar
+					}
+					modelContext.delete(book)
+				} catch {
+					Log.error(error.localizedDescription)
+				}
+			}
+			Button("Отмена", role: .cancel) { }
+		}
+    }
+
+    private func selectLastPlayedBook() {
+        guard let id = UUID(uuidString: lastPlayedBookID),
+              let book = books.first(where: { $0.id == id }) else { return }
+        book.prepareCache()
+        selectedBook = book
+    }
+
+    private func showChapters(_ book: Book) {
+        book.prepareCache()
+        selectedBook = book
+        compactColumn = .detail
+    }
+
+    private func editBook(_ book: Book) {
+        bookName = book.title
+        bookToEdit = book
+        isEditFieldShown = true
+    }
+
+    private func deleteBook(_ book: Book) {
+        bookToDelete = book
+        isDeleteWarningShown = true
+    }
+}
+
+/// Keeps the playback controls available when the split view changes columns.
+private struct PersistentPlayer: ViewModifier {
+    @Environment(\.playerService) private var playerService
+    @State private var isSliderBusy = false
+    @State private var progress: Double = 0
+    @State private var isTimerShown = false
+    @State private var isStopWarningShown = false
+    @State private var isFinishedBookShown = false
+
+    func body(content: Content) -> some View {
+        content
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if playerService.currentBook != nil {
+                    CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
+                        isTimerShown = true
+                    }
+                    .frame(maxWidth: 700)
+                    .frame(maxWidth: .infinity)
+                    .background(.regularMaterial)
+                }
+            }
+            .overlay {
+                if isSliderBusy {
+                    Text(progress.timeString)
+                        .font(.title2)
+                        .monospaced()
+                        .contentTransition(.numericText())
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 32)
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .allowsHitTesting(false)
+                }
+            }
+            .sheet(isPresented: $isTimerShown) {
+                TimerSheetView(
+                    currentTimer: playerService.sleepTimer,
+                    onSetTimer: { mode in
+                        playerService.setSleepTimer(mode: mode)
+                        isTimerShown = false
+                    },
+                    onResetTimer: {
+                        playerService.resetSleepTimer()
+                        isTimerShown = false
+                    }
+                )
+                .presentationDetents([.medium, .large])
+            }
+            .alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
+                Button("Закрыть", role: .destructive) {
+                    playerService.stopCurrentBook()
+                }
+                Button("Отмена", role: .cancel) { }
+            }
+            .alert("Книга прослушана", isPresented: $isFinishedBookShown) {
+                Button("Понятно", role: .cancel) { }
+            }
+            .onChange(of: playerService.currentBook?.isFinished) { oldValue, newValue in
+                if oldValue == false && newValue == true {
+                    isFinishedBookShown = true
+                }
+            }
+            .sensoryFeedback(.success, trigger: isFinishedBookShown)
+            .onChange(of: playerService.currentBook?.currentChapter?.currentTime, initial: true) { _, newValue in
+                if !isSliderBusy {
+                    progress = newValue ?? .zero
+                }
+            }
+            .onShake {
+                if playerService.currentBook != nil {
+                    isStopWarningShown = true
+                }
+            }
     }
 }
