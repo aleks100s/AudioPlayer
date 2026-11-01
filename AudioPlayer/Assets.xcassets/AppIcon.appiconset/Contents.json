@@ -1,7 +1,31 @@
 {
   "images" : [
     {
-      "filename" : "AppIcon 1.jpeg",
+      "filename" : "audiobook_app_icon.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "audiobook_app_icon_dark.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "Монохромная книга с наушниками-2026-11-01 18-25-31.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
