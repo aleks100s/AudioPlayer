@@ -126,6 +126,7 @@ private struct PersistentPlayer: ViewModifier {
     @State private var isTimerShown = false
     @State private var isPlayerExpanded = false
     @State private var playerDetent: PresentationDetent = .medium
+    @State private var timerDetent: PresentationDetent = .large
     @State private var isStopWarningShown = false
     @State private var isFinishedBookShown = false
 
@@ -218,16 +219,18 @@ private struct PersistentPlayer: ViewModifier {
     }
 
     private var expandedPlayer: some View {
-        ScrollView {
-            CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress, showsBackground: false) {
-                isTimerShown = true
+        Group {
+            if #available(iOS 26.0, *) {
+                ExpandedPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
+                    timerDetent = .large
+                    isTimerShown = true
+                }
             }
-            .frame(maxWidth: 700)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
         }
+        .frame(maxWidth: 700)
+        .frame(maxWidth: .infinity)
         .overlay { if isSliderBusy { seekIndicator } }
-        .presentationDetents([.medium, .large], selection: $playerDetent)
+        .presentationDetents([.medium], selection: $playerDetent)
         .presentationDragIndicator(.visible)
         .sheet(isPresented: $isTimerShown) { timerSheet }
     }
@@ -244,7 +247,7 @@ private struct PersistentPlayer: ViewModifier {
                 isTimerShown = false
             }
         )
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.medium], selection: $timerDetent)
     }
 
 }
