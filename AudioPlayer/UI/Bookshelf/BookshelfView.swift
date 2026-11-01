@@ -20,10 +20,12 @@ struct BookshelfView: View {
 	@Environment(\.metaInfoService) private var metaInfoService
 	@Environment(\.fileService) private var fileService
 	@Environment(\.spotlightService) private var spotlightService
+	@Environment(\.playerService) private var playerService
 	
 	@Query(animation: .default) private var books: [Book]
 	
 	@State private var isFilePickerPresented = false
+	@ScaledMetric(relativeTo: .body) private var expandedPlayerMargin: CGFloat = 90
 	
 	var body: some View {
 		Group {
@@ -64,21 +66,14 @@ struct BookshelfView: View {
 	
 	private var contentView: some View {
 		ScrollView {
-			LazyVStack(spacing: 16) {
+			LazyVStack(spacing: 4) {
 				TipView(HowToDeleteBookTip())
 
 				ForEach(books) { book in
-					BookView(book: book) {
+					BookView(book: book, isSelected: selectedBook?.id == book.id) {
 						book.prepareCache()
 						selectedBook = book
 						compactColumn = .detail
-					}
-					.overlay {
-						if selectedBook?.id == book.id {
-							RoundedRectangle(cornerRadius: 16)
-								.strokeBorder(.tint, lineWidth: 2)
-								.allowsHitTesting(false)
-						}
 					}
 					.onAppear {
 						book.prepareCache()
@@ -91,6 +86,7 @@ struct BookshelfView: View {
 			.padding()
 		}
 		.scrollIndicators(.hidden)
+		.contentMargins(.bottom, playerOverlayMargin, for: .scrollContent)
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
 				Button {
@@ -101,6 +97,11 @@ struct BookshelfView: View {
 				.popoverTip(HowToAddBookTip(), arrowEdge: .top)
 			}
 		}
+	}
+
+	private var playerOverlayMargin: CGFloat {
+		if #available(iOS 26.0, *), playerService.currentBook != nil { return expandedPlayerMargin }
+		return 0
 	}
 	
 	@ViewBuilder

@@ -181,6 +181,7 @@
       }
     },
     "%lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -204,6 +205,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld"
+          }
+        }
+      }
+    },
+    "%lld глав" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld chapter"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld chapters"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld capítulo"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld capítulos"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld chapitre"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld chapitres"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld главы"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld глав"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld глава"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld главы"
+                }
+              }
+            }
           }
         }
       }
@@ -379,6 +468,9 @@
     "Воспроизвести" : {
 
     },
+    "Вперёд на %lld секунд" : {
+
+    },
     "Временной интервал" : {
       "localizations" : {
         "en" : {
@@ -469,6 +561,19 @@
         }
       }
     },
+    "Глав: %lld" : {
+
+    },
+    "Глава %lld из %lld" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Глава %1$lld из %2$lld"
+          }
+        }
+      }
+    },
     "Главы" : {
 
     },
@@ -504,6 +609,7 @@
 
     },
     "Длительность книги" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -731,6 +837,7 @@
       }
     },
     "Количество глав" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -841,6 +948,9 @@
           }
         }
       }
+    },
+    "Назад на %lld секунд" : {
+
     },
     "Название" : {
       "localizations" : {
@@ -983,6 +1093,9 @@
       }
     },
     "Открыть книгу" : {
+
+    },
+    "Открыть плеер" : {
 
     },
     "Отмена" : {
@@ -1128,6 +1241,9 @@
         }
       }
     },
+    "Позиция воспроизведения" : {
+
+    },
     "Показать главы" : {
       "localizations" : {
         "en" : {
@@ -1184,6 +1300,15 @@
         }
       }
     },
+    "Предыдущая глава" : {
+
+    },
+    "Прогресс главы" : {
+
+    },
+    "Прослушано" : {
+
+    },
     "Сбросить таймер" : {
       "localizations" : {
         "en" : {
@@ -1239,6 +1364,9 @@
           }
         }
       }
+    },
+    "Следующая глава" : {
+
     },
     "Слушать заново" : {
 

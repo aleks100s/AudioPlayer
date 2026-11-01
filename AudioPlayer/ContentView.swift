@@ -124,47 +124,23 @@ private struct PersistentPlayer: ViewModifier {
     @State private var isSliderBusy = false
     @State private var progress: Double = 0
     @State private var isTimerShown = false
+    @State private var isPlayerExpanded = false
+    @State private var playerDetent: PresentationDetent = .medium
     @State private var isStopWarningShown = false
     @State private var isFinishedBookShown = false
 
     func body(content: Content) -> some View {
-        content
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                if playerService.currentBook != nil {
-                    CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
-                        isTimerShown = true
-                    }
-                    .frame(maxWidth: 700)
-                    .frame(maxWidth: .infinity)
-                    .background(.regularMaterial)
-                }
-            }
+        playerPlacement(content: content)
             .overlay {
-                if isSliderBusy {
-                    Text(progress.timeString)
-                        .font(.title2)
-                        .monospaced()
-                        .contentTransition(.numericText())
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 32)
-                        .background(.regularMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
-                        .allowsHitTesting(false)
+                if isSliderBusy && !isPlayerExpanded {
+                    seekIndicator
                 }
             }
-            .sheet(isPresented: $isTimerShown) {
-                TimerSheetView(
-                    currentTimer: playerService.sleepTimer,
-                    onSetTimer: { mode in
-                        playerService.setSleepTimer(mode: mode)
-                        isTimerShown = false
-                    },
-                    onResetTimer: {
-                        playerService.resetSleepTimer()
-                        isTimerShown = false
-                    }
-                )
-                .presentationDetents([.medium, .large])
+            .sheet(isPresented: $isPlayerExpanded, onDismiss: {
+                isSliderBusy = false
+                progress = playerService.currentBook?.currentChapter?.currentTime ?? .zero
+            }) {
+                expandedPlayer
             }
             .alert("Закрыть плеер?", isPresented: $isStopWarningShown) {
                 Button("Закрыть", role: .destructive) {
@@ -186,10 +162,89 @@ private struct PersistentPlayer: ViewModifier {
                     progress = newValue ?? .zero
                 }
             }
+            .onChange(of: playerService.currentBook?.id) { _, newValue in
+                if newValue == nil {
+                    isTimerShown = false
+                    isPlayerExpanded = false
+                    isSliderBusy = false
+                }
+            }
             .onShake {
                 if playerService.currentBook != nil {
                     isStopWarningShown = true
                 }
             }
     }
+
+    @ViewBuilder
+    private func playerPlacement(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content.overlay(alignment: .bottom) {
+                if playerService.currentBook != nil {
+                    GlassMiniPlayerView {
+                        playerDetent = .medium
+                        isPlayerExpanded = true
+                    }
+                    .frame(maxWidth: 620)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 8)
+                }
+            }
+        } else {
+            content.safeAreaInset(edge: .bottom, spacing: 0) {
+                if playerService.currentBook != nil {
+                    CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
+                        isTimerShown = true
+                    }
+                    .frame(maxWidth: 700)
+                    .frame(maxWidth: .infinity)
+                    .background(.regularMaterial)
+                }
+            }
+            .sheet(isPresented: $isTimerShown) { timerSheet }
+        }
+    }
+
+    private var seekIndicator: some View {
+        Text(progress.timeString)
+            .font(.title2)
+            .monospaced()
+            .contentTransition(.numericText())
+            .padding(.horizontal, 16)
+            .padding(.vertical, 32)
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .allowsHitTesting(false)
+    }
+
+    private var expandedPlayer: some View {
+        ScrollView {
+            CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress, showsBackground: false) {
+                isTimerShown = true
+            }
+            .frame(maxWidth: 700)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 24)
+        }
+        .overlay { if isSliderBusy { seekIndicator } }
+        .presentationDetents([.medium, .large], selection: $playerDetent)
+        .presentationDragIndicator(.visible)
+        .sheet(isPresented: $isTimerShown) { timerSheet }
+    }
+
+    private var timerSheet: some View {
+        TimerSheetView(
+            currentTimer: playerService.sleepTimer,
+            onSetTimer: { mode in
+                playerService.setSleepTimer(mode: mode)
+                isTimerShown = false
+            },
+            onResetTimer: {
+                playerService.resetSleepTimer()
+                isTimerShown = false
+            }
+        )
+        .presentationDetents([.medium, .large])
+    }
+
 }
