@@ -80,7 +80,6 @@ final class Book {
 	}
 	
 	private func makeDurationString(using seconds: Int) -> String {
-		let isRULocale = Locale.current.identifier == "ru_RU"
 		let secondsPart = seconds % 60
 		guard seconds > 60 else {
             return String(localized: "\(secondsPart) сек")

@@ -5,6 +5,7 @@
 //  Created by Alexander on 11.09.2024.
 //
 
+import SwiftData
 import SwiftUI
 import TipKit
 

@@ -195,9 +195,7 @@ struct BookshelfView: View {
 					CompactPlayerView(isSliderBusy: $isSliderBusy, progress: $progress) {
 						isTimerShown = true
 					}
-				}
-				
-				AdBannerView(bannerId: bannerId)
+				}				
 			}
 			
 			if isSliderBusy {
