@@ -43,6 +43,7 @@ struct ChaptersListView: View {
 					isCurrentlyPlaying: isCurrentChapter && isPlaying,
 					onTap: { select(chapter: chapter) }
 				)
+                .listRowBackground(EmptyView())
 				.contextMenu {
 					Button {
 						chapterToEdit = chapter

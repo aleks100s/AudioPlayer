@@ -39,18 +39,28 @@ struct ContentView: View {
 				))
 		} detail: {
 			NavigationStack {
-				if let selectedBook {
-					BookDetailView(book: selectedBook,
-                                   editBook: { editBook(selectedBook) },
-                                   deleteBook: { deleteBook(selectedBook) })
-					.id(selectedBook.id)
-				} else {
-					ContentUnavailableView(
-						"Выберите книгу",
-						systemImage: "book",
-						description: Text("Выберите книгу в библиотеке, чтобы увидеть сведения о ней")
-					)
-				}
+                Group {
+                    if let selectedBook {
+                        BookDetailView(book: selectedBook,
+                                       editBook: { editBook(selectedBook) },
+                                       deleteBook: { deleteBook(selectedBook) })
+                        .id(selectedBook.id)
+                    } else {
+                        ContentUnavailableView(
+                            "Выберите книгу",
+                            systemImage: "book",
+                            description: Text("Выберите книгу в библиотеке, чтобы увидеть сведения о ней")
+                        )
+                    }
+                }
+                .background(.linearGradient(
+                    colors: [
+                        .cyan.opacity(0.2),
+                        .purple.opacity(0.2)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
 			}
 		}
 		.navigationSplitViewStyle(.balanced)
